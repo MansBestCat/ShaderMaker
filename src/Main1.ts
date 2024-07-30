@@ -1,5 +1,5 @@
 
-import { BoxGeometry, Color, Mesh, MeshBasicMaterial } from "three";
+import { BoxGeometry, Color, Mesh, MeshBasicMaterial, ShaderMaterial } from "three";
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
@@ -23,11 +23,24 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
-    const mesh = new Mesh(new BoxGeometry(2, 2, 2), new MeshBasicMaterial({ color: new Color(0x0000ff) }));
+    const material = new ShaderMaterial();
+    const mesh = new Mesh(new BoxGeometry(2, 2, 2), material);
     mesh.position.y = 2;
     data.scene.add(mesh);
 
     data.camera.position.set(0, 7, -12);
     data.camera?.lookAt(0, 2, 0);
+
+    const vshader = `
+        void main() {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `
+
+    const fshader = `
+    `
+
+    material.setValues({ vertexShader: vshader });
+
 });
 
