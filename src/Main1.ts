@@ -23,7 +23,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
-    data.camera.position.set(0, 5, -10);
-    data.camera?.lookAt(0, 0, 0);
+    const mesh = new Mesh(new BoxGeometry(2, 2, 2), new MeshBasicMaterial({ color: new Color(0x0000ff) }));
+    mesh.position.y = 2;
+    data.scene.add(mesh);
+
+    data.camera.position.set(0, 7, -12);
+    data.camera?.lookAt(0, 2, 0);
 });
 
