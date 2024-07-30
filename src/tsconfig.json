@@ -1,0 +1,16 @@
+{
+    "extends": "../tsconfig.base.json",
+    "compilerOptions": {
+        "sourceMap": true,
+        "allowJs": false, // Tells TypeScript to read JS files, as normally they are ignored as source files
+        "declaration": false, // Generate d.ts files        
+        "emitDeclarationOnly": false, //This compiler run should only output d.ts files
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types"
+        ]
+    },
+    "include": [
+        "**/*.*s"
+    ]
+}

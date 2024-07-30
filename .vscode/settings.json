@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/*.js": true,
+        "**/*.map": true,
+        "package-lock.json": true,
+        "dist": true,
+        ".nyc_output": true
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit",
+        "source.sortMembers": "explicit"
+    }
+}

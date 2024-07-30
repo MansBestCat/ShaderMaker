@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "tscUnitTests",
+			"problemMatcher": [],
+			"label": "npm: tscUnitTests",
+			"detail": "tsc -p test/unit/tsconfig.json"
+		},
+		{
+			"type": "npm",
+			"script": "tscIntegrationTests",
+			"problemMatcher": [],
+			"label": "npm: tscIntegrationTests",
+			"detail": "tsc -p test/unit/tsconfig.json"
+		}
+	]
+}

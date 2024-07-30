@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Browse webpack dev server",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://www.dev.duskminer.com",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Unit Tests",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "--require",
+                "jsdom-global/register.js",
+                "--enable-source-maps",
+                "--colors",
+                "${workspaceFolder}\\test\\unit\\**\\*.spec.js"
+                //"${workspaceFolder}\\test\\unit\\Entities\\EntityFactory.spec.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "preLaunchTask": "npm: tscUnitTests"
+        },
+        {
+            "name": "Integration Tests",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "--require",
+                "jsdom-global/register.js",
+                "--enable-source-maps",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}\\test\\integration\\**\\*.spec.js",
+                //"${workspaceFolder}\\test\\unit\\Entities\\EntityFactory.spec.js",
+                "--exit"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "preLaunchTask": "npm: tscIntegrationTests"
+        }
+    ]
+}
