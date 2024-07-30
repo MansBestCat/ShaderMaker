@@ -21,10 +21,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         throw new Error(`${Utility.timestamp()} Expected camera`);
     }
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
-    ground.position.z = 10;
     data.scene.add(ground);
 
-    data.camera.position.set(0, 5, 0);
-    data.camera?.lookAt(0, 0, 10);
+    data.camera.position.set(0, 5, -10);
+    data.camera?.lookAt(0, 0, 0);
 });
 
