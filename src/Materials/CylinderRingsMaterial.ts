@@ -1,4 +1,4 @@
-import { Clock, NormalBlending, ShaderMaterial } from "three";
+import { Clock, DoubleSide, NormalBlending, ShaderMaterial } from "three";
 
 export class CylinderRingsMaterial extends ShaderMaterial {
 
@@ -29,7 +29,9 @@ export class CylinderRingsMaterial extends ShaderMaterial {
             vertexShader: this.vertexShader,
             fragmentShader: this.fragmentShader,
             transparent: true,
-            blending: NormalBlending
+            blending: NormalBlending,
+            side: DoubleSide,
+            depthWrite: false
         });
     }
 
