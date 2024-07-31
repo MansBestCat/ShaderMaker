@@ -3,24 +3,22 @@ import { Clock, DoubleSide, NormalBlending, ShaderMaterial } from "three";
 export class CylinderRingsMaterial extends ShaderMaterial {
 
     uniforms = {
-        uTime: { value: 0.0 },
-        uHalfMeshHeight: { value: 0.0 }
+        uTime: { value: 0.0 }
     };
 
     clock!: Clock;
     vertexShader = `
     uniform float uHalfMeshHeight;
-        varying vec3 vUv;
+        varying vec2 vUv;
         void main() {
-            vUv = position;
-            vUv.y+= uHalfMeshHeight;
+            vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;
 
     fragmentShader = `
         uniform float uTime;
-        varying vec3 vUv;
+        varying vec2 vUv;
         void main() {
             float r = sin(vUv.y*(uTime*3.0+5.0))*0.5+0.5;
             gl_FragColor = vec4(r,0.0,0.0,r);

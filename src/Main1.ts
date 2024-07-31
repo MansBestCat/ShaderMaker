@@ -39,7 +39,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.camera?.lookAt(0, 2, 0);
 
     const shaderMat = new CylinderRingsMaterial().clone();
-    shaderMat.uniforms.uHalfMeshHeight.value = height * 0.5;
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
     const mats = [shaderMat, plainMat, plainMat];
     mesh.material = mats;
