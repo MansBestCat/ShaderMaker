@@ -1,8 +1,9 @@
 
-import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, NormalBlending, ShaderMaterial } from "three";
+import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial } from "three";
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
+import { CylinderRingsMaterial } from "./Materials/CylinderRingsMaterial";
 import { Utility } from "./Utilities/Utility";
 
 // MAIN 
@@ -36,28 +37,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.camera.position.set(0, 7, -12);
     data.camera?.lookAt(0, 2, 0);
 
-    const vshader = `
-        varying vec3 vUv; 
-
-        void main() {
-            vUv = position;      
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-    `
-
-    const fshader = `
-        varying vec3 vUv; 
-        void main() {
-            float r = sin(vUv.y*15.0)*0.5+0.5;
-            gl_FragColor = vec4(r,0.0,0.0,r);
-        }
-    `
-    const shaderMat = new ShaderMaterial({
-        vertexShader: vshader,
-        fragmentShader: fshader,
-        transparent: true,
-        blending: NormalBlending
-    });
+    const shaderMat = new CylinderRingsMaterial().clone();
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
     const mats = [shaderMat, plainMat, plainMat];
     mesh.material = mats;
