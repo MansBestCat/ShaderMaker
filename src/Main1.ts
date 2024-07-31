@@ -1,5 +1,5 @@
 
-import { BoxGeometry, Color, Mesh, MeshBasicMaterial, ShaderMaterial } from "three";
+import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, ShaderMaterial } from "three";
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
-    const mesh = new Mesh(new BoxGeometry(2, 2, 2), undefined);
+    const mesh = new Mesh(new CylinderGeometry(1, 1, 2), undefined);
     mesh.position.y = 3;
     data.scene.add(mesh);
 
@@ -31,19 +31,23 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.camera?.lookAt(0, 2, 0);
 
     const vshader = `
+        varying vec3 vUv; 
+
         void main() {
+            vUv = position;      
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `
 
     const fshader = `
+        varying vec3 vUv; 
         void main() {
-            gl_FragColor = vec4(sin(gl_FragCoord.y),0.0,0.0,1.0);
+            gl_FragColor = vec4(sin(vUv.y),0.0,0.0,1.0);
         }
     `
     const shaderMat = new ShaderMaterial({ vertexShader: vshader, fragmentShader: fshader });
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
-    const mats = [plainMat, plainMat, shaderMat, plainMat, plainMat, plainMat];
+    const mats = [shaderMat, plainMat, plainMat, plainMat, plainMat, plainMat];
     mesh.material = mats;
 
     cameraManMain.makeCameraOrbital(mesh.position);
