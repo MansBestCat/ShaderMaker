@@ -16,9 +16,10 @@ export class CylinderRingsMaterial extends ShaderMaterial {
     `;
 
     fragmentShader = `
-        varying vec3 vUv; 
+        uniform float uTime;
+        varying vec3 vUv;
         void main() {
-            float r = sin(vUv.y*15.0)*0.5+0.5;
+            float r = sin(vUv.y*(uTime*3.0+5.0))*0.5+0.5;
             gl_FragColor = vec4(r,0.0,0.0,r);
         }
     `;
