@@ -3,15 +3,17 @@ import { Clock, DoubleSide, NormalBlending, ShaderMaterial } from "three";
 export class CylinderRingsMaterial extends ShaderMaterial {
 
     uniforms = {
-        uTime: { value: 0.0 }
+        uTime: { value: 0.0 },
+        uHalfMeshHeight: { value: 0.0 }
     };
 
     clock!: Clock;
     vertexShader = `
-        varying vec3 vUv; 
+    uniform float uHalfMeshHeight;
+        varying vec3 vUv;
         void main() {
             vUv = position;
-            vUv.y+=1.5;  // FIXME: Don't hardcode this value (half mesh height). Instead pass as uHalfMeshHeight 
+            vUv.y+= uHalfMeshHeight;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;

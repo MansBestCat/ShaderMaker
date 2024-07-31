@@ -25,7 +25,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.scene.add(ground);
 
     // cyliner outer
-    const mesh = new Mesh(new CylinderGeometry(1, 1, 3), undefined);
+    const height = 3.0;
+    const mesh = new Mesh(new CylinderGeometry(1, 1, height), undefined);
     mesh.position.y = 3;
     data.scene.add(mesh);
 
@@ -38,6 +39,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.camera?.lookAt(0, 2, 0);
 
     const shaderMat = new CylinderRingsMaterial().clone();
+    shaderMat.uniforms.uHalfMeshHeight.value = height * 0.5;
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
     const mats = [shaderMat, plainMat, plainMat];
     mesh.material = mats;
