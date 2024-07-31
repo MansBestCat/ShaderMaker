@@ -40,6 +40,8 @@ export class CylinderOnPlane {
         const mats = [shaderMat, plainMat, plainMat];
         mesh.material = mats;
 
+        gui.add(shaderMat.clock, "start");
+
         cameraManMain.makeCameraOrbital(mesh.position);
     }
 }
