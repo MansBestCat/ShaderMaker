@@ -1,5 +1,5 @@
 
-import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, ShaderMaterial } from "three";
+import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, NormalBlending, ShaderMaterial } from "three";
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
@@ -48,13 +48,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     const fshader = `
         varying vec3 vUv; 
         void main() {
-            gl_FragColor = vec4(sin(vUv.y*15.0)*0.5+0.5,0.0,0.0,0.7);
+            float r = sin(vUv.y*15.0)*0.5+0.5;
+            gl_FragColor = vec4(r,0.0,0.0,r);
         }
     `
     const shaderMat = new ShaderMaterial({
         vertexShader: vshader,
         fragmentShader: fshader,
-        transparent: true
+        transparent: true,
+        blending: NormalBlending
     });
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
     const mats = [shaderMat, plainMat, plainMat];
