@@ -42,7 +42,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const fshader = `
         varying vec3 vUv; 
         void main() {
-            gl_FragColor = vec4(sin(vUv.y)*0.5+0.5,0.0,0.0,1.0);
+            gl_FragColor = vec4(sin(vUv.y*15.0)*0.5+0.5,0.0,0.0,1.0);
         }
     `
     const shaderMat = new ShaderMaterial({ vertexShader: vshader, fragmentShader: fshader });
