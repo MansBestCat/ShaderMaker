@@ -10,7 +10,8 @@ export class CylinderRingsMaterial extends ShaderMaterial {
     vertexShader = `
         varying vec3 vUv; 
         void main() {
-            vUv = position;      
+            vUv = position;
+            vUv.y+=1.5;  // FIXME: Don't hardcode this value (half mesh height). Instead pass as uHalfMeshHeight 
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;
