@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
-    const mesh = new Mesh(new CylinderGeometry(1, 1, 2), undefined);
+    const mesh = new Mesh(new CylinderGeometry(1, 1, 3), undefined);
     mesh.position.y = 3;
     data.scene.add(mesh);
 
@@ -42,7 +42,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const fshader = `
         varying vec3 vUv; 
         void main() {
-            gl_FragColor = vec4(sin(vUv.y),0.0,0.0,1.0);
+            gl_FragColor = vec4(sin(vUv.y)*0.5+0.5,0.0,0.0,1.0);
         }
     `
     const shaderMat = new ShaderMaterial({ vertexShader: vshader, fragmentShader: fshader });
