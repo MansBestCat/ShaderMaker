@@ -23,8 +23,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
-    const material = new ShaderMaterial();
-    const mesh = new Mesh(new BoxGeometry(2, 2, 2), material);
+    const mesh = new Mesh(new BoxGeometry(2, 2, 2), undefined);
     mesh.position.y = 2;
     data.scene.add(mesh);
 
@@ -42,8 +41,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             gl_FragColor = vec4(sin(gl_FragCoord.y),0.0,0.0,1.0);
         }
     `
-
-    material.setValues({ vertexShader: vshader, fragmentShader: fshader });
-
+    const shaderMat = new ShaderMaterial({ vertexShader: vshader, fragmentShader: fshader });
+    const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
+    const mats = [plainMat, plainMat, shaderMat, plainMat, plainMat, plainMat];
+    mesh.material = mats;
 });
 
