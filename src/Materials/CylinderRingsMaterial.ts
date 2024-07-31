@@ -4,16 +4,19 @@ export class CylinderRingsMaterial extends ShaderMaterial {
 
     uniforms = {
         uTime: { value: 0.0 },
-        uXTFactor: { value: 0.0 }
+        uUvYOffset: { value: 1.0 },
+        uXTFactor: { value: 3.0 },
+        uXTOffset: { value: 5.0 }
     };
 
     clock!: Clock;
 
     vertexShader = `
-    uniform float uHalfMeshHeight;
+        uniform float uUvYOffset; 
         varying vec2 vUv;
         void main() {
             vUv = uv;
+            vUv.y += uUvYOffset;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;
@@ -21,9 +24,10 @@ export class CylinderRingsMaterial extends ShaderMaterial {
     fragmentShader = `
         uniform float uTime;
         uniform float uXTFactor;
+        uniform float uXTOffset;
         varying vec2 vUv;
         void main() {
-            float r = sin(vUv.y*(uTime*uXTFactor+5.0))*0.5+0.5;
+            float r = sin(vUv.y*(uTime*uXTFactor+uXTOffset))*0.5+0.5;
             gl_FragColor = vec4(r,0.0,0.0,r);
         }
     `;

@@ -32,7 +32,9 @@ export class CylinderOnPlane {
         data.camera?.lookAt(0, 2, 0);
 
         const shaderMat = new CylinderRingsMaterial().clone();
-        gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 5, 0.1).name("uXTFactor");
+        gui.add(shaderMat.uniforms.uUvYOffset, "value", 0, 3, 0.1).name("uUvYOffset");
+        gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 10, 0.1).name("uXTFactor");
+        gui.add(shaderMat.uniforms.uXTOffset, "value", 0, 10, 0.1).name("uXTOffset");
 
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
         const mats = [shaderMat, plainMat, plainMat];
