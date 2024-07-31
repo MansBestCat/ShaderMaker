@@ -38,9 +38,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     `
 
     const fshader = `
+        void main() {
+            gl_FragColor = vec4(0.1,0.2,0.3,1.0);
+        }
     `
 
-    material.setValues({ vertexShader: vshader });
+    material.setValues({ vertexShader: vshader, fragmentShader: fshader });
 
 });
 
