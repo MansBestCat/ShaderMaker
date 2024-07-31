@@ -45,5 +45,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
     const mats = [plainMat, plainMat, shaderMat, plainMat, plainMat, plainMat];
     mesh.material = mats;
+
+    cameraManMain.makeCameraOrbital(mesh.position);
 });
 

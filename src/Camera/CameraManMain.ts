@@ -1,4 +1,4 @@
-import { Camera, Object3D, PerspectiveCamera } from "three";
+import { Camera, Object3D, PerspectiveCamera, Vector3 } from "three";
 import { OrbitControls } from "../Controls/OrbitControls";
 import { Data } from "../Data";
 
@@ -59,13 +59,13 @@ export class CameraManMain {
     }
 
     /** Sets or removes the orbital controls */
-    makeCameraOrbital(object3d: Object3D): void {
+    makeCameraOrbital(target: Vector3): void {
 
         this.orbitControls = new OrbitControls(this.data.camera, this.data.canvas.parentElement);
         if (!this.orbitControls) {
             throw new Error(`OrbitalControls is undefined after instantiation`);
         }
-        this.orbitControls.target = object3d;
+        this.orbitControls.target = target;
         this.orbitControls.update();
 
     }
