@@ -1,3 +1,4 @@
+import GUI from "lil-gui";
 import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
@@ -10,6 +11,9 @@ export class CylinderOnPlane {
         if (!data.camera) {
             throw new Error(`${Utility.timestamp()} Expected camera`);
         }
+
+        const gui = new GUI();
+
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
@@ -28,6 +32,8 @@ export class CylinderOnPlane {
         data.camera?.lookAt(0, 2, 0);
 
         const shaderMat = new CylinderRingsMaterial().clone();
+        gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 5, 0.1).name("uXTFactor");
+
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
         const mats = [shaderMat, plainMat, plainMat];
         mesh.material = mats;

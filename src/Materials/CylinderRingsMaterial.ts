@@ -3,10 +3,12 @@ import { Clock, DoubleSide, NormalBlending, ShaderMaterial } from "three";
 export class CylinderRingsMaterial extends ShaderMaterial {
 
     uniforms = {
-        uTime: { value: 0.0 }
+        uTime: { value: 0.0 },
+        uXTFactor: { value: 0.0 }
     };
 
     clock!: Clock;
+
     vertexShader = `
     uniform float uHalfMeshHeight;
         varying vec2 vUv;
@@ -18,9 +20,10 @@ export class CylinderRingsMaterial extends ShaderMaterial {
 
     fragmentShader = `
         uniform float uTime;
+        uniform float uXTFactor;
         varying vec2 vUv;
         void main() {
-            float r = sin(vUv.y*(uTime*3.0+5.0))*0.5+0.5;
+            float r = sin(vUv.y*(uTime*uXTFactor+5.0))*0.5+0.5;
             gl_FragColor = vec4(r,0.0,0.0,r);
         }
     `;
