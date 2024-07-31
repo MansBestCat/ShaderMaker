@@ -1,4 +1,4 @@
-import { Camera, Object3D, PerspectiveCamera, Vector3 } from "three";
+import { Camera, PerspectiveCamera, Vector3 } from "three";
 import { OrbitControls } from "../Controls/OrbitControls";
 import { Data } from "../Data";
 
@@ -43,7 +43,7 @@ export class CameraManMain {
         this.data = p_data;
     }
 
-    makeCameraMAIN(object3d?: Object3D) {
+    makeCameraMAIN() {
         const camera = this.makeCameraPerspective();
         this.data.scene.add(camera);
         this.data.camera = camera;
