@@ -23,9 +23,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
     data.scene.add(ground);
 
+    // cyliner outer
     const mesh = new Mesh(new CylinderGeometry(1, 1, 3), undefined);
     mesh.position.y = 3;
     data.scene.add(mesh);
+
+    // small box inner
+    const mesh2 = new Mesh(new BoxGeometry(3, 1, 1), new MeshBasicMaterial({ color: new Color(0x00ff00) }));
+    mesh2.position.y = 3;
+    data.scene.add(mesh2);
 
     data.camera.position.set(0, 7, -12);
     data.camera?.lookAt(0, 2, 0);
