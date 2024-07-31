@@ -47,7 +47,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     `
     const shaderMat = new ShaderMaterial({ vertexShader: vshader, fragmentShader: fshader });
     const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
-    const mats = [shaderMat, plainMat, plainMat, plainMat, plainMat, plainMat];
+    const mats = [shaderMat, plainMat, plainMat];
     mesh.material = mats;
 
     cameraManMain.makeCameraOrbital(mesh.position);
