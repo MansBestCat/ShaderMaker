@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     data.scene.add(ground);
 
     const mesh = new Mesh(new BoxGeometry(2, 2, 2), undefined);
-    mesh.position.y = 2;
+    mesh.position.y = 3;
     data.scene.add(mesh);
 
     data.camera.position.set(0, 7, -12);
