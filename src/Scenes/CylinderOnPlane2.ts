@@ -49,7 +49,7 @@ export class CylinderOnPlane2 {
         clearInterval(this.interval);
         this.shaderMat!.uniforms.uUvY.value = 1.0;
         this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uUvY.value *= 0.5;
-        }, 64);
+            this.shaderMat!.uniforms.uUvY.value *= 0.7;
+        }, 16.6);
     }
 }
