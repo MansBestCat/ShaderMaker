@@ -4,7 +4,8 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
 
     uniforms = {
         uTime: { value: 0.0 },
-        uPositionY: { value: 0.0 }
+        uPositionY: { value: 0.0 },
+        uHalfStripeWidth: { value: 0.05 }
     };
 
     clock!: Clock;
@@ -19,19 +20,20 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
 
     fragmentShader = `
         uniform float uPositionY;
+        uniform float uHalfStripeWidth;
         varying vec2 vPosition;
         const float PI=3.1415926535897932384626433832795;
         void main() {
-            if (vPosition.y  < uPositionY - PI*0.5 || vPosition.y >uPositionY + PI * 0.5 ) {
+            if ((vPosition.y  < (uPositionY -uHalfStripeWidth)) || (vPosition.y > (uPositionY + uHalfStripeWidth)) ) {
                 discard;
             }
             float r;
             if (vPosition.y < uPositionY) {
-                // below
-                 r = sin(uPositionY-vPosition.y)*0.5+0.5;
+                // mid stripe and below
+                 r = 1.0 - sin(uPositionY-vPosition.y)*0.5+0.5;
             } else if  (vPosition.y > uPositionY) {
-                // above
-                 r = sin(vPosition.y - uPositionY)*0.5+0.5;
+                // mid stripe and above
+                 r = 1.0 - sin(vPosition.y-uPositionY)*0.5+0.5;
             }
             
             gl_FragColor = vec4(r,0.0,0.0,r);

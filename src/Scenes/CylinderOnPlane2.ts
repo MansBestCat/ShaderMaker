@@ -34,7 +34,7 @@ export class CylinderOnPlane2 {
         data.camera?.lookAt(0, 2, 0);
 
         this.shaderMat = new CylinderRingsMaterialTimedPulses().clone();
-        //gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 10, 0.1).name("uXTFactor");
+        gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0, 10, 0.1).name("uStripeWidthFactor");
 
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
         const mats = [this.shaderMat, plainMat, plainMat];
@@ -47,9 +47,9 @@ export class CylinderOnPlane2 {
 
     pulse() {
         clearInterval(this.interval);
-        this.shaderMat!.uniforms.uPositionY.value = 0.0;
+        this.shaderMat!.uniforms.uPositionY.value = 1.0;
         this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uPositionY.value += 0.1;
-        }, 16.7);
+            this.shaderMat!.uniforms.uPositionY.value *= 0.5;
+        }, 64);
     }
 }
