@@ -7,6 +7,7 @@ import { Data } from "./Data";
 export class GameEngine {
     static readonly DEFAULT_PIXEL_RATIO = 0.5;
     static readonly DEFAULT_ANTIALIAS = false;
+    luminanceThreshold = 0.5;
 
     data: Data;
     canvas: HTMLCanvasElement;
@@ -53,7 +54,7 @@ export class GameEngine {
         this.composer.addPass(renderPass);
 
         // Add a bloom effect
-        const bloomEffectPass = new EffectPass(camera, new BloomEffect({ luminanceThreshold: 0.5 }));
+        const bloomEffectPass = new EffectPass(camera, new BloomEffect({ luminanceThreshold: this.luminanceThreshold }));
         this.composer.addPass(bloomEffectPass);
 
         // Add an outline effect
