@@ -7,6 +7,8 @@ import { Utility } from "../Utilities/Utility";
 
 export class CylinderOnPlane2 {
 
+    shaderMat?: CylinderRingsMaterialTimedPulses;
+    interval?: number;
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
             throw new Error(`${Utility.timestamp()} Expected camera`);
@@ -31,17 +33,23 @@ export class CylinderOnPlane2 {
         data.camera.position.set(0, 7, -12);
         data.camera?.lookAt(0, 2, 0);
 
-        const shaderMat = new CylinderRingsMaterialTimedPulses().clone();
-        gui.add(shaderMat.uniforms.uUvYOffset, "value", 0, 3, 0.1).name("uUvYOffset");
-        gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 10, 0.1).name("uXTFactor");
-        gui.add(shaderMat.uniforms.uXTOffset, "value", 0, 10, 0.1).name("uXTOffset");
+        this.shaderMat = new CylinderRingsMaterialTimedPulses().clone();
+        //gui.add(shaderMat.uniforms.uXTFactor, "value", 0, 10, 0.1).name("uXTFactor");
 
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
-        const mats = [shaderMat, plainMat, plainMat];
+        const mats = [this.shaderMat, plainMat, plainMat];
         mesh.material = mats;
 
-        gui.add(shaderMat.clock, "start").name("reset clock");
+        gui.add(this, "pulse");
 
         cameraManMain.makeCameraOrbital(mesh.position);
+    }
+
+    pulse() {
+        clearInterval(this.interval);
+        this.shaderMat!.uniforms.uPositionY.value = 0.0;
+        this.interval = setInterval(() => {
+            this.shaderMat!.uniforms.uPositionY.value += 0.1;
+        }, 16.7);
     }
 }
