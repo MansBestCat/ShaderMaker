@@ -9,6 +9,8 @@ export class CylinderOnPlane2 {
 
     shaderMat?: CylinderRingsMaterialTimedPulses;
     interval?: number;
+    reductionFactor = 0.7;
+
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
             throw new Error(`${Utility.timestamp()} Expected camera`);
@@ -34,8 +36,8 @@ export class CylinderOnPlane2 {
         data.camera?.lookAt(0, 2, 0);
 
         this.shaderMat = new CylinderRingsMaterialTimedPulses().clone();
-        gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("uStripeWidthFactor");
-
+        gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
+        gui.add(this, "reductionFactor", 0.0, 1.0, 0.01).name("reduction factor");
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
         const mats = [this.shaderMat, plainMat, plainMat];
         mesh.material = mats;
@@ -49,7 +51,7 @@ export class CylinderOnPlane2 {
         clearInterval(this.interval);
         this.shaderMat!.uniforms.uUvY.value = 1.0;
         this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uUvY.value *= 0.7;
+            this.shaderMat!.uniforms.uUvY.value *= this.reductionFactor;
         }, 16.6);
     }
 }
