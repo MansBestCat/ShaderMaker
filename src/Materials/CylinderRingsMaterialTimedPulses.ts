@@ -37,8 +37,8 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
                 float rads = half_pi * (vUv.y-uUvY) / uHalfStripeWidth;
                  r = 1.0 - sin(rads);
             }
-            
-            gl_FragColor = vec4(r,0.0,0.0,r);
+            r=1.0;
+            gl_FragColor = vec4(r,1.0,1.0,r);
         }
     `;
 

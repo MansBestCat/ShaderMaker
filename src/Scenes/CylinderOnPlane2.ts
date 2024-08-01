@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial } from "three";
+import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { CylinderRingsMaterialTimedPulses } from "../Materials/CylinderRingsMaterialTimedPulses";
@@ -18,7 +18,7 @@ export class CylinderOnPlane2 {
 
         const gui = new GUI();
 
-        const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
+        const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
         // cylinder outer
@@ -28,7 +28,7 @@ export class CylinderOnPlane2 {
         data.scene.add(mesh);
 
         // small box inner
-        const mesh2 = new Mesh(new BoxGeometry(3, 1, 1), new MeshBasicMaterial({ color: new Color(0x00ff00) }));
+        const mesh2 = new Mesh(new BoxGeometry(3, 1, 1), new MeshPhongMaterial({ color: new Color(0x00ff00) }));
         mesh2.position.y = 3;
         data.scene.add(mesh2);
 

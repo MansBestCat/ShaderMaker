@@ -1,4 +1,4 @@
-import { BlendFunction, ClearPass, EffectComposer, EffectPass, OutlineEffect, RenderPass } from "postprocessing";
+import { BlendFunction, BloomEffect, ClearPass, EffectComposer, EffectPass, OutlineEffect, RenderPass } from "postprocessing";
 import { Clock, HalfFloatType, WebGLRenderer } from "three";
 import { CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer";
 import { CameraManMain } from "./Camera/CameraManMain";
@@ -52,6 +52,10 @@ export class GameEngine {
         renderPass.clear = false;
         this.composer.addPass(renderPass);
 
+        // Add a bloom effect
+        const bloomEffectPass = new EffectPass(camera, new BloomEffect({ luminanceThreshold: 0.5 }));
+        this.composer.addPass(bloomEffectPass);
+
         // Add an outline effect
         const params = {
             blendFunction: BlendFunction.SCREEN,
@@ -66,8 +70,8 @@ export class GameEngine {
         } as any;
 
         const outlineEffect = new OutlineEffect(this.data.scene, camera, params);
-        const effectPass = new EffectPass(camera, outlineEffect);
-        this.composer.addPass(effectPass);
+        const outlineEffectPass = new EffectPass(camera, outlineEffect);
+        this.composer.addPass(outlineEffectPass);
         this.data.outlineEffect = outlineEffect;
 
     }
