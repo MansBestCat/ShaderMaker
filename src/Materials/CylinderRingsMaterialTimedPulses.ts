@@ -4,36 +4,36 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
 
     uniforms = {
         uTime: { value: 0.0 },
-        uPositionY: { value: 0.0 },
+        uUvY: { value: 0.0 },
         uHalfStripeWidth: { value: 0.05 }
     };
 
     clock!: Clock;
 
     vertexShader = `
-        varying vec2 vPosition;
+        varying vec2 vUv;
         void main() {
-            vPosition = uv;
+            vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;
 
     fragmentShader = `
-        uniform float uPositionY;
+        uniform float uUvY;
         uniform float uHalfStripeWidth;
-        varying vec2 vPosition;
+        varying vec2 vUv;
         const float PI=3.1415926535897932384626433832795;
         void main() {
-            if ((vPosition.y  < (uPositionY -uHalfStripeWidth)) || (vPosition.y > (uPositionY + uHalfStripeWidth)) ) {
+            if ((vUv.y  < (uUvY -uHalfStripeWidth)) || (vUv.y > (uUvY + uHalfStripeWidth)) ) {
                 discard;
             }
             float r;
-            if (vPosition.y < uPositionY) {
+            if (vUv.y < uUvY) {
                 // mid stripe and below
-                 r = 1.0 - sin(uPositionY-vPosition.y)*0.5+0.5;
-            } else if  (vPosition.y > uPositionY) {
+                 r = 1.0 - sin(uUvY-vUv.y)*0.5+0.5;
+            } else if  (vUv.y > uUvY) {
                 // mid stripe and above
-                 r = 1.0 - sin(vPosition.y-uPositionY)*0.5+0.5;
+                 r = 1.0 - sin(vUv.y-uUvY)*0.5+0.5;
             }
             
             gl_FragColor = vec4(r,0.0,0.0,r);
