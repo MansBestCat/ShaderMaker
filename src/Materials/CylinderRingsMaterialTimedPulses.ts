@@ -31,14 +31,13 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
             if (vUv.y < uUvY) {
                 // mid stripe and below
                  float rads = half_pi * (uUvY-vUv.y) / uHalfStripeWidth;
-                 r = 1.0 - sin(rads);
+                 r = 2.0 - sin(rads);
             } else if  (vUv.y > uUvY) {
                 // mid stripe and above
                 float rads = half_pi * (vUv.y-uUvY) / uHalfStripeWidth;
-                 r = 1.0 - sin(rads);
+                 r = 2.0 - sin(rads);
             }
-            r=1.0;
-            gl_FragColor = vec4(r,1.0,1.0,r);
+            gl_FragColor = vec4(r,0.0,0.0,r);
         }
     `;
 
