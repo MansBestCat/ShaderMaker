@@ -1,4 +1,4 @@
-import { Clock, DoubleSide, NormalBlending, ShaderMaterial } from "three";
+import { Clock, DoubleSide, NormalBlending, ShaderMaterial, Vector3 } from "three";
 
 export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
 
@@ -6,7 +6,8 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
         uTime: { value: 0.0 },
         uUvY: { value: 0.0 },
         uHalfStripeWidth: { value: 0.05 },
-        uIntensityScalar: { value: 1.0 }
+        uIntensityScalar: { value: 1.0 },
+        uColor: { value: new Vector3 }
     };
 
     clock!: Clock;
@@ -23,6 +24,7 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
         uniform float uUvY;
         uniform float uHalfStripeWidth;
         uniform float uIntensityScalar;
+        uniform vec3 uColor;
         varying vec2 vUv;
         const float half_pi=1.57;        
         void main() {
@@ -39,7 +41,7 @@ export class CylinderRingsMaterialTimedPulses extends ShaderMaterial {
                 float rads = half_pi * (vUv.y-uUvY) / uHalfStripeWidth;
                  r = 1.0 - sin(rads);
             }
-            gl_FragColor = vec4(r,0.0,0.0,r) * uIntensityScalar;
+            gl_FragColor = vec4(uColor,r) * uIntensityScalar;
         }
     `;
 

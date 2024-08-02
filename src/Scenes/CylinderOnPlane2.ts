@@ -35,10 +35,17 @@ export class CylinderOnPlane2 {
         data.camera.position.set(0, 7, -12);
         data.camera?.lookAt(0, 2, 0);
 
+        const params = {
+            color: '#aa00ff'
+        };
+
         this.shaderMat = new CylinderRingsMaterialTimedPulses().clone();
         gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
         gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.0, 2.0, 0.01).name("intensity multiplier");
         gui.add(this, "reductionFactor", 0.0, 1.0, 0.01).name("reduction factor");
+        gui.addColor(params, 'color').onChange((_value: string) => {
+            this.shaderMat!.uniforms.uColor.value = new Color(_value);
+        });
         const plainMat = new MeshBasicMaterial({ color: new Color(0x0000ff) });
         const mats = [this.shaderMat, plainMat, plainMat];
         mesh.material = mats;
