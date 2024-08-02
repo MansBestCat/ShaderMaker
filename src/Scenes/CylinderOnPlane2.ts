@@ -41,7 +41,7 @@ export class CylinderOnPlane2 {
 
         this.shaderMat = new CylinderRingsMaterialTimedPulses().clone();
         gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
-        gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.0, 2.0, 0.01).name("intensity multiplier");
+        gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
         gui.add(this, "reductionFactor", 0.0, 1.0, 0.01).name("reduction factor");
         gui.addColor(params, 'color').onChange((_value: string) => {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
