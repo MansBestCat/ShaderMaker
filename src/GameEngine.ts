@@ -7,7 +7,7 @@ import { Data } from "./Data";
 export class GameEngine {
     static readonly DEFAULT_PIXEL_RATIO = 0.5;
     static readonly DEFAULT_ANTIALIAS = false;
-    luminanceThreshold = 0.5;
+    luminanceThreshold = 1.0;
 
     data: Data;
     canvas: HTMLCanvasElement;
