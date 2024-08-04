@@ -1,6 +1,6 @@
-import { Clock, DoubleSide, NormalBlending, ShaderMaterial, Vector3 } from "three";
+import { Clock, DoubleSide, MeshPhongMaterial, NormalBlending, Vector3 } from "three";
 
-export class ShockWaveMaterial extends ShaderMaterial {
+export class ShockWaveMaterial extends MeshPhongMaterial {
 
     uniforms = {
         time: { value: 0.0 },
@@ -10,34 +10,25 @@ export class ShockWaveMaterial extends ShaderMaterial {
 
     clock!: Clock;
 
-    vertexShader = `
-        uniform float time; // Time for animation
-        uniform vec3 origin; // Center of the wave
-        uniform float distanceFactor; // Controls wave strength
-
-        void main() {
-            float z = sin( time + distance(origin, position));
-            vec3 _position = vec3(position.x, position.y, z);
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(_position, 1.0);
-
-        }
-    `;
-
-    fragmentShader = `
-        void main() {
-            gl_FragColor = vec4(0.1,0.2,0.3,1.0);
-        }
-    `;
-
     constructor() {
         super();
         this.setValues({
-            vertexShader: this.vertexShader,
-            fragmentShader: this.fragmentShader,
             blending: NormalBlending,
             side: DoubleSide,
             depthWrite: false
         });
+        this.onBeforeCompile = (info) => {
+            info.vertexShader = info.vertexShader
+                .replace('#include <begin_vertex>', `
+                    float z = sin( time + distance(origin, position));
+                    vec3 transformed = vec3(position.x, position.y, z);
+                `)
+                .replace('#include <common>', `
+                    #include <common>
+                    uniform float time;
+                    uniform vec3 origin;
+                `);
+        };
     }
 
     clone(): this {

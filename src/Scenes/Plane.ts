@@ -27,9 +27,7 @@ export class Plane {
         data.camera?.lookAt(0, 2, 0);
 
 
-
         this.shaderMat = new ShockWaveMaterial().clone();
-
         mesh.material = this.shaderMat;
 
         gui.add(this, "pulse");
