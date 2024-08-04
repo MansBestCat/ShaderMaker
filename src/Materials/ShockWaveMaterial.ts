@@ -16,32 +16,16 @@ export class ShockWaveMaterial extends ShaderMaterial {
         uniform float distanceFactor; // Controls wave strength
 
         void main() {
-            vec4 inPosition = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            
-            // Calculate displacement from the origin
-            vec4 _origin = vec4(origin,1.0);
-            vec4 displacement = normalize(inPosition - _origin) * distanceFactor;
+            float z = sin( time + distance(origin, position));
+            vec3 _position = vec3(position.x, position.y, z);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(_position, 1.0);
 
-            // Apply the displacement to the vertex position
-            vec4 displacedPos = inPosition + displacement;
-
-            // Create a sine wave animation over time
-            float waveAmplitude = 5.1; // Adjust as needed
-            float waveFrequency = 2.0; // Adjust as needed
-            float waveOffset = sin(time * waveFrequency) * waveAmplitude;
-            displacedPos.y += waveOffset;
-
-            // Set the final position
-            gl_Position = displacedPos;
-
-            // Optional: Color the vertices based on displacement
-            //fragColor = vec4(displacement, 1.0);
         }
     `;
 
     fragmentShader = `
         void main() {
-            gl_FragColor = vec4(0.1,0.2,0.3,1.0); // vec4(uColor,r) * uIntensityScalar;
+            gl_FragColor = vec4(0.1,0.2,0.3,1.0);
         }
     `;
 

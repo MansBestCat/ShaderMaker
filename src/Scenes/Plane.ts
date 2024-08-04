@@ -19,11 +19,11 @@ export class Plane {
 
         const gui = new GUI();
 
-        const mesh = new Mesh(new PlaneGeometry(10, 10), undefined);
+        const mesh = new Mesh(new PlaneGeometry(20, 20, 20, 20), undefined);
         mesh.rotateX(Math.PI * 0.5);
         data.scene.add(mesh);
 
-        data.camera.position.set(0, 7, -12);
+        data.camera.position.set(0, 10, -18);
         data.camera?.lookAt(0, 2, 0);
 
 
