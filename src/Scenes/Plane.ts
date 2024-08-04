@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { Color, Mesh, PlaneGeometry } from "three";
+import { Mesh, PlaneGeometry } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { ShockWaveMaterial } from "../Materials/ShockWaveMaterial";
@@ -26,17 +26,10 @@ export class Plane {
         data.camera.position.set(0, 7, -12);
         data.camera?.lookAt(0, 2, 0);
 
-        const params = {
-            color: '#aa00ff'
-        };
+
 
         this.shaderMat = new ShockWaveMaterial().clone();
-        gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
-        gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
-        gui.add(this, "reductionFactor", 0.0, 1.0, 0.01).name("reduction factor");
-        gui.addColor(params, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uColor.value = new Color(_value);
-        });
+
         mesh.material = this.shaderMat;
 
         gui.add(this, "pulse");
@@ -45,10 +38,6 @@ export class Plane {
     }
 
     pulse() {
-        clearInterval(this.interval);
-        this.shaderMat!.uniforms.uUvY.value = 1.0;
-        this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uUvY.value *= this.reductionFactor;
-        }, 16.6);
+        this.shaderMat!.uniforms.time.value = 0.0; // only need to reset the time to 0, the material itself has a clock that it reads for et.
     }
 }
