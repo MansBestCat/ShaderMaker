@@ -5,6 +5,7 @@ import { Data } from "../Data";
 import { CylinderRingsMaterial } from "../Materials/CylinderRingsMaterial";
 import { Utility } from "../Utilities/Utility";
 
+/** Runs on a timer */
 export class CylinderOnPlane {
 
     go(data: Data, cameraManMain: CameraManMain) {

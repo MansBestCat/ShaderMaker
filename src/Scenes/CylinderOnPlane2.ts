@@ -5,6 +5,7 @@ import { Data } from "../Data";
 import { CylinderRingsMaterialTimedPulses } from "../Materials/CylinderRingsMaterialTimedPulses";
 import { Utility } from "../Utilities/Utility";
 
+/** Runs under manual control, has a color picker */
 export class CylinderOnPlane2 {
 
     shaderMat?: CylinderRingsMaterialTimedPulses;
