@@ -2,7 +2,7 @@
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
-import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
+import { Plane } from "./Scenes/Plane";
 
 // MAIN 
 console.clear();
@@ -17,7 +17,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     gameEngine.init();
 
     //new CylinderOnPlane().go(data, cameraManMain);
-    new CylinderOnPlane2().go(data, cameraManMain);
+    //new CylinderOnPlane2().go(data, cameraManMain);
+    new Plane().go(data, cameraManMain);
 
 });
 
