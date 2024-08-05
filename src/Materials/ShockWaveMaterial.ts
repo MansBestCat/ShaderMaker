@@ -37,7 +37,15 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                     #endif
                 `)
                 .replace('#include <begin_vertex>', `
-                    vec3 _position = vec3(position.x, position.y, step(uDistance, distance(uOrigin,position)));
+                    vec3 _position;
+                    float _distance = distance(uOrigin, position);
+                    float halfpi = 1.57;
+                    if (_distance > uDistance + halfpi || _distance < uDistance - halfpi) {
+                        _position = position;
+                    } else {
+                       float diff = halfpi - abs(_distance - uDistance);
+                        _position = vec3(position.x, position.y, -sin(diff));
+                    }                    
                     vec3 transformed = _position;
                     #ifdef USE_ALPHAHASH
                         vPosition = _position;
@@ -58,7 +66,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
 
     updateMaterialTime(uniforms: any) {
         requestAnimationFrame(() => this.updateMaterialTime(uniforms));
-        uniforms.uDistance.value += 0.05;
+        uniforms.uDistance.value += 0.03;
 
     }
 
