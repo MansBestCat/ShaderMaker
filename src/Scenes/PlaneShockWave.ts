@@ -6,7 +6,7 @@ import { ShockWaveMaterial } from "../Materials/ShockWaveMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** For developing a shock wave shader */
-export class Plane {
+export class PlaneShockWave {
 
     shaderMat?: ShockWaveMaterial;
     interval?: number;

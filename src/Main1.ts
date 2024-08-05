@@ -2,7 +2,7 @@
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
-import { Plane } from "./Scenes/Plane";
+import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 
 // MAIN 
 console.clear();
@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     //new CylinderOnPlane().go(data, cameraManMain);
     //new CylinderOnPlane2().go(data, cameraManMain);
-    new Plane().go(data, cameraManMain);
+    new PlaneShockWave().go(data, cameraManMain);
 
 });
 
