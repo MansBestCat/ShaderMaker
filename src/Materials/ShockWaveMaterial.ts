@@ -19,14 +19,14 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
         });
         this.onBeforeCompile = (info) => {
             info.vertexShader = info.vertexShader
-                .replace('#include <begin_vertex>', `
-                    float z = sin( time + distance(origin, position));
-                    vec3 transformed = vec3(position.x, position.y, z);
-                `)
                 .replace('#include <common>', `
                     #include <common>
                     uniform float time;
                     uniform vec3 origin;
+                `)
+                .replace('#include <begin_vertex>', `
+                    float z = sin( time + distance(origin, position));
+                    vec3 transformed = vec3(position.x, position.y, z);
                 `);
         };
     }
@@ -42,6 +42,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
     updateMaterialTime(uniforms: any) {
         requestAnimationFrame(() => this.updateMaterialTime(uniforms));
         uniforms.time.value = this.clock.getElapsedTime();
+
     }
 
 }
