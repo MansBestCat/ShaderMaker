@@ -25,10 +25,15 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                     uniform vec3 origin;
                 `)
                 .replace('#include <beginnormal_vertex>', `
-                    vec3 objectNormal = vec3( 1.0,0.0,1.0 );
+                    // https://www.khanacademy.org/math/multivariable-calculus/integrating-multivariable-functions/line-integrals-in-vector-fields-articles/a/constructing-a-unit-normal-vector-to-curve
+                    float _dist = time + distance(origin,position);
+                    float mag = sqrt(pow(cos(_dist),2.0) + 1.0 );
+                    float _x = -cos(_dist) / mag;
+                    float _z = 1.0 / mag;
+                    vec3 objectNormal = vec3( _x,0.0,_z );
                 `)
                 .replace('#include <begin_vertex>', `
-                    float z = sin( time + distance(origin, position));
+                    float z = sin(_dist);
                     vec3 transformed = vec3(position.x, position.y, z);
                 `);
         };
