@@ -42,6 +42,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                         vPosition = vec3( position );
                     #endif
                 `);
+            info.uniforms.time = this.uniforms.time;    // need to reference uniforms like this or the updated value set in rAF won't be seen by the shader
         };
     }
 
