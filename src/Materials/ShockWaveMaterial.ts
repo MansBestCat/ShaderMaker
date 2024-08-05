@@ -15,7 +15,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
         this.setValues({
             blending: NormalBlending,
             side: DoubleSide,
-            depthWrite: false
+            depthWrite: true
         });
         this.onBeforeCompile = (info) => {
             info.vertexShader = info.vertexShader
