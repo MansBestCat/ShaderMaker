@@ -3,9 +3,9 @@ import { Clock, DoubleSide, MeshPhongMaterial, NormalBlending, Vector3 } from "t
 export class ShockWaveMaterial extends MeshPhongMaterial {
 
     uniforms = {
-        time: { value: 0.0 },
-        origin: { value: new Vector3 },
-        distanceFactor: { value: 2.0 }
+        uDistance: { value: 0.0 },
+        uMax: { value: 5.0 },
+        uOrigin: { value: new Vector3 },
     };
 
     clock!: Clock;
@@ -21,28 +21,30 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
             info.vertexShader = info.vertexShader
                 .replace('#include <common>', `
                     #include <common>
-                    uniform float time;
-                    uniform vec3 origin;
+                    uniform float uDistance;
+                    uniform float uMax;
+                    uniform vec3 uOrigin;
                 `)
                 .replace('#include <beginnormal_vertex>', `
-                    // https://www.khanacademy.org/math/multivariable-calculus/integrating-multivariable-functions/line-integrals-in-vector-fields-articles/a/constructing-a-unit-normal-vector-to-curve
-                    float _dist = time + distance(origin,position);
-                    float mag = sqrt(pow(cos(_dist),2.0) + 1.0 );
-                    float _x = -cos(_dist) / mag;
-                    float _z = 1.0 / mag;
+                    // // https://www.khanacademy.org/math/multivariable-calculus/integrating-multivariable-functions/line-integrals-in-vector-fields-articles/a/constructing-a-unit-normal-vector-to-curve
+                    // float _dist = max - distance; // -time + distance(origin,position);
+                    // float mag = sqrt(pow(cos(_dist),2.0) + 1.0 );
+                    // float _x = -cos(_dist) / mag;
+                    // float _z = 1.0 / mag;
                     vec3 objectNormal = vec3( normal); // (_x,0.0,_z );
                     #ifdef USE_TANGENT
                         vec3 objectTangent = vec3( tangent.xyz );
                     #endif
                 `)
                 .replace('#include <begin_vertex>', `
-                    float z = sin(_dist);
-                    vec3 transformed = vec3(position.x, position.y, z);
+                    vec3 _position = vec3(position.x, position.y, step(uDistance, distance(uOrigin,position)));
+                    vec3 transformed = _position;
                     #ifdef USE_ALPHAHASH
-                        vPosition = vec3( position );
+                        vPosition = _position;
                     #endif
                 `);
-            info.uniforms.time = this.uniforms.time;    // need to reference uniforms like this or the updated value set in rAF won't be seen by the shader
+            info.uniforms.uDistance = this.uniforms.uDistance;
+            info.uniforms.uMax = this.uniforms.uMax;
         };
     }
 
@@ -56,7 +58,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
 
     updateMaterialTime(uniforms: any) {
         requestAnimationFrame(() => this.updateMaterialTime(uniforms));
-        uniforms.time.value = this.clock.getElapsedTime();
+        uniforms.uDistance.value += 0.05;
 
     }
 

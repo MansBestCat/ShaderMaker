@@ -39,6 +39,6 @@ export class PlaneShockWavePulse {
     }
 
     pulse() {
-        this.shaderMat!.uniforms.time.value = 0.0; // only need to reset the time to 0, the material itself has a clock that it reads for et.
+        this.shaderMat!.uniforms.uDistance.value = 0.0;
     }
 }
