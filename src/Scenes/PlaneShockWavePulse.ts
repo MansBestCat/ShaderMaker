@@ -1,3 +1,4 @@
+import GUI from "lil-gui";
 import { Color, Mesh, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
@@ -31,8 +32,10 @@ export class PlaneShockWavePulse {
         this.shaderMat = new ShockWaveMaterial().clone();
         mesh.material = this.shaderMat;
 
-
         cameraManMain.makeCameraOrbital(mesh.position);
+
+        const gui = new GUI();
+        gui.add(this, "pulse");
     }
 
     pulse() {
