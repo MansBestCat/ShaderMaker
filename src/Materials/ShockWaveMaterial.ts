@@ -31,10 +31,16 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                     float _x = -cos(_dist) / mag;
                     float _z = 1.0 / mag;
                     vec3 objectNormal = vec3( _x,0.0,_z );
+                    #ifdef USE_TANGENT
+                        vec3 objectTangent = vec3( tangent.xyz );
+                    #endif
                 `)
                 .replace('#include <begin_vertex>', `
                     float z = sin(_dist);
                     vec3 transformed = vec3(position.x, position.y, z);
+                    #ifdef USE_ALPHAHASH
+                        vPosition = vec3( position );
+                    #endif
                 `);
         };
     }
