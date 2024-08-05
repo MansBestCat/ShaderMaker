@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { Mesh, PlaneGeometry } from "three";
+import { Color, Mesh, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { ShockWaveMaterial } from "../Materials/ShockWaveMaterial";
@@ -16,6 +16,10 @@ export class Plane {
         if (!data.camera) {
             throw new Error(`${Utility.timestamp()} Expected camera`);
         }
+
+        const pointLight = new PointLight(new Color(0xffffff), 4.0);
+        pointLight.position.set(0, 5, -3);
+        data.scene.add(pointLight);
 
         const gui = new GUI();
 

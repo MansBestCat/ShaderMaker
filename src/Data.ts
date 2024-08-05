@@ -1,5 +1,5 @@
 import { OutlineEffect } from "postprocessing";
-import { Camera, Clock, Color, PointLight, Scene } from "three";
+import { Camera, Clock, Scene } from "three";
 
 export class Data {
 
@@ -16,10 +16,6 @@ export class Data {
         }
         this.canvas = p_canvas;
         this.scene = new Scene();
-
-        const pointLight = new PointLight(new Color(0xffffff), 2.0);
-        pointLight.position.set(0, 5, -3);
-        this.scene.add(pointLight);
 
     }
 }

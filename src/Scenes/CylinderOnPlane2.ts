@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial } from "three";
+import { BoxGeometry, Color, CylinderGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { CylinderRingsMaterialTimedPulses } from "../Materials/CylinderRingsMaterialTimedPulses";
@@ -16,6 +16,10 @@ export class CylinderOnPlane2 {
         if (!data.camera) {
             throw new Error(`${Utility.timestamp()} Expected camera`);
         }
+
+        const pointLight = new PointLight(new Color(0xffffff), 2.0);
+        pointLight.position.set(0, 5, -3);
+        data.scene.add(pointLight);
 
         const gui = new GUI();
 
