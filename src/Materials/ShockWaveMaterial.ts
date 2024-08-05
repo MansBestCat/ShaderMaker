@@ -24,6 +24,9 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                     uniform float time;
                     uniform vec3 origin;
                 `)
+                .replace('#include <beginnormal_vertex>', `
+                    vec3 objectNormal = vec3( 1.0,0.0,1.0 );
+                `)
                 .replace('#include <begin_vertex>', `
                     float z = sin( time + distance(origin, position));
                     vec3 transformed = vec3(position.x, position.y, z);
