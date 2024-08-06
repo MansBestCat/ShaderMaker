@@ -1,4 +1,4 @@
-import { Clock, DoubleSide, MeshPhongMaterial, NormalBlending, Vector3 } from "three";
+import { Clock, DoubleSide, MeshPhongMaterial, MeshPhongMaterialParameters, NormalBlending, Vector3 } from "three";
 
 export class GroundWaveMaterial extends MeshPhongMaterial {
 
@@ -11,8 +11,8 @@ export class GroundWaveMaterial extends MeshPhongMaterial {
 
     clock!: Clock;
 
-    constructor() {
-        super();
+    constructor(parameters?: MeshPhongMaterialParameters) {
+        super(parameters);
         this.setValues({
             blending: NormalBlending,
             side: DoubleSide,

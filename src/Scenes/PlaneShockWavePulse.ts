@@ -21,9 +21,10 @@ export class PlaneShockWavePulse {
 
         const pointLight = new PointLight(new Color(0xffffff), 4.0);
         pointLight.position.set(5, 5, 3);
+        pointLight.intensity = 20;
         data.scene.add(pointLight);
 
-        const ground = new Mesh(new BoxGeometry(30, 1, 30), new MeshBasicMaterial({ color: new Color(0xcccccc) }));
+        const ground = new Mesh(new BoxGeometry(30, 1, 30), new MeshBasicMaterial({ color: new Color(0x444444) }));
         ground.position.set(15, -0.6, 15);
         data.scene.add(ground);
 
@@ -36,7 +37,7 @@ export class PlaneShockWavePulse {
         data.camera?.lookAt(0, 2, 0);
 
 
-        this.shaderMat = new GroundWaveMaterial().clone();
+        this.shaderMat = new GroundWaveMaterial({ color: new Color(0xff0000) }).clone();
         mesh.material = this.shaderMat;
 
         cameraManMain.makeCameraOrbital(mesh.position);
