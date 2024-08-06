@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { Color, Mesh, PlaneGeometry, PointLight, Raycaster, Vector2, Vector3 } from "three";
+import { BoxGeometry, Color, Mesh, MeshBasicMaterial, PlaneGeometry, PointLight, Raycaster, Vector2, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { ShockWaveMaterial } from "../Materials/ShockWaveMaterial";
@@ -23,6 +23,10 @@ export class PlaneShockWavePulse {
         pointLight.position.set(0, 5, -3);
         data.scene.add(pointLight);
 
+        const ground = new Mesh(new BoxGeometry(30, 1, 30), new MeshBasicMaterial({ color: new Color(0xcccccc) }));
+        ground.position.y = -0.6;
+        data.scene.add(ground);
+
         const mesh = new Mesh(new PlaneGeometry(20, 20, 20, 20), undefined);
         mesh.rotateX(Math.PI * 0.5);
         data.scene.add(mesh);
@@ -40,7 +44,7 @@ export class PlaneShockWavePulse {
         gui.add(this.shaderMat.uniforms.uMax, "value", 1.0, 20.0, 0.1).name("max distance radius");
         gui.add(this.shaderMat.uniforms.uSpeed, "value", 1.0, 20.0, 0.1).name("wave speed m/s");
 
-        this.raycaster = new Raycaster(data.camera.position, undefined, 1.0, 40.0);
+        this.raycaster = new Raycaster(data.camera.position, undefined, 1.0, 60.0);
         document.addEventListener("pointerdown", (event) => this.raycastFromPointer(event));
     }
 
