@@ -52,6 +52,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                         vPosition = _position;
                     #endif
                 `);
+            info.uniforms.uOrigin = this.uniforms.uOrigin;
             info.uniforms.uDistance = this.uniforms.uDistance;
             info.uniforms.uMax = this.uniforms.uMax;
         };
