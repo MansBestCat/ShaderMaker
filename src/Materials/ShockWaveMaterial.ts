@@ -4,8 +4,9 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
 
     uniforms = {
         uDistance: { value: 0.0 },
-        uMax: { value: 4.0 },
+        uMax: { value: 10.0 },
         uOrigin: { value: new Vector3 },
+        uSpeed: { value: 10.0 }
     };
 
     clock!: Clock;
@@ -55,6 +56,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
             info.uniforms.uOrigin = this.uniforms.uOrigin;
             info.uniforms.uDistance = this.uniforms.uDistance;
             info.uniforms.uMax = this.uniforms.uMax;
+            info.uniforms.uSpeed = this.uniforms.uSpeed;
         };
     }
 
@@ -68,8 +70,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
 
     updateMaterialTime(uniforms: any) {
         requestAnimationFrame(() => this.updateMaterialTime(uniforms));
-        uniforms.uDistance.value += 0.03;
-
+        uniforms.uDistance.value += uniforms.uSpeed.value / 60;
     }
 
 }
