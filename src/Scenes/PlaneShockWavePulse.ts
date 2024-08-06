@@ -20,15 +20,16 @@ export class PlaneShockWavePulse {
         this.data = data;
 
         const pointLight = new PointLight(new Color(0xffffff), 4.0);
-        pointLight.position.set(0, 5, -3);
+        pointLight.position.set(5, 5, 3);
         data.scene.add(pointLight);
 
         const ground = new Mesh(new BoxGeometry(30, 1, 30), new MeshBasicMaterial({ color: new Color(0xcccccc) }));
-        ground.position.y = -0.6;
+        ground.position.set(15, -0.6, 15);
         data.scene.add(ground);
 
         const mesh = new Mesh(new PlaneGeometry(20, 20, 20, 20), undefined);
         mesh.rotateX(Math.PI * 0.5);
+        mesh.position.set(15, 0, 15);
         data.scene.add(mesh);
 
         data.camera.position.set(0, 10, -18);
