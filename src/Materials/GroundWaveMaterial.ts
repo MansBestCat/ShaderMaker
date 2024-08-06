@@ -1,4 +1,4 @@
-import { Clock, DoubleSide, MeshPhongMaterial, MeshPhongMaterialParameters, NormalBlending, Vector3 } from "three";
+import { Clock, MeshPhongMaterial, MeshPhongMaterialParameters, NormalBlending, Vector3 } from "three";
 
 export class GroundWaveMaterial extends MeshPhongMaterial {
 
@@ -15,7 +15,6 @@ export class GroundWaveMaterial extends MeshPhongMaterial {
         super(parameters);
         this.setValues({
             blending: NormalBlending,
-            side: DoubleSide,
             depthWrite: true
         });
         this.onBeforeCompile = (info) => {
@@ -46,7 +45,7 @@ export class GroundWaveMaterial extends MeshPhongMaterial {
                         _position = position;
                     } else {
                        float diff = halfpi - abs(_distance - uDistance);
-                        _position = vec3(position.x, position.y, -sin(diff));
+                        _position = vec3(position.x, position.y, sin(diff));
                     }                    
                     vec3 transformed = _position;
                     #ifdef USE_ALPHAHASH

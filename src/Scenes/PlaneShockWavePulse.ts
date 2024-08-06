@@ -29,7 +29,7 @@ export class PlaneShockWavePulse {
         data.scene.add(ground);
 
         const mesh = new Mesh(new PlaneGeometry(20, 20, 20, 20), undefined);
-        mesh.rotateX(Math.PI * 0.5);
+        mesh.rotateX(-Math.PI * 0.5);
         mesh.position.set(15, 0, 15);
         data.scene.add(mesh);
 
