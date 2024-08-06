@@ -1,6 +1,6 @@
 import { Clock, DoubleSide, MeshPhongMaterial, NormalBlending, Vector3 } from "three";
 
-export class ShockWavePrototypeMaterial extends MeshPhongMaterial {
+export class GroundWavePrototypeMaterial extends MeshPhongMaterial {
 
     uniforms = {
         time: { value: 0.0 },

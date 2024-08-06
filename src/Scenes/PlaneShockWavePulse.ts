@@ -2,7 +2,7 @@ import GUI from "lil-gui";
 import { BoxGeometry, Color, Mesh, MeshBasicMaterial, PlaneGeometry, PointLight, Raycaster, Vector2, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { ShockWaveMaterial } from "../Materials/ShockWaveMaterial";
+import { GroundWaveMaterial } from "../Materials/GroundWaveMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Triggering the shock wave shader */
@@ -10,7 +10,7 @@ export class PlaneShockWavePulse {
 
     data?: Data;
     raycaster?: Raycaster;
-    shaderMat?: ShockWaveMaterial;
+    shaderMat?: GroundWaveMaterial;
 
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
@@ -35,7 +35,7 @@ export class PlaneShockWavePulse {
         data.camera?.lookAt(0, 2, 0);
 
 
-        this.shaderMat = new ShockWaveMaterial().clone();
+        this.shaderMat = new GroundWaveMaterial().clone();
         mesh.material = this.shaderMat;
 
         cameraManMain.makeCameraOrbital(mesh.position);

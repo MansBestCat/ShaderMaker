@@ -1,13 +1,13 @@
 import { Color, Mesh, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { ShockWavePrototypeMaterial } from "../Materials/ShockWavePrototypeMaterial";
+import { GroundWavePrototypeMaterial } from "../Materials/GroundWavePrototypeMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** For developing a shock wave shader */
 export class PlaneShockWave {
 
-    shaderMat?: ShockWavePrototypeMaterial;
+    shaderMat?: GroundWavePrototypeMaterial;
     interval?: number;
     reductionFactor = 0.7;
 
@@ -28,7 +28,7 @@ export class PlaneShockWave {
         data.camera?.lookAt(0, 2, 0);
 
 
-        this.shaderMat = new ShockWavePrototypeMaterial().clone();
+        this.shaderMat = new GroundWavePrototypeMaterial().clone();
         mesh.material = this.shaderMat;
 
 
