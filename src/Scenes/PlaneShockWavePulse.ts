@@ -63,7 +63,16 @@ export class PlaneShockWavePulse {
         if (intersection.length < 1) {
             return;
         }
-        this.pulse(intersection[0].point);
+
+        // Translation necessary for plane. x is backwards ~1-x
+        const roomPosition = new Vector3(5, 0, 5);
+        const roomDimensions = new Vector3(10, 0, 10);
+        const position = new Vector3;
+        position.x = -(roomPosition.x + roomDimensions.x - intersection[0].point.x);
+        position.z = roomPosition.z + roomDimensions.z - intersection[0].point.z;
+        //console.log(`${Utility.timestamp()} Wave origin is at local position ${position.x}, ${position.z}`);
+
+        this.pulse(position);
     }
 
     pulse(position: Vector3) {
