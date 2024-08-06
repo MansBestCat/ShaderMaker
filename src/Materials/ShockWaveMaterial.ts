@@ -4,7 +4,7 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
 
     uniforms = {
         uDistance: { value: 0.0 },
-        uMax: { value: 5.0 },
+        uMax: { value: 4.0 },
         uOrigin: { value: new Vector3 },
     };
 
@@ -40,7 +40,8 @@ export class ShockWaveMaterial extends MeshPhongMaterial {
                     vec3 _position;
                     float _distance = distance(uOrigin, position);
                     float halfpi = 1.57;
-                    if (_distance > uDistance + halfpi || _distance < uDistance - halfpi) {
+                
+                    if (_distance > uMax || _distance > uDistance + halfpi || _distance < uDistance - halfpi) {
                         _position = position;
                     } else {
                        float diff = halfpi - abs(_distance - uDistance);
