@@ -5,8 +5,7 @@ export class GroundWaveMaterial extends MeshPhongMaterial {
     uniforms = {
         uDistance: { value: 0.0 },
         uMax: { value: 10.0 },
-        uOrigin: { value: new Vector3 },
-        uSpeed: { value: 10.0 }
+        uOrigin: { value: new Vector3 }
     };
 
     clock!: Clock;
@@ -55,21 +54,13 @@ export class GroundWaveMaterial extends MeshPhongMaterial {
             info.uniforms.uOrigin = this.uniforms.uOrigin;
             info.uniforms.uDistance = this.uniforms.uDistance;
             info.uniforms.uMax = this.uniforms.uMax;
-            info.uniforms.uSpeed = this.uniforms.uSpeed;
         };
     }
 
     clone(): this {
         const material = super.clone();
         material.uniforms = JSON.parse(JSON.stringify(this.uniforms));
-        material.clock = new Clock();
-        material.updateMaterialTime(material.uniforms);
         return material;
-    }
-
-    updateMaterialTime(uniforms: any) {
-        requestAnimationFrame(() => this.updateMaterialTime(uniforms));
-        uniforms.uDistance.value += uniforms.uSpeed.value / 60;
     }
 
 }

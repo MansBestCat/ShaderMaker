@@ -7,6 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 /** Triggering the shock wave shader */
 export class PlaneShockWavePulse {
+    WAVE_SPEED = 10.0;
 
     data?: Data;
     raycaster?: Raycaster;
@@ -44,7 +45,7 @@ export class PlaneShockWavePulse {
 
         const gui = new GUI();
         gui.add(this.shaderMat.uniforms.uMax, "value", 1.0, 20.0, 0.1).name("max distance radius");
-        gui.add(this.shaderMat.uniforms.uSpeed, "value", 1.0, 20.0, 0.1).name("wave speed m/s");
+        gui.add(this, "WAVE_SPEED", 1.0, 20.0, 0.1).name("wave speed m/s");
 
         this.raycaster = new Raycaster(data.camera.position, undefined, 1.0, 60.0);
         document.addEventListener("pointerdown", (event) => this.raycastFromPointer(event));
@@ -70,7 +71,7 @@ export class PlaneShockWavePulse {
         const position = new Vector3;
         position.x = -(roomPosition.x + roomDimensions.x - intersection[0].point.x);
         position.z = roomPosition.z + roomDimensions.z - intersection[0].point.z;
-        //console.log(`${Utility.timestamp()} Wave origin is at local position ${position.x}, ${position.z}`);
+        console.log(`${Utility.timestamp()} Wave origin is at local position ${position.x}, ${position.z}`);
 
         this.pulse(position);
     }
@@ -78,5 +79,8 @@ export class PlaneShockWavePulse {
     pulse(position: Vector3) {
         this.shaderMat!.uniforms.uDistance.value = 0.0;
         this.shaderMat!.uniforms.uOrigin.value = new Vector3(position.x, position.z, 0.0);
+        setInterval(() => {
+            this.shaderMat!.uniforms.uDistance.value += this.WAVE_SPEED / 60;
+        }, 16.666);
     }
 }
