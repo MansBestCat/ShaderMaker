@@ -4,7 +4,7 @@ export class TubePulseMaterial extends ShaderMaterial {
     public static BOLT_LENGTH = 3.0;
     uniforms = {
         uTime: { value: 0.0 },
-        uSpeedMperS: { value: undefined },
+        uSpeedMperS: { value: 0.0 },
         uBoltLength: { value: TubePulseMaterial.BOLT_LENGTH },
         uColor: { value: new Vector3(0.0, 1.0, 0.95) }
     };
