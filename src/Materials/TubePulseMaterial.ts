@@ -9,10 +9,10 @@ export class TubePulseMaterial extends ShaderMaterial {
     };
     clock!: Clock;
     vertexShader = `
-        varying vec3 vUv; 
+        varying vec3 vPosition; 
 
         void main() {
-            vUv = position;         
+            vPosition = position;         
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); 
         }
     `;
@@ -22,7 +22,7 @@ export class TubePulseMaterial extends ShaderMaterial {
         uniform float uBoltLength;
         uniform vec3 uColor;
 
-        varying vec3 vUv;
+        varying vec3 vPosition;
 
         float rect(vec2 pt, vec2 size, vec2 center) {
             vec2 p = pt - center;
@@ -34,7 +34,7 @@ export class TubePulseMaterial extends ShaderMaterial {
         void main(void) {
             vec2 size = vec2(5.0);
             vec2 center = vec2(0.0, (uBoltLength * -2.0 + uDistance));
-            float inRect = rect(vUv.xy, size, center);
+            float inRect = rect(vPosition.xy, size, center);
             if (inRect == 0.0) {
                 discard;
             }
