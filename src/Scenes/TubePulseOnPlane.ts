@@ -34,7 +34,6 @@ export class TubePulseOnPlane {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TubePulseMaterial().clone();
-        this.shaderMat.uniforms.uSpeedMperS.value = 2.0;
         //mesh.scale.setY(intersection[idxStop].distance / 10.0);
 
         // gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
@@ -55,11 +54,11 @@ export class TubePulseOnPlane {
     }
 
     pulse() {
-        // TODO: Define shaderMat.uDistance and increment that from the caller
-        // clearInterval(this.interval);
-        // this.shaderMat!.uniforms.uUvY.value = 1.0;
-        // this.interval = setInterval(() => {
-        //     this.shaderMat!.uniforms.uUvY.value *= this.reductionFactor;
-        // }, 16.6);
+        // TODO: Define shaderMat.uDistance and increment that from the caller        
+        clearInterval(this.interval);
+        this.shaderMat!.uniforms.uDistance.value = 0.0;
+        this.interval = setInterval(() => {
+            this.shaderMat!.uniforms.uDistance.value += 0.1;
+        }, 16.6);
     }
 }

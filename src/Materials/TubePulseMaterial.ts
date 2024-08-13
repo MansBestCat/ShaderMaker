@@ -3,8 +3,7 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class TubePulseMaterial extends ShaderMaterial {
     public static BOLT_LENGTH = 3.0;
     uniforms = {
-        uTime: { value: 0.0 },
-        uSpeedMperS: { value: 0.0 },
+        uDistance: { value: 0.0 },
         uBoltLength: { value: TubePulseMaterial.BOLT_LENGTH },
         uColor: { value: new Vector3(0.0, 1.0, 0.95) }
     };
@@ -19,8 +18,7 @@ export class TubePulseMaterial extends ShaderMaterial {
     `;
 
     fragmentShader = `   
-        uniform float uTime;
-        uniform float uSpeedMperS;
+        uniform float uDistance;
         uniform float uBoltLength;
         uniform vec3 uColor;
 
@@ -35,7 +33,7 @@ export class TubePulseMaterial extends ShaderMaterial {
         }
         void main(void) {
             vec2 size = vec2(5.0);
-            vec2 center = vec2(0.0, (uBoltLength * -2.0 + uTime * uSpeedMperS));
+            vec2 center = vec2(0.0, (uBoltLength * -2.0 + uDistance));
             float inRect = rect(vUv.xy, size, center);
             if (inRect == 0.0) {
                 discard;
@@ -45,16 +43,9 @@ export class TubePulseMaterial extends ShaderMaterial {
     `;
 
     clone(): this {
-        const mat = super.clone();
-        mat.uniforms = JSON.parse(JSON.stringify(this.uniforms));
-        mat.clock = new Clock();
-        mat.updateMaterialTime(mat.uniforms);
-        return mat;
-    }
-
-    updateMaterialTime(uniforms: any) {
-        requestAnimationFrame(() => this.updateMaterialTime(uniforms));
-        uniforms.uTime.value = this.clock.getElapsedTime();
+        const material = super.clone();
+        material.uniforms = JSON.parse(JSON.stringify(this.uniforms));
+        return material;
     }
 
 }
