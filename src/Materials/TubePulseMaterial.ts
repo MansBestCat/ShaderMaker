@@ -5,7 +5,8 @@ export class TubePulseMaterial extends ShaderMaterial {
     uniforms = {
         uDistance: { value: 0.0 },
         uBoltLength: { value: TubePulseMaterial.BOLT_LENGTH },
-        uColor: { value: new Vector3(1.0, 1.0, 1.0) }
+        uColor: { value: new Vector3(1.0, 1.0, 1.0) },
+        uIntensityScalar: { value: 1.0 }
     };
     clock!: Clock;
     vertexShader = `
@@ -21,6 +22,7 @@ export class TubePulseMaterial extends ShaderMaterial {
         uniform float uDistance;
         uniform float uBoltLength;
         uniform vec3 uColor;
+        uniform float uIntensityScalar;
 
         varying vec3 vPosition;
 
@@ -38,7 +40,7 @@ export class TubePulseMaterial extends ShaderMaterial {
             if (inRect == 0.0) {
                 discard;
             }
-            gl_FragColor = vec4(uColor, 1.0);
+            gl_FragColor = vec4(uColor, 1.0) * uIntensityScalar;
         }
     `;
 
