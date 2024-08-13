@@ -7,6 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class TubePulseOnPlane {
+    SPEED = 0.1;  // per tick
 
     shaderMat?: TubePulseMaterial;
     interval?: number;
@@ -38,13 +39,13 @@ export class TubePulseOnPlane {
 
         // gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
         // gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
-        // gui.add(this, "reductionFactor", 0.0, 1.0, 0.01).name("reduction factor");
-        // const params = {
-        //     color: '#aa00ff'
-        // };
-        // gui.addColor(params, 'color').onChange((_value: string) => {
-        //     this.shaderMat!.uniforms.uColor.value = new Color(_value);
-        // });
+        gui.add(this, "SPEED", 0.0, 1.0, 0.01).name("distance per tick");
+        const params = {
+            color: '#aa00ff'
+        };
+        gui.addColor(params, 'color').onChange((_value: string) => {
+            this.shaderMat!.uniforms.uColor.value = new Color(_value);
+        });
 
         mesh.material = this.shaderMat;
 
@@ -58,7 +59,7 @@ export class TubePulseOnPlane {
         clearInterval(this.interval);
         this.shaderMat!.uniforms.uDistance.value = 0.0;
         this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uDistance.value += 0.1;
+            this.shaderMat!.uniforms.uDistance.value += this.SPEED;
         }, 16.6);
     }
 }
