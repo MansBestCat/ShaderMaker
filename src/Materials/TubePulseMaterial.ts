@@ -5,8 +5,8 @@ export class TubePulseMaterial extends ShaderMaterial {
     uniforms = {
         uDistance: { value: 0.0 },
         uBoltLength: { value: TubePulseMaterial.BOLT_LENGTH },
-        uColor: { value: new Vector3(1.0, 1.0, 1.0) },
-        uIntensityScalar: { value: 1.0 }
+        uColor: { value: new Vector3(0.8, 0.3, 1.0) },
+        uIntensityScalar: { value: 4.35 }
     };
     clock!: Clock;
     vertexShader = `

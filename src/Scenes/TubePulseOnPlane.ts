@@ -38,9 +38,9 @@ export class TubePulseOnPlane {
         //mesh.scale.setY(intersection[idxStop].distance / 10.0);
 
         // gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
-        gui.add(this, "SPEED", 0.0, 1.0, 0.01).name("distance per tick");
+        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
-            color: '#aa00ff'
+            color: '#c34dfe'
         };
         gui.addColor(params, 'color').onChange((_value: string) => {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
