@@ -59,7 +59,6 @@ export class TubePulseOnPlane {
     }
 
     pulse() {
-        // TODO: Define shaderMat.uDistance and increment that from the caller        
         clearInterval(this.interval);
         this.shaderMat!.uniforms.uDistance.value = 0.0;
         this.interval = setInterval(() => {
