@@ -36,9 +36,10 @@ export class TubePulseOnPlane {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TubePulseMaterial().clone();
-        //mesh.scale.setY(intersection[idxStop].distance / 10.0);
 
         // gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
+        gui.add(this, "TUBE_LENGTH", 0.1, 4.0, 0.1).name("tube length");
+        gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
             color: '#c34dfe'
