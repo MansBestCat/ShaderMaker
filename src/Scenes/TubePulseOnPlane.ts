@@ -39,6 +39,7 @@ export class TubePulseOnPlane {
         this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
 
         gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
+        gui.add(this.shaderMat.uniforms.uHeadLength, "value", 0.0, 4.0, 0.1).name("head length");
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
             color: '#c34dfe'
