@@ -27,11 +27,24 @@ export class TubePulseMaterial extends ShaderMaterial {
 
         varying vec3 vPosition;
 
+        float headLength = 0.3;
+
         void main(void) {
-            if (vPosition.y > -uTubeLength * 0.5 + uDistance  || vPosition.y < -uTubeLength * 0.5 + uDistance - uBoltLength) {
+
+            float halfLength = uTubeLength * 0.5;
+
+            if (vPosition.y > -halfLength + uDistance  || vPosition.y < -halfLength + uDistance - uBoltLength) {
                 discard;
+
+            } else if (vPosition.y < -halfLength + uDistance && vPosition.y > -halfLength + uDistance - headLength) {
+                // head
+                gl_FragColor = vec4(uColor, 1.0) * uIntensityScalar;
+
+            } else {
+                // tail
+                gl_FragColor = vec4(uColor, 1.0);
             }
-            gl_FragColor = vec4(uColor, 1.0) * uIntensityScalar;
+            
         }
     `;
 
