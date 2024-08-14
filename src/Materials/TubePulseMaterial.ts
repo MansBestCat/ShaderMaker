@@ -3,7 +3,7 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class TubePulseMaterial extends ShaderMaterial {
     uniforms = {
         uDistance: { value: 0.0 },
-        uTubeLength: { value: 8.0 },
+        uTubeLength: { value: 0.0 },
         uBoltLength: { value: 3.0 },
         uColor: { value: new Vector3(0.8, 0.3, 1.0) },
         uIntensityScalar: { value: 4.35 }

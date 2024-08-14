@@ -29,16 +29,15 @@ export class TubePulseOnPlane {
 
         // tube
         const mesh = new Mesh(new BoxGeometry(0.1, this.TUBE_LENGTH, 0.1), undefined);
-        mesh.position.y = 4;
+        mesh.position.y = this.TUBE_LENGTH * 0.5;
         data.scene.add(mesh);
 
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TubePulseMaterial().clone();
+        this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
 
-        // gui.add(this.shaderMat.uniforms.uHalfStripeWidth, "value", 0.0, 1.0, 0.01).name("half stripe width");
-        gui.add(this, "TUBE_LENGTH", 0.1, 4.0, 0.1).name("tube length");
         gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
