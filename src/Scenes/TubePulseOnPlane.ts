@@ -9,6 +9,7 @@ import { Utility } from "../Utilities/Utility";
 export class TubePulseOnPlane {
     SPEED = 0.1;  // per tick
     TUBE_LENGTH = 8.0;
+    TUBE_WIDTH = 0.05;
 
     shaderMat?: TubePulseMaterial;
     interval?: number;
@@ -28,7 +29,7 @@ export class TubePulseOnPlane {
         data.scene.add(ground);
 
         // tube
-        const mesh = new Mesh(new BoxGeometry(0.1, this.TUBE_LENGTH, 0.1), undefined);
+        const mesh = new Mesh(new BoxGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH, this.TUBE_WIDTH), undefined);
         mesh.position.y = this.TUBE_LENGTH * 0.5;
         data.scene.add(mesh);
 
