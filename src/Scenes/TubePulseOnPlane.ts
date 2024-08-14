@@ -8,6 +8,7 @@ import { Utility } from "../Utilities/Utility";
 /** Runs under manual control, has a color picker */
 export class TubePulseOnPlane {
     SPEED = 0.1;  // per tick
+    TUBE_LENGTH = 8.0;
 
     shaderMat?: TubePulseMaterial;
     interval?: number;
@@ -27,8 +28,8 @@ export class TubePulseOnPlane {
         data.scene.add(ground);
 
         // tube
-        const mesh = new Mesh(new BoxGeometry(0.1, 10.0, 0.1), undefined);
-        mesh.position.y = 3;
+        const mesh = new Mesh(new BoxGeometry(0.1, this.TUBE_LENGTH, 0.1), undefined);
+        mesh.position.y = 4;
         data.scene.add(mesh);
 
         data.camera.position.set(0, 3, -12);

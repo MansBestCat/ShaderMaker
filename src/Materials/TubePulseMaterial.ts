@@ -1,10 +1,10 @@
 import { Clock, ShaderMaterial, Vector3 } from "three";
 
 export class TubePulseMaterial extends ShaderMaterial {
-    public static BOLT_LENGTH = 3.0;
     uniforms = {
         uDistance: { value: 0.0 },
-        uBoltLength: { value: TubePulseMaterial.BOLT_LENGTH },
+        uTubeLength: { value: 8.0 },
+        uBoltLength: { value: 3.0 },
         uColor: { value: new Vector3(0.8, 0.3, 1.0) },
         uIntensityScalar: { value: 4.35 }
     };
@@ -20,24 +20,15 @@ export class TubePulseMaterial extends ShaderMaterial {
 
     fragmentShader = `   
         uniform float uDistance;
+        uniform float uTubeLength;
         uniform float uBoltLength;
         uniform vec3 uColor;
         uniform float uIntensityScalar;
 
         varying vec3 vPosition;
 
-        float rect(vec2 pt, vec2 size, vec2 center) {
-            vec2 p = pt - center;
-            vec2 halfsize = size * 0.5;
-            float horz = step(-halfsize.x, p.x) - step(halfsize.x, p.x);
-            float vert = step(-halfsize.y, p.y) - step(halfsize.y, p.y);
-            return horz * vert;
-        }
         void main(void) {
-            vec2 size = vec2(uBoltLength);
-            vec2 center = vec2(0.0, (uBoltLength * -0.5 + uDistance));
-            float inRect = rect(vPosition.xy, size, center);
-            if (inRect == 0.0) {
+            if (vPosition.y > -uTubeLength * 0.5 + uDistance  || vPosition.y < -uTubeLength * 0.5 + uDistance - uBoltLength) {
                 discard;
             }
             gl_FragColor = vec4(uColor, 1.0) * uIntensityScalar;
