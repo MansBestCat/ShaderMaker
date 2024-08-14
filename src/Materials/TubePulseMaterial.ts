@@ -34,8 +34,8 @@ export class TubePulseMaterial extends ShaderMaterial {
             return horz * vert;
         }
         void main(void) {
-            vec2 size = vec2(5.0);
-            vec2 center = vec2(0.0, (uBoltLength * -2.0 + uDistance));
+            vec2 size = vec2(uBoltLength);
+            vec2 center = vec2(0.0, (uBoltLength * -0.5 + uDistance));
             float inRect = rect(vPosition.xy, size, center);
             if (inRect == 0.0) {
                 discard;
