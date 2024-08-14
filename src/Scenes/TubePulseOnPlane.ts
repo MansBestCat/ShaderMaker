@@ -9,7 +9,7 @@ import { Utility } from "../Utilities/Utility";
 export class TubePulseOnPlane {
     SPEED = 0.1;  // per tick
     TUBE_LENGTH = 8.0;
-    TUBE_WIDTH = 0.05;
+    TUBE_WIDTH = 0.03;
 
     shaderMat?: TubePulseMaterial;
     interval?: number;
