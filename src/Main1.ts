@@ -2,7 +2,7 @@
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
-import { TubePulseOnPlane } from "./Scenes/TubePulseOnPlane";
+import { DropZone } from "./Scenes/DropZone";
 
 // MAIN 
 console.clear();
@@ -20,7 +20,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     //new CylinderOnPlane2().go(data, cameraManMain);
     //new PlaneShockWave().go(data, cameraManMain);
     //new PlaneShockWavePulse().go(data, cameraManMain);
-    new TubePulseOnPlane().go(data, cameraManMain);
+    //new TubePulseOnPlane().go(data, cameraManMain);
+    new DropZone().go(data, cameraManMain);
 
 });
 
