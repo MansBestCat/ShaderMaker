@@ -11,22 +11,31 @@ export class DropZoneMaterial extends ShaderMaterial {
 
     clock!: Clock;
 
-    vertexShader = `
-        varying vec2 vUv;
-        void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-    `;
-
     fragmentShader = `
+        // https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/textures/basic-diagonal-stripes.glsl
         uniform float uUvY;
         uniform float uStripeWidth;
         uniform float uStripeSpacing;
         uniform vec3 uColor;
         varying vec2 vUv;     
+
         void main() {
-            gl_FragColor = vec4(uColor,1.0);
+            vec4 color;
+            float time = 0.0;
+            float size = 16.0;
+            float factor = 2.8;
+
+            float x = time + gl_FragCoord.x / size;
+            float y = gl_FragCoord.y / size;
+
+            float sum = x + y;
+
+            if (int(mod(float(sum), float(factor))) == 0)
+                color = vec4(uColor,1.0);
+            else
+                 discard; //color = vec4(0.0,0.0,0.0,0.0);
+
+            gl_FragColor = color;
         }
     `;
 
