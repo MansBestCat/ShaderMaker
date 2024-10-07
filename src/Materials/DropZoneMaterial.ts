@@ -1,4 +1,4 @@
-import { Clock, NormalBlending, ShaderMaterial, Vector3 } from "three";
+import { Clock, ShaderMaterial, Vector3 } from "three";
 
 export class DropZoneMaterial extends ShaderMaterial {
 
@@ -39,15 +39,5 @@ export class DropZoneMaterial extends ShaderMaterial {
         }
     `;
 
-    constructor() {
-        super();
-        this.setValues({
-            vertexShader: this.vertexShader,
-            fragmentShader: this.fragmentShader,
-            transparent: true,
-            blending: NormalBlending,
-            depthWrite: false
-        });
-    }
 
 }
