@@ -1,9 +1,8 @@
-import { Clock, ShaderMaterial, Vector3 } from "three";
+import { Clock, MeshLambertMaterial, MeshLambertMaterialParameters, Vector3 } from "three";
 
-export class DropZoneMaterial extends ShaderMaterial {
+export class DropZoneMaterial extends MeshLambertMaterial {
 
     uniforms = {
-        uUvY: { value: 0.0 },
         uStripeWidth: { value: 0.05 },
         uStripeSpacing: { value: 0.05 },
         uColor: { value: new Vector3 }
@@ -11,42 +10,57 @@ export class DropZoneMaterial extends ShaderMaterial {
 
     clock!: Clock;
 
-    vertexShader = `
-        varying vec3 vPosition;
-        void main() {    
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            vPosition = position * 100.0;
-        }
-    `;
+    constructor(parameters?: MeshLambertMaterialParameters) {
+        super(parameters);
 
-    fragmentShader = `
-        // https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/textures/basic-diagonal-stripes.glsl
-        uniform float uUvY;
-        uniform float uStripeWidth;
-        uniform float uStripeSpacing;
-        uniform vec3 uColor;
-        varying vec2 vUv;     
-        varying vec3 vPosition; 
+        this.onBeforeCompile = (info) => {
 
-        void main() {
-            vec4 color;
-            float time = 0.0;
-            float size = 16.0;
-            float factor = 2.8;
+            info.vertexShader = info.vertexShader
+                .replace('#include <common>', `
+                #include <common>
+                varying vec3 vPosition;
+            `)
+                .replace('#include <begin_vertex>', `
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vPosition = position * 100.0;
+                vec3 transformed = position;
+            `);
 
-            float x = time + vPosition.x / size;
-            float y = vPosition.y / size;
+            info.fragmentShader = info.fragmentShader
+                .replace('#include <common>', `
+                #include <common>
+                // https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/textures/basic-diagonal-stripes.glsl
+                uniform float uUvY;
+                uniform float uStripeWidth;
+                uniform float uStripeSpacing;
+                uniform vec3 uColor;
+                varying vec2 vUv;     
+                varying vec3 vPosition; 
+            `)
+                .replace('#include <color_fragment>', `
+                vec4 color;
+                float time = 0.0;
+                float size = 16.0;
+                float factor = 2.8;
 
-            float sum = x + y;
+                float x = time + vPosition.x / size;
+                float y = vPosition.y / size;
 
-            if (int(mod(float(sum), float(factor))) == 0)
+                float sum = x + y;
+
                 color = vec4(uColor,1.0);
-            else
-                 discard; //color = vec4(0.0,0.0,0.0,0.0);
+                if (int(mod(float(sum), float(factor))) == 0)
+                    color = vec4(uColor,1.0);
+                else
+                    discard; //color = vec4(0.0,0.0,0.0,0.0);
+                diffuseColor = color;
+            `);
+            info.uniforms.uStripeWidth = this.uniforms.uStripeWidth;
+            info.uniforms.uStripeSpacing = this.uniforms.uStripeSpacing;
+            info.uniforms.uColor = this.uniforms.uColor;
+        };
+    }
 
-            gl_FragColor = color;
-        }
-    `;
 
 
 }
