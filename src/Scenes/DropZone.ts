@@ -10,7 +10,6 @@ export class DropZone {
 
     shaderMat?: DropZoneMaterial;
     interval?: number;
-    reductionFactor = 0.7;
 
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
