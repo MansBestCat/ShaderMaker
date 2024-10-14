@@ -50,6 +50,7 @@ export class Forge {
 
         gui.add(this, "SPEED", 0.005, 0.03, 0.001).name("distance per tick");
         gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
+            clearInterval(this.interval2);
             const color = new Color(_value);
             this.shaderMat!.uniforms.uColor.value.x = color.r;
             this.shaderMat!.uniforms.uColor.value.y = color.g;
@@ -63,6 +64,7 @@ export class Forge {
 
     print() {
         clearInterval(this.interval);
+        clearInterval(this.interval2);
         this.shaderMat!.uniforms.uY.value = 0.0;
         this.interval = setInterval(() => {
             this.shaderMat!.uniforms.uY.value += this.SPEED;
