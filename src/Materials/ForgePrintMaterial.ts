@@ -19,7 +19,8 @@ export class ForgePrintMaterial extends ShaderMaterial {
         void main(void) {
             vec3 color = vec3(0.0);
             color.r =step(0.0,vPosition.x);
-            color.b =step(0.0,vPosition.y);
+            color.g =step(0.0,vPosition.y);
+            color.b =step(0.0,vPosition.z);
             gl_FragColor = vec4(color,1.0);
         }
     `;
