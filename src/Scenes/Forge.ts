@@ -76,7 +76,7 @@ export class Forge {
         let color = new Vector3();
         this.interval2 = setInterval(() => {
             color.copy(this.shaderMat!.uniforms.uColor.value);
-            color.multiplyScalar(0.5);
+            color.multiplyScalar(0.9);
             this.shaderMat!.uniforms.uColor.value.x = color.x;
             this.shaderMat!.uniforms.uColor.value.y = color.y;
             this.shaderMat!.uniforms.uColor.value.z = color.z;
