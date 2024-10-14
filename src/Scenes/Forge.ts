@@ -47,7 +47,7 @@ export class Forge {
         meshLeftLeg.material = this.shaderMat;
         meshRightLeg.material = this.shaderMat;
 
-        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
+        gui.add(this, "SPEED", 0.005, 0.03, 0.001).name("distance per tick");
         gui.add(this, "print");
 
         cameraManMain.makeCameraOrbital(object.position);
