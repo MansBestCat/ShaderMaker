@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, DoubleSide, Mesh, MeshPhongMaterial, Object3D, PointLight } from "three";
+import { BoxGeometry, Color, DoubleSide, Mesh, MeshPhongMaterial, Object3D, PointLight, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { ForgePrintMaterial } from "../Materials/ForgePrintMaterial";
@@ -11,7 +11,8 @@ export class Forge {
     SPEED = 0.02;  // per tick
 
     shaderMat?: ForgePrintMaterial;
-    interval?: number;
+    interval?: number;  // y
+    interval2?: number; // cooling
 
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
@@ -49,9 +50,13 @@ export class Forge {
 
         gui.add(this, "SPEED", 0.005, 0.03, 0.001).name("distance per tick");
         gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uColor.value = new Color(_value);
+            const color = new Color(_value);
+            this.shaderMat!.uniforms.uColor.value.x = color.r;
+            this.shaderMat!.uniforms.uColor.value.y = color.g;
+            this.shaderMat!.uniforms.uColor.value.z = color.b;
         });
         gui.add(this, "print");
+        gui.add(this, "cool");
 
         cameraManMain.makeCameraOrbital(object.position);
     }
@@ -61,6 +66,18 @@ export class Forge {
         this.shaderMat!.uniforms.uY.value = 0.0;
         this.interval = setInterval(() => {
             this.shaderMat!.uniforms.uY.value += this.SPEED;
+        }, 16.6);
+    }
+
+    cool() {
+        clearInterval(this.interval2);
+        let color = new Vector3();
+        this.interval2 = setInterval(() => {
+            color.copy(this.shaderMat!.uniforms.uColor.value);
+            color.multiplyScalar(0.5);
+            this.shaderMat!.uniforms.uColor.value.x = color.x;
+            this.shaderMat!.uniforms.uColor.value.y = color.y;
+            this.shaderMat!.uniforms.uColor.value.z = color.z;
         }, 16.6);
     }
 }
