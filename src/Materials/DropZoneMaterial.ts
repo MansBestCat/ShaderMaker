@@ -48,11 +48,10 @@ export class DropZoneMaterial extends MeshLambertMaterial {
 
                 float sum = x + y;
 
-                color = vec4(uColor,1.0);
                 if (int(mod(float(sum), float(factor))) == 0)
                     color = vec4(uColor,1.0);
                 else
-                    discard; //color = vec4(0.0,0.0,0.0,0.0);
+                    discard;
                 diffuseColor = color;
             `);
             info.uniforms.uStripeWidth = this.uniforms.uStripeWidth;
