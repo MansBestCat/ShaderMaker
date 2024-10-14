@@ -1,9 +1,10 @@
-import { Clock, ShaderMaterial } from "three";
+import { Clock, ShaderMaterial, Vector3 } from "three";
 
 export class ForgePrintMaterial extends ShaderMaterial {
 
     uniforms = {
         uY: { value: 3.0 },
+        uColor: { value: new Vector3(1.0, 1.0, 1.0) },
     };
 
     clock!: Clock;
@@ -18,6 +19,7 @@ export class ForgePrintMaterial extends ShaderMaterial {
     fragmentShader = `
         varying vec4 vPosition;
         uniform float uY;
+        uniform vec3 uColor;
 
         void main(void) {
             vec3 color = vec3(0.0);
@@ -28,7 +30,7 @@ export class ForgePrintMaterial extends ShaderMaterial {
             if (vPosition.y > uY) {
                 discard;
             }
-            gl_FragColor = vec4(color,1.0);
+            gl_FragColor = vec4(uColor,1.0);
         }
     `;
 

@@ -48,6 +48,9 @@ export class Forge {
         meshRightLeg.material = this.shaderMat;
 
         gui.add(this, "SPEED", 0.005, 0.03, 0.001).name("distance per tick");
+        gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
+            this.shaderMat!.uniforms.uColor.value = new Color(_value);
+        });
         gui.add(this, "print");
 
         cameraManMain.makeCameraOrbital(object.position);
