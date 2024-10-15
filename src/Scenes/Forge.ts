@@ -2,7 +2,7 @@ import GUI from "lil-gui";
 import { BoxGeometry, Color, DoubleSide, Mesh, MeshPhongMaterial, Object3D, PointLight, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { ForgePrintMaterial } from "../Materials/ForgePrintMaterial";
+import { ExtrusionMaterial } from "../Materials/ExtrusionMaterial";
 import { Utility } from "../Utilities/Utility";
 
 
@@ -10,7 +10,7 @@ export class Forge {
 
     SPEED = 0.02;  // per tick
 
-    shaderMat?: ForgePrintMaterial;
+    shaderMat?: ExtrusionMaterial;
     interval?: number;  // y
     interval2?: number; // cooling
 
@@ -43,7 +43,7 @@ export class Forge {
         data.camera.position.set(0, 5, -5);
         data.camera?.lookAt(0.0, 1.0, 0.0);
 
-        this.shaderMat = new ForgePrintMaterial().clone();
+        this.shaderMat = new ExtrusionMaterial().clone();
         this.shaderMat.side = DoubleSide;
         meshLeftLeg.material = this.shaderMat;
         meshRightLeg.material = this.shaderMat;

@@ -1,6 +1,6 @@
 import { Clock, ShaderMaterial, Vector3 } from "three";
 
-export class ForgePrintMaterial extends ShaderMaterial {
+export class ExtrusionMaterial extends ShaderMaterial {
 
     uniforms = {
         uY: { value: 3.0 },
