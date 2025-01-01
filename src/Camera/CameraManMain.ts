@@ -31,7 +31,7 @@ export enum CameraOrient {
 
 export class CameraManMain {
     DEFAULT_FOV = 55;
-    DEFAULT_FAR = 75;
+    DEFAULT_FAR = 1000;
 
     data: Data;
     orbitControls?: OrbitControls;

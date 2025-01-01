@@ -1,5 +1,5 @@
 import { BlendFunction, BloomEffect, ClearPass, EffectComposer, EffectPass, OutlineEffect, RenderPass } from "postprocessing";
-import { Clock, HalfFloatType, WebGLRenderer } from "three";
+import { Clock, HalfFloatType, PCFSoftShadowMap, WebGLRenderer } from "three";
 import { CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer";
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
@@ -98,7 +98,8 @@ export class GameEngine {
         renderer.setSize(window.innerWidth, window.innerHeight, false);
         const pixelRatio = 1.0;
         renderer.setPixelRatio(pixelRatio);
-        renderer.shadowMap.enabled = false;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = PCFSoftShadowMap;
         renderer.sortObjects = false;
         renderer.info.autoReset = false;
         renderer.autoClear = false;
@@ -106,7 +107,7 @@ export class GameEngine {
     }
 
     getNewWebGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer {
-        const webGlRenderer = new WebGLRenderer({ canvas, antialias: false, stencil: false, depth: true, powerPreference: "high-performance" });
+        const webGlRenderer = new WebGLRenderer({ canvas, antialias: true, stencil: false, depth: true, powerPreference: "high-performance" });
         console.log(`Starting the webGl renderer with these capabilities:`);
         console.log(JSON.stringify(webGlRenderer.capabilities));
         return webGlRenderer;

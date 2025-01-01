@@ -5,6 +5,7 @@ import { GameEngine } from "./GameEngine";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
+import { FogScene } from "./Scenes/FogScene";
 import { Forge } from "./Scenes/Forge";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
@@ -44,6 +45,12 @@ window.addEventListener("DOMContentLoaded", async () => {
         case "TubePulseOnPlane":
             new TubePulseOnPlane().go(data, cameraManMain);
             break;
+        case "FogScene": {
+            const fogScene = new FogScene();
+            fogScene.init();
+            fogScene.go(data, cameraManMain);
+            break;
+        }
     }
 
 });
