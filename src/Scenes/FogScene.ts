@@ -203,14 +203,13 @@ export class FogScene {
 
         const gui = new GUI();
 
-        const groundMat = new MeshStandardMaterial({ color: new Color(0xffffff) });
+        const groundMat = new MeshStandardMaterial({ color: new Color(0xffaa00) });
         groundMat.onBeforeCompile = this.modifyShader.bind(this);
-        const ground = new Mesh(new BoxGeometry(10, 1, 10),);
+        const ground = new Mesh(new BoxGeometry(10, 1, 10), groundMat);
         data.scene.add(ground);
 
         const box = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-        data.scene.add(box);
-        const boxMat = new MeshStandardMaterial();
+        const boxMat = new MeshStandardMaterial({ color: new Color(0x000000) });
         boxMat.onBeforeCompile = this.modifyShader.bind(this);
         box.material = boxMat; // .clone();
         data.scene.add(box);
@@ -221,7 +220,7 @@ export class FogScene {
 
         cameraManMain.makeCameraOrbital(box.position);
 
-        data.scene.fog = new FogExp2(0xDFE9F3, 0.0000005);
+        data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
         this.rAF();
     }
 
