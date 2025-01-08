@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshStandardMaterial, ShaderChunk } from "three";
+import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderChunk } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { Utility } from "../Utilities/Utility";
@@ -185,7 +185,7 @@ export class FogScene {
     }
 
     const light = new DirectionalLight(0xFFFFFF, 1.0);
-    light.position.set(20, 100, 10);
+    light.position.set(-20, 100, -20);
     light.target.position.set(0, 0, 0);
     light.castShadow = true;
     light.shadow.bias = -0.001;
@@ -212,20 +212,20 @@ export class FogScene {
     data.scene.add(ground);
 
     const boxFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-    const boxFogShaderMaterial = new MeshStandardMaterial({ color: new Color(0xff0000) });
+    const boxFogShaderMaterial = new MeshPhongMaterial({ color: new Color(0xff0000) });
     boxFogShaderMaterial.onBeforeCompile = this.modifyShader.bind(this);
     boxFogShader.material = boxFogShaderMaterial; // .clone();
     boxFogShader.position.set(1, 0, 1);
     data.scene.add(boxFogShader);
 
     const boxNoFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-    const boxNoFogShaderMaterial = new MeshStandardMaterial({ color: new Color(0xff0000) });
+    const boxNoFogShaderMaterial = new MeshPhongMaterial({ color: new Color(0x00ff00) });
     boxNoFogShader.material = boxNoFogShaderMaterial; // .clone();
     boxNoFogShader.position.set(5, 0, 5);
     data.scene.add(boxNoFogShader);
 
     data.camera.position.set(0, 7, -12);
-    data.camera?.lookAt(0, 2, 0);
+    data.camera?.lookAt(3, 2, 3);
 
 
     cameraManMain.makeCameraOrbital(boxFogShader.position);
