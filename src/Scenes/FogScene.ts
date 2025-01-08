@@ -224,7 +224,16 @@ export class FogScene {
     boxNoFogShader.position.set(5, 0, 5);
     data.scene.add(boxNoFogShader);
 
-    data.camera.position.set(0, 7, -12);
+    const boxWallFar = new Mesh(new BoxGeometry(20, 5, 1), new MeshPhongMaterial());
+    boxWallFar.position.set(0, 2, 10);
+    data.scene.add(boxWallFar);
+
+    const boxWallLeft = boxWallFar.clone();
+    boxWallLeft.position.set(10, 2, 0);
+    boxWallLeft.rotateY(Math.PI / 2);
+    data.scene.add(boxWallLeft);
+
+    data.camera.position.set(-10, 7, -13);
     data.camera?.lookAt(3, 2, 3);
 
 
