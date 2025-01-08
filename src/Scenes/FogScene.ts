@@ -211,17 +211,24 @@ export class FogScene {
     const ground = new Mesh(new BoxGeometry(100, 1, 100), groundMat);
     data.scene.add(ground);
 
-    const box = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-    const boxMat = new MeshStandardMaterial({ color: new Color(0x000000) });
-    boxMat.onBeforeCompile = this.modifyShader.bind(this);
-    box.material = boxMat; // .clone();
-    data.scene.add(box);
+    const boxFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
+    const boxFogShaderMaterial = new MeshStandardMaterial({ color: new Color(0xff0000) });
+    boxFogShaderMaterial.onBeforeCompile = this.modifyShader.bind(this);
+    boxFogShader.material = boxFogShaderMaterial; // .clone();
+    boxFogShader.position.set(1, 0, 1);
+    data.scene.add(boxFogShader);
+
+    const boxNoFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
+    const boxNoFogShaderMaterial = new MeshStandardMaterial({ color: new Color(0xff0000) });
+    boxNoFogShader.material = boxNoFogShaderMaterial; // .clone();
+    boxNoFogShader.position.set(5, 0, 5);
+    data.scene.add(boxNoFogShader);
 
     data.camera.position.set(0, 7, -12);
     data.camera?.lookAt(0, 2, 0);
 
 
-    cameraManMain.makeCameraOrbital(box.position);
+    cameraManMain.makeCameraOrbital(boxFogShader.position);
 
     data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
     this.rAF();
