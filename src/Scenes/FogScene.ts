@@ -211,20 +211,23 @@ export class FogScene {
     const ground = new Mesh(new BoxGeometry(20, 1, 20), groundMat);
     data.scene.add(ground);
 
+    // Two columns share a material
     const boxFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-    const boxFogShaderMaterial = new MeshPhongMaterial({ color: new Color(0xff0000) });
-    boxFogShaderMaterial.onBeforeCompile = this.modifyShader.bind(this);
-    boxFogShader.material = boxFogShaderMaterial; // .clone();
+    const boxMaterial = new MeshPhongMaterial({ color: new Color(0xff0000) });
+    boxMaterial.onBeforeCompile = this.modifyShader.bind(this);
+    boxFogShader.material = boxMaterial;
     boxFogShader.position.set(1, 0, 1);
     data.scene.add(boxFogShader);
 
     const boxNoFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-    const boxNoFogShaderMaterial = new MeshPhongMaterial({ color: new Color(0x00ff00) });
-    boxNoFogShader.material = boxNoFogShaderMaterial; // .clone();
+    boxNoFogShader.material = boxMaterial;
     boxNoFogShader.position.set(5, 0, 5);
     data.scene.add(boxNoFogShader);
 
-    const wallFar = new Mesh(new BoxGeometry(20, 5, 1), new MeshPhongMaterial());
+    // Two walls share a material
+    const wallMaterial = new MeshPhongMaterial({ color: new Color(0x777777) });
+    wallMaterial.onBeforeCompile = this.modifyShader.bind(this);
+    const wallFar = new Mesh(new BoxGeometry(20, 5, 1), wallMaterial);
     wallFar.position.set(0, 2, 10);
     data.scene.add(wallFar);
 
