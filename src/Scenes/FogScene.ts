@@ -7,7 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 export class FogScene {
 
-    _NOISE_GLSL = `
+  _NOISE_GLSL = `
     //
     // Description : Array and textureless GLSL 2D/3D/4D simplex
     //               noise functions.
@@ -29,24 +29,22 @@ export class FogScene {
     }
     
     vec4 permute(vec4 x) {
-         return mod289(((x*34.0)+1.0)*x);
+      return mod289(((x*34.0)+1.0)*x);
     }
     
-    vec4 taylorInvSqrt(vec4 r)
-    {
+    vec4 taylorInvSqrt(vec4 r) {
       return 1.79284291400159 - 0.85373472095314 * r;
     }
     
-    float snoise(vec3 v)
-    {
+    float snoise(vec3 v) {
       const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
       const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
     
-    // First corner
+      // First corner
       vec3 i  = floor(v + dot(v, C.yyy) );
       vec3 x0 =   v - i + dot(i, C.xxx) ;
     
-    // Other corners
+      // Other corners
       vec3 g = step(x0.yzx, x0.xyz);
       vec3 l = 1.0 - g;
       vec3 i1 = min( g.xyz, l.zxy );
@@ -60,15 +58,15 @@ export class FogScene {
       vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
       vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
     
-    // Permutations
+      // Permutations
       i = mod289(i);
       vec4 p = permute( permute( permute(
                  i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
                + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
                + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
     
-    // Gradients: 7x7 points over a square, mapped onto an octahedron.
-    // The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)
+      // Gradients: 7x7 points over a square, mapped onto an octahedron.
+      // The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)
       float n_ = 0.142857142857; // 1.0/7.0
       vec3  ns = n_ * D.wyz - D.xzx;
     
@@ -98,14 +96,14 @@ export class FogScene {
       vec3 p2 = vec3(a1.xy,h.z);
       vec3 p3 = vec3(a1.zw,h.w);
     
-    //Normalise gradients
+      // Normalise gradients
       vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
       p0 *= norm.x;
       p1 *= norm.y;
       p2 *= norm.z;
       p3 *= norm.w;
     
-    // Mix final noise value
+      // Mix final noise value
       vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
       m = m * m;
       return 105.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
@@ -123,15 +121,15 @@ export class FogScene {
       }
       return value;
     }
-    `;
+  `;
 
-    interval?: number;
-    shaders = new Array<any>();
-    tPrev!: number;
-    totalTime = 0;
+  interval?: number;
+  shaders = new Array<any>();
+  tPrev!: number;
+  totalTime = 0;
 
-    init() {
-        ShaderChunk.fog_fragment = `
+  init() {
+    ShaderChunk.fog_fragment = `
         #ifdef USE_FOG
           vec3 fogOrigin = cameraPosition;
           vec3 fogDirection = normalize(vWorldPosition - fogOrigin);
@@ -150,9 +148,10 @@ export class FogScene {
           fogFactor = saturate(fogFactor);
     
           gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, fogFactor );
-        #endif`;
+        #endif
+    `;
 
-        ShaderChunk.fog_pars_fragment = this._NOISE_GLSL + `
+    ShaderChunk.fog_pars_fragment = this._NOISE_GLSL + `
         #ifdef USE_FOG
           uniform float fogTime;
           uniform vec3 fogColor;
@@ -163,90 +162,93 @@ export class FogScene {
             uniform float fogNear;
             uniform float fogFar;
           #endif
-        #endif`;
+        #endif
+    `;
 
-        ShaderChunk.fog_vertex = `
+    ShaderChunk.fog_vertex = `
         #ifdef USE_FOG
           vWorldPosition = worldPosition.xyz;
-        #endif`;
+        #endif
+    `;
 
-        ShaderChunk.fog_pars_vertex = `
+    ShaderChunk.fog_pars_vertex = `
         #ifdef USE_FOG
           varying vec3 vWorldPosition;
-        #endif`;
+        #endif
+    `;
+  }
+
+  go(data: Data, cameraManMain: CameraManMain) {
+    if (!data.camera) {
+      throw new Error(`${Utility.timestamp()} Expected camera`);
     }
 
-    go(data: Data, cameraManMain: CameraManMain) {
-        if (!data.camera) {
-            throw new Error(`${Utility.timestamp()} Expected camera`);
-        }
+    const light = new DirectionalLight(0xFFFFFF, 1.0);
+    light.position.set(20, 100, 10);
+    light.target.position.set(0, 0, 0);
+    light.castShadow = true;
+    light.shadow.bias = -0.001;
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 500.0;
+    light.shadow.camera.near = 0.5;
+    light.shadow.camera.far = 500.0;
+    light.shadow.camera.left = 100;
+    light.shadow.camera.right = -100;
+    light.shadow.camera.top = 100;
+    light.shadow.camera.bottom = -100;
+    data.scene.add(light);
 
-        const light = new DirectionalLight(0xFFFFFF, 1.0);
-        light.position.set(20, 100, 10);
-        light.target.position.set(0, 0, 0);
-        light.castShadow = true;
-        light.shadow.bias = -0.001;
-        light.shadow.mapSize.width = 2048;
-        light.shadow.mapSize.height = 2048;
-        light.shadow.camera.near = 0.1;
-        light.shadow.camera.far = 500.0;
-        light.shadow.camera.near = 0.5;
-        light.shadow.camera.far = 500.0;
-        light.shadow.camera.left = 100;
-        light.shadow.camera.right = -100;
-        light.shadow.camera.top = 100;
-        light.shadow.camera.bottom = -100;
-        data.scene.add(light);
+    const ambient = new AmbientLight(0x101010);
+    data.scene.add(ambient);
 
-        const ambient = new AmbientLight(0x101010);
-        data.scene.add(ambient);
+    const gui = new GUI();
 
-        const gui = new GUI();
+    const groundMat = new MeshStandardMaterial({ color: new Color(0xffaa00) });
+    groundMat.onBeforeCompile = this.modifyShader.bind(this);
+    const ground = new Mesh(new BoxGeometry(10, 1, 100), groundMat);
+    data.scene.add(ground);
 
-        const groundMat = new MeshStandardMaterial({ color: new Color(0xffaa00) });
-        groundMat.onBeforeCompile = this.modifyShader.bind(this);
-        const ground = new Mesh(new BoxGeometry(10, 1, 10), groundMat);
-        data.scene.add(ground);
+    const box = new Mesh(new BoxGeometry(1, 10, 1), undefined);
+    const boxMat = new MeshStandardMaterial({ color: new Color(0x000000) });
+    boxMat.onBeforeCompile = this.modifyShader.bind(this);
+    box.material = boxMat; // .clone();
+    data.scene.add(box);
 
-        const box = new Mesh(new BoxGeometry(1, 10, 1), undefined);
-        const boxMat = new MeshStandardMaterial({ color: new Color(0x000000) });
-        boxMat.onBeforeCompile = this.modifyShader.bind(this);
-        box.material = boxMat; // .clone();
-        data.scene.add(box);
-
-        data.camera.position.set(0, 7, -12);
-        data.camera?.lookAt(0, 2, 0);
+    data.camera.position.set(0, 7, -12);
+    data.camera?.lookAt(0, 2, 0);
 
 
-        cameraManMain.makeCameraOrbital(box.position);
+    cameraManMain.makeCameraOrbital(box.position);
 
-        data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
-        this.rAF();
+    data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
+    this.rAF();
+  }
+
+  modifyShader(s: any) {
+    this.shaders.push(s);
+    s.uniforms.fogTime = { value: 0.0 };
+  }
+
+  rAF() {
+    requestAnimationFrame((t) => {
+      this.rAF();
+
+      if (this.tPrev === undefined) {
+        this.tPrev = t;
+      }
+
+      this.step((t - this.tPrev) * 0.001);
+      this.tPrev = t;
+
+    });
+  }
+
+  step(timeElapsed: number) {
+    this.totalTime += timeElapsed;
+    for (let s of this.shaders) {
+      s.uniforms.fogTime.value = this.totalTime;
     }
-
-    modifyShader(s: any) {
-        this.shaders.push(s);
-        s.uniforms.fogTime = { value: 0.0 };
-    }
-
-    rAF() {
-        requestAnimationFrame((t) => {
-            this.rAF();
-
-            if (this.tPrev === undefined) {
-                this.tPrev = t;
-            }
-
-            this.step((t - this.tPrev) * 0.001);
-            this.tPrev = t;
-
-        });
-    }
-
-    step(timeElapsed: number) {
-        this.totalTime += timeElapsed;
-        for (let s of this.shaders) {
-            s.uniforms.fogTime.value = this.totalTime;
-        }
-    }
+  }
 }
