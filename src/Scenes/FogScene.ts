@@ -236,6 +236,14 @@ export class FogScene {
     data.camera.position.set(-10, 7, -13);
     data.camera?.lookAt(3, 2, 3);
 
+    gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
+      const color = new Color(_value);
+      this.shaders.forEach(shader => {
+        shader.uniforms.fogColor.value.x = color.r;
+        shader.uniforms.fogColor.value.y = color.g;
+        shader.uniforms.fogColor.value.z = color.b;
+      });
+    });
 
     cameraManMain.makeCameraOrbital(boxFogShader.position);
 
