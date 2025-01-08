@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderChunk } from "three";
+import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderChunk, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { Utility } from "../Utilities/Utility";
@@ -246,6 +246,8 @@ export class FogScene {
   modifyShader(s: any) {
     this.shaders.push(s);
     s.uniforms.fogTime = { value: 0.0 };
+    s.uniforms.fogDensity = { value: 1.0 };
+    s.uniforms.fogColor = { value: new Vector3(0.7, 0.7, 0.7) };
   }
 
   rAF() {
