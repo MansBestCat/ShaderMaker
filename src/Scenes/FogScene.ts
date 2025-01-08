@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, MeshStandardMaterial, ShaderChunk, Vector3 } from "three";
+import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, ShaderChunk, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { Utility } from "../Utilities/Utility";
@@ -206,7 +206,7 @@ export class FogScene {
 
     const gui = new GUI();
 
-    const groundMat = new MeshStandardMaterial({ color: new Color(0xffaa00) });
+    const groundMat = new MeshPhongMaterial({ color: new Color(0xffaa00) });
     groundMat.onBeforeCompile = this.modifyShader.bind(this);
     const ground = new Mesh(new BoxGeometry(20, 1, 20), groundMat);
     data.scene.add(ground);
