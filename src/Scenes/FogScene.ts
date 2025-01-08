@@ -208,7 +208,7 @@ export class FogScene {
 
     const groundMat = new MeshStandardMaterial({ color: new Color(0xffaa00) });
     groundMat.onBeforeCompile = this.modifyShader.bind(this);
-    const ground = new Mesh(new BoxGeometry(10, 1, 100), groundMat);
+    const ground = new Mesh(new BoxGeometry(100, 1, 100), groundMat);
     data.scene.add(ground);
 
     const box = new Mesh(new BoxGeometry(1, 10, 1), undefined);
