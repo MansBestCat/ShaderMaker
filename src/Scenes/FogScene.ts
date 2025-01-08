@@ -129,6 +129,7 @@ export class FogScene {
   totalTime = 0;
 
   init() {
+    // https://www.youtube.com/watch?v=k1zGz55EqfU&t=471s
     ShaderChunk.fog_fragment = `
         #ifdef USE_FOG
           vec3 fogOrigin = cameraPosition;
@@ -155,7 +156,7 @@ export class FogScene {
         #ifdef USE_FOG
           uniform float fogTime;
           uniform vec3 fogColor;
-          varying vec3 vWorldPosition;
+          varying vec3 vWorldPosition; // camera position
           #ifdef FOG_EXP2
             uniform float fogDensity;
           #else
@@ -167,13 +168,13 @@ export class FogScene {
 
     ShaderChunk.fog_vertex = `
         #ifdef USE_FOG
-          vWorldPosition = worldPosition.xyz;
+          vWorldPosition = worldPosition.xyz; // camera position
         #endif
     `;
 
     ShaderChunk.fog_pars_vertex = `
         #ifdef USE_FOG
-          varying vec3 vWorldPosition;
+          varying vec3 vWorldPosition; // camera position
         #endif
     `;
   }
