@@ -2,11 +2,15 @@ import { ShaderChunk, Vector3 } from "three";
 import { Noise } from "./Noise";
 
 export class FogExpOverride {
-  static uniforms = {
+  uniforms = {
     fogTime: { value: 0.0 },
     fogDensity: { value: 1.0 },
     fogColor: { value: new Vector3(0.7, 0.7, 0.7) }
   };
+
+  shaders = new Array<any>();
+  tPrev!: number;
+  totalTime = 0;
 
   init() {
     // https://www.youtube.com/watch?v=k1zGz55EqfU&t=471s
@@ -58,5 +62,39 @@ export class FogExpOverride {
         varying vec3 vWorldPosition; // camera position
       #endif
     `;
+  }
+
+  modifyShader(shader: any) {
+
+    // Decorate the uniforms of the shader being compiled
+    // Add the uniforms necessary to drive the FogExpOverride chunks
+    shader.uniforms = {
+      ...shader.uniforms,
+      ...JSON.parse(JSON.stringify(this.uniforms)) // deep copy of uniforms, not references
+    };
+
+    // Push the shader into a list to be ticked
+    this.shaders.push(shader);
+  }
+
+  rAF() {
+    requestAnimationFrame((t) => {
+      this.rAF();
+
+      if (this.tPrev === undefined) {
+        this.tPrev = t;
+      }
+
+      this.step((t - this.tPrev) * 0.001);
+      this.tPrev = t;
+
+    });
+  }
+
+  step(timeElapsed: number) {
+    this.totalTime += timeElapsed;
+    for (let s of this.shaders) {
+      s.uniforms.fogTime.value = this.totalTime;
+    }
   }
 }

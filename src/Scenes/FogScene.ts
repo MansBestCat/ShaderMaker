@@ -5,13 +5,7 @@ import { Data } from "../Data";
 import { FogExpOverride } from "../Materials/FogExpOverride";
 import { Utility } from "../Utilities/Utility";
 
-
 export class FogScene {
-
-  shaders = new Array<any>();
-  tPrev!: number;
-  totalTime = 0;
-
 
   go(data: Data, cameraManMain: CameraManMain, fogExpOverride: FogExpOverride) {
     if (!data.camera) {
@@ -43,14 +37,14 @@ export class FogScene {
     const gui = new GUI();
 
     const groundMat = new MeshPhongMaterial({ color: new Color(0xffaa00) });
-    groundMat.onBeforeCompile = this.modifyShader.bind(this);
+    groundMat.onBeforeCompile = fogExpOverride.modifyShader.bind(fogExpOverride);
     const ground = new Mesh(new BoxGeometry(20, 1, 20), groundMat);
     data.scene.add(ground);
 
     // Two columns share a material
     const boxFogShader = new Mesh(new BoxGeometry(1, 10, 1), undefined);
     const boxMaterial = new MeshPhongMaterial({ color: new Color(0xff0000) });
-    boxMaterial.onBeforeCompile = this.modifyShader.bind(this);
+    boxMaterial.onBeforeCompile = fogExpOverride.modifyShader.bind(fogExpOverride);
     boxFogShader.material = boxMaterial;
     boxFogShader.position.set(1, 0, 1);
     data.scene.add(boxFogShader);
@@ -62,7 +56,7 @@ export class FogScene {
 
     // Two walls share a material
     const wallMaterial = new MeshPhongMaterial({ color: new Color(0x777777) });
-    wallMaterial.onBeforeCompile = this.modifyShader.bind(this);
+    wallMaterial.onBeforeCompile = fogExpOverride.modifyShader.bind(fogExpOverride);
     const wallFar = new Mesh(new BoxGeometry(20, 5, 1), wallMaterial);
     wallFar.position.set(0, 2, 10);
     data.scene.add(wallFar);
@@ -77,7 +71,7 @@ export class FogScene {
 
     gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
       const color = new Color(_value);
-      this.shaders.forEach(shader => {
+      fogExpOverride.shaders.forEach(shader => {
         shader.uniforms.fogColor.value.x = color.r;
         shader.uniforms.fogColor.value.y = color.g;
         shader.uniforms.fogColor.value.z = color.b;
@@ -87,40 +81,7 @@ export class FogScene {
     cameraManMain.makeCameraOrbital(boxFogShader.position);
 
     data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
-    this.rAF();
+    fogExpOverride.rAF();
   }
 
-  modifyShader(shader: any) {
-
-    // Decorate the uniforms of the shader being compiled
-    // Add the uniforms necessary to drive the FogExpOverride chunks
-    shader.uniforms = {
-      ...shader.uniforms,
-      ...JSON.parse(JSON.stringify(FogExpOverride.uniforms)) // deep copy of uniforms, not references
-    };
-
-    // Push the shader into a list to be ticked
-    this.shaders.push(shader);
-  }
-
-  rAF() {
-    requestAnimationFrame((t) => {
-      this.rAF();
-
-      if (this.tPrev === undefined) {
-        this.tPrev = t;
-      }
-
-      this.step((t - this.tPrev) * 0.001);
-      this.tPrev = t;
-
-    });
-  }
-
-  step(timeElapsed: number) {
-    this.totalTime += timeElapsed;
-    for (let s of this.shaders) {
-      s.uniforms.fogTime.value = this.totalTime;
-    }
-  }
 }
