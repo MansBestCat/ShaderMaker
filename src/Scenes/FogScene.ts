@@ -69,14 +69,24 @@ export class FogScene {
     data.camera.position.set(-10, 7, -13);
     data.camera?.lookAt(3, 2, 3);
 
-    gui.addColor({ color: '#ffffff' }, 'color').onChange((_value: string) => {
-      const color = new Color(_value);
-      fogExpOverride.shaders.forEach(shader => {
-        shader.uniforms.fogColor.value.x = color.r;
-        shader.uniforms.fogColor.value.y = color.g;
-        shader.uniforms.fogColor.value.z = color.b;
+    gui.add({ value: 1.0 }, "value", 0.0, 3.0, 0.1)
+      .name("fogDensity")
+      .onChange((_value: string) => {
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.fogDensity.value = _value;
+        });
       });
-    });
+
+    gui.addColor({ color: '#ababab' }, 'color')
+      .name("fogColor")
+      .onChange((_value: string) => {
+        const color = new Color(_value);
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.fogColor.value.x = color.r;
+          shader.uniforms.fogColor.value.y = color.g;
+          shader.uniforms.fogColor.value.z = color.b;
+        });
+      });
 
     cameraManMain.makeCameraOrbital(boxFogShader.position);
 
