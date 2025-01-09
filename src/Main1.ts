@@ -2,6 +2,7 @@
 import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
+import { FogExpOverride } from "./Materials/FogExpOverride";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
@@ -47,8 +48,8 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "FogScene": {
             const fogScene = new FogScene();
-            fogScene.init();
-            fogScene.go(data, cameraManMain);
+            const fogExpOverride = new FogExpOverride();
+            fogScene.go(data, cameraManMain, fogExpOverride);
             break;
         }
     }

@@ -1,74 +1,24 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, ShaderChunk, Vector3 } from "three";
+import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, Vector3 } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { Noise } from "../Materials/Noise";
+import { FogExpOverride } from "../Materials/FogExpOverride";
 import { Utility } from "../Utilities/Utility";
 
 
 export class FogScene {
 
-
-  interval?: number;
   shaders = new Array<any>();
   tPrev!: number;
   totalTime = 0;
 
-  init() {
-    // https://www.youtube.com/watch?v=k1zGz55EqfU&t=471s
-    ShaderChunk.fog_fragment = `
-        #ifdef USE_FOG
-          vec3 fogOrigin = cameraPosition;
-          vec3 fogDirection = normalize(vWorldPosition - fogOrigin);
-          float fogDepth = distance(vWorldPosition, fogOrigin);
-    
-          // f(p) = fbm( p + fbm( p ) )
-          vec3 noiseSampleCoord = vWorldPosition * 0.00025 + vec3(
-              0.0, 0.0, fogTime * 0.025);
-          float noiseSample = FBM(noiseSampleCoord + FBM(noiseSampleCoord)) * 0.5 + 0.5;
-          fogDepth *= mix(noiseSample, 1.0, saturate((fogDepth - 5000.0) / 5000.0));
-          fogDepth *= fogDepth;
-    
-          float heightFactor = 0.05;
-          float fogFactor = heightFactor * exp(-fogOrigin.y * fogDensity) * (
-              1.0 - exp(-fogDepth * fogDirection.y * fogDensity)) / fogDirection.y;
-          fogFactor = saturate(fogFactor);
-    
-          gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, fogFactor );
-        #endif
-    `;
 
-    ShaderChunk.fog_pars_fragment = Noise._NOISE_GLSL + `
-        #ifdef USE_FOG
-          uniform float fogTime;
-          uniform vec3 fogColor;
-          varying vec3 vWorldPosition; // camera position
-          #ifdef FOG_EXP2
-            uniform float fogDensity;
-          #else
-            uniform float fogNear;
-            uniform float fogFar;
-          #endif
-        #endif
-    `;
-
-    ShaderChunk.fog_vertex = `
-        #ifdef USE_FOG
-          vWorldPosition = worldPosition.xyz; // camera position
-        #endif
-    `;
-
-    ShaderChunk.fog_pars_vertex = `
-        #ifdef USE_FOG
-          varying vec3 vWorldPosition; // camera position
-        #endif
-    `;
-  }
-
-  go(data: Data, cameraManMain: CameraManMain) {
+  go(data: Data, cameraManMain: CameraManMain, fogExpOverride: FogExpOverride) {
     if (!data.camera) {
       throw new Error(`${Utility.timestamp()} Expected camera`);
     }
+
+    fogExpOverride.init();
 
     const light = new DirectionalLight(0xFFFFFF, 1.0);
     light.position.set(-20, 100, -20);
