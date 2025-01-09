@@ -11,7 +11,7 @@ export class FogExpOverride {
   uniforms = {
     fogTime: { value: 0.0 },
     fogDensity: { value: 1.0 },
-    fogColor: { value: new Vector3(0.7, 0.7, 0.7) }
+    fogColor: { value: new Vector3(0.66, 0.66, 0.66) }
   };
 
   shaders = new Array<any>();
