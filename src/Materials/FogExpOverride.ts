@@ -1,7 +1,12 @@
-import { ShaderChunk } from "three";
+import { ShaderChunk, Vector3 } from "three";
 import { Noise } from "./Noise";
 
 export class FogExpOverride {
+  static uniforms = {
+    fogTime: { value: 0.0 },
+    fogDensity: { value: 1.0 },
+    fogColor: { value: new Vector3(0.7, 0.7, 0.7) }
+  };
 
   init() {
     // https://www.youtube.com/watch?v=k1zGz55EqfU&t=471s

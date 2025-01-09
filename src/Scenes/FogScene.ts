@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial, Vector3 } from "three";
+import { AmbientLight, BoxGeometry, Color, DirectionalLight, FogExp2, Mesh, MeshPhongMaterial } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { FogExpOverride } from "../Materials/FogExpOverride";
@@ -90,11 +90,17 @@ export class FogScene {
     this.rAF();
   }
 
-  modifyShader(s: any) {
-    this.shaders.push(s);
-    s.uniforms.fogTime = { value: 0.0 };
-    s.uniforms.fogDensity = { value: 1.0 };
-    s.uniforms.fogColor = { value: new Vector3(0.7, 0.7, 0.7) };
+  modifyShader(shader: any) {
+
+    // Decorate the uniforms of the shader being compiled
+    // Add the uniforms necessary to drive the FogExpOverride chunks
+    shader.uniforms = {
+      ...shader.uniforms,
+      ...JSON.parse(JSON.stringify(FogExpOverride.uniforms)) // deep copy of uniforms, not references
+    };
+
+    // Push the shader into a list to be ticked
+    this.shaders.push(shader);
   }
 
   rAF() {
