@@ -44,6 +44,9 @@ export class PlaneShockWavePulse {
         cameraManMain.makeCameraOrbital(mesh.position);
 
         const gui = new GUI();
+        gui.domElement.onpointermove = (event: PointerEvent) => {
+            event.stopPropagation();
+        };
         gui.add(this.shaderMat.uniforms.uMax, "value", 1.0, 20.0, 0.1).name("max distance radius");
         gui.add(this, "WAVE_SPEED", 1.0, 20.0, 0.1).name("wave speed m/s");
 

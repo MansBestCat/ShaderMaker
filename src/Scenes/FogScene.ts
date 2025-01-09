@@ -35,6 +35,9 @@ export class FogScene {
     data.scene.add(ambient);
 
     const gui = new GUI();
+    gui.domElement.onpointermove = (event: PointerEvent) => {
+      event.stopPropagation();
+    };
 
     const groundMat = new MeshPhongMaterial({ color: new Color(0xffaa00) });
     groundMat.onBeforeCompile = fogExpOverride.modifyShader.bind(fogExpOverride);

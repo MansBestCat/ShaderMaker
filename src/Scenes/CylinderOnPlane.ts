@@ -18,6 +18,9 @@ export class CylinderOnPlane {
         data.scene.add(pointLight);
 
         const gui = new GUI();
+        gui.domElement.onpointermove = (event: PointerEvent) => {
+            event.stopPropagation();
+        };
 
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshBasicMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
