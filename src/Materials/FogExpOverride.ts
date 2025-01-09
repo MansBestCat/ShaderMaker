@@ -18,6 +18,10 @@ export class FogExpOverride {
   tPrev!: number;
   totalTime = 0;
 
+  constructor() {
+    Object.freeze(this.uniforms);
+  }
+
   init() {
     // https://www.youtube.com/watch?v=k1zGz55EqfU&t=471s
     ShaderChunk.fog_fragment = `
