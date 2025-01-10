@@ -1,5 +1,5 @@
 import { OutlineEffect } from "postprocessing";
-import { Camera, Clock, Scene } from "three";
+import { Camera, Clock, Scene, WebGLRenderer } from "three";
 
 export class Data {
 
@@ -9,6 +9,7 @@ export class Data {
     clock?: Clock;
     camera?: Camera;
     outlineEffect?: OutlineEffect;
+    renderer?: WebGLRenderer;
 
     constructor(p_canvas: HTMLCanvasElement) {
         if (p_canvas === null) {

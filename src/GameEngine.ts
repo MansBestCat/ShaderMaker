@@ -8,7 +8,6 @@ export class GameEngine {
     static readonly DEFAULT_PIXEL_RATIO = 0.5;
     static readonly DEFAULT_ANTIALIAS = false;
     luminanceThreshold = 1.0;
-    oneTime = false;
 
     data: Data;
     canvas: HTMLCanvasElement;
@@ -92,6 +91,7 @@ export class GameEngine {
     createRenderers() {
         const webGlRenderer = this.createWebGLRenderer();
         this.webGlRenderer = webGlRenderer;
+        this.data.renderer = webGlRenderer;
     }
 
     createWebGLRenderer(): WebGLRenderer {
@@ -122,24 +122,6 @@ export class GameEngine {
         requestAnimationFrame(() => this.animate());
 
         this.mainCamera();
-
-        setTimeout(() => {
-            if (!this.oneTime) {
-                // Take a screenshot of the canvas
-                const dataURL = this.webGlRenderer!.domElement.toDataURL();
-                var img = new Image();
-                img.src = dataURL;
-                document.body.appendChild(img);
-
-                // Create a link to download the image
-                const aDownload = document.createElement('a');
-                aDownload.href = dataURL;
-                aDownload.download = 'scene.png'; // TODO: encode current shader uniforms to the image name for easier identification
-                aDownload.click();
-
-                this.oneTime = true;
-            }
-        }, 1000);
     }
 
     mainCamera() {

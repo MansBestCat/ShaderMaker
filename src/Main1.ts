@@ -10,6 +10,7 @@ import { FogScene } from "./Scenes/FogScene";
 import { Forge } from "./Scenes/Forge";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
+import { Screenshot } from "./Scenes/Screenshot";
 import { TubePulseOnPlane } from "./Scenes/TubePulseOnPlane";
 
 // MAIN 
@@ -52,6 +53,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             fogScene.go(data, cameraManMain, fogExpOverride);
             break;
         }
+        case "Screenshot":
+            new Screenshot(data).go(cameraManMain);
+            break;
     }
 
 });
