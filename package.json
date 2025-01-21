@@ -30,7 +30,8 @@
     "ws": "^8.0.0"
   },
   "scripts": {
-    "webpackDev": "webpack serve --config webpack.development.cjs"
+    "webpackDev": "webpack serve --config webpack.development.cjs",
+    "buildForItch": "webpack --config webpack.development.cjs"
   },
   "author": "mansbestcat",
   "license": "ISC"
