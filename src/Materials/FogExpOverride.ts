@@ -11,7 +11,11 @@ export class FogExpOverride {
   uniforms = {
     fogTime: { value: 0.0 },
     fogDensity: { value: 1.0 },
-    fogColor: { value: new Vector3(0.66, 0.66, 0.66) }
+    fogColor: { value: new Vector3(0.66, 0.66, 0.66) },
+    uNoiseSampleCoordPositionFactor: { value: 0.00025 },
+    uNoiseSampleCoordTimeFactor: { value: 0.025 },
+    uFogDepthSaturationFactor: { value: 5000.0 },
+    uFogHeightFactor: { value: 0.05 }
   };
 
   shaders = new Array<any>();
@@ -32,14 +36,13 @@ export class FogExpOverride {
         //fogDepth *= fogDepth;
   
         // f(p) = fbm( p + fbm( p ) )
-        vec3 noiseSampleCoord = vWorldPosition * 0.00025 + vec3(
-            0.0, 0.0, fogTime * 0.025);
+        vec3 noiseSampleCoord = vWorldPosition * uNoiseSampleCoordPositionFactor + vec3(
+            0.0, 0.0, fogTime * uNoiseSampleCoordTimeFactor);
         float noiseSample = FBM(noiseSampleCoord + FBM(noiseSampleCoord)) * 0.5 + 0.5;
-        fogDepth *= mix(noiseSample, 1.0, saturate((fogDepth - 5000.0) / 5000.0));
+        fogDepth *= mix(noiseSample, 1.0, saturate((fogDepth - uFogDepthSaturationFactor) / uFogDepthSaturationFactor));
         fogDepth *= fogDepth;//noiseSample; //fogDepth;
   
-        float heightFactor = 0.05;
-        float fogFactor = heightFactor * exp(-fogOrigin.y * fogDensity) * (
+        float fogFactor = uFogHeightFactor * exp(-fogOrigin.y * fogDensity) * (
             1.0 - exp(-fogDepth * fogDirection.y * fogDensity)) / fogDirection.y;
         fogFactor = saturate(fogFactor);
   
@@ -51,6 +54,11 @@ export class FogExpOverride {
       #ifdef USE_FOG
         uniform float fogTime;
         uniform vec3 fogColor;
+        uniform float uNoiseSampleCoordPositionFactor;
+        uniform float uNoiseSampleCoordTimeFactor;
+        uniform float uFogDepthSaturationFactor;
+        uniform float uFogHeightFactor;
+
         varying vec3 vWorldPosition;
         #ifdef FOG_EXP2
           uniform float fogDensity;
