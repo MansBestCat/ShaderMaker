@@ -51,7 +51,7 @@ export class FogExpOverride {
       #ifdef USE_FOG
         uniform float fogTime;
         uniform vec3 fogColor;
-        varying vec3 vWorldPosition; // camera position
+        varying vec3 vWorldPosition;
         #ifdef FOG_EXP2
           uniform float fogDensity;
         #else
@@ -63,13 +63,13 @@ export class FogExpOverride {
 
     ShaderChunk.fog_vertex = `
       #ifdef USE_FOG
-        vWorldPosition = worldPosition.xyz; // camera position
+        vWorldPosition = worldPosition.xyz;
       #endif
     `;
 
     ShaderChunk.fog_pars_vertex = `
       #ifdef USE_FOG
-        varying vec3 vWorldPosition; // camera position
+        varying vec3 vWorldPosition;
       #endif
     `;
   }
