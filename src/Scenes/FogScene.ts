@@ -72,6 +72,16 @@ export class FogScene {
     data.camera.position.set(-10, 7, -13);
     data.camera?.lookAt(3, 2, 3);
 
+    this.guiBindings(fogExpOverride, gui);
+
+    cameraManMain.makeCameraOrbital(boxFogShader.position);
+
+    data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
+    fogExpOverride.rAF();
+  }
+
+  guiBindings(fogExpOverride: FogExpOverride, gui: GUI) {
+
     gui.add({ value: 1.0 }, "value", 0.0, 3.0, 0.1)
       .name("fogDensity")
       .onChange((_value: string) => {
@@ -91,10 +101,12 @@ export class FogScene {
         });
       });
 
-    cameraManMain.makeCameraOrbital(boxFogShader.position);
-
-    data.scene.fog = new FogExp2(0xDFE9F3, 0.05);
-    fogExpOverride.rAF();
+    gui.add({ value: 1.0 }, "value", 0.0, 3.0, 0.1)
+      .name("fogDensity")
+      .onChange((_value: string) => {
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.fogDensity.value = _value;
+        });
+      });
   }
-
 }
