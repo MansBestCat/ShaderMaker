@@ -101,11 +101,35 @@ export class FogScene {
         });
       });
 
-    gui.add({ value: 1.0 }, "value", 0.0, 3.0, 0.1)
-      .name("fogDensity")
+    gui.add({ value: 0.00025 }, "value", 0.0, 0.025, 0.0001)
+      .name("noisePosFactor")
       .onChange((_value: string) => {
         fogExpOverride.shaders.forEach(shader => {
-          shader.uniforms.fogDensity.value = _value;
+          shader.uniforms.uNoiseSampleCoordPositionFactor.value = _value;
+        });
+      });
+
+    gui.add({ value: 0.025 }, "value", 0.0, 0.05, 0.0001)
+      .name("noiseTimeFactor")
+      .onChange((_value: string) => {
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.uNoiseSampleCoordTimeFactor.value = _value;
+        });
+      });
+
+    gui.add({ value: 5000.0 }, "value", 0.0, 10000.0, 100.0)
+      .name("fogSatFactor")
+      .onChange((_value: string) => {
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.uFogDepthSaturationFactor.value = _value;
+        });
+      });
+
+    gui.add({ value: 0.05 }, "value", 0.00, 0.1, 0.001)
+      .name("fogHeightFactor")
+      .onChange((_value: string) => {
+        fogExpOverride.shaders.forEach(shader => {
+          shader.uniforms.uFogHeightFactor.value = _value;
         });
       });
   }
