@@ -101,7 +101,7 @@ export class FogScene {
         });
       });
 
-    gui.add({ value: 0.00025 }, "value", 0.0, 0.025, 0.0001)
+    gui.add({ value: 0.01 }, "value", 0.0, 0.02, 0.0001)
       .name("noisePosFactor")
       .onChange((_value: string) => {
         fogExpOverride.shaders.forEach(shader => {
@@ -125,7 +125,7 @@ export class FogScene {
         });
       });
 
-    gui.add({ value: 0.05 }, "value", 0.00, 0.1, 0.001)
+    gui.add({ value: 0.007 }, "value", 0.00, 0.025, 0.0001)
       .name("fogHeightFactor")
       .onChange((_value: string) => {
         fogExpOverride.shaders.forEach(shader => {

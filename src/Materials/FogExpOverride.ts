@@ -12,10 +12,10 @@ export class FogExpOverride {
     fogTime: { value: 0.0 },
     fogDensity: { value: 1.0 },
     fogColor: { value: new Vector3(0.66, 0.66, 0.66) },
-    uNoiseSampleCoordPositionFactor: { value: 0.00025 },
+    uNoiseSampleCoordPositionFactor: { value: 0.01 },
     uNoiseSampleCoordTimeFactor: { value: 0.025 },
     uFogDepthSaturationFactor: { value: 5000.0 },
-    uFogHeightFactor: { value: 0.05 }
+    uFogHeightFactor: { value: 0.007 }
   };
 
   shaders = new Array<any>();
