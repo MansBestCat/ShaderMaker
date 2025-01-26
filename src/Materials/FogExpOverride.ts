@@ -9,11 +9,11 @@ import { Noise } from "./Noise";
 */
 export class FogExpOverride {
   uniforms = {
-    fogTime: { value: 0.0 },
-    fogDensity: { value: 1.0 },
-    fogColor: { value: new Vector3(0.66, 0.66, 0.66) },
+    uFogTime: { value: 0.0 },
+    uFogDensity: { value: 0.1 },
+    uFogColor: { value: new Vector3(0.66, 0.66, 0.66) },
     uNoiseSampleCoordPositionFactor: { value: 0.01 },
-    uNoiseSampleCoordTimeFactor: { value: 0.025 },
+    uFogTimeScalar: { value: 0.025 },
     uFogDepthSaturationFactor: { value: 5000.0 },
     uFogHeightFactor: { value: 0.007 }
   };
@@ -37,31 +37,31 @@ export class FogExpOverride {
   
         // f(p) = fbm( p + fbm( p ) )
         vec3 noiseSampleCoord = vWorldPosition * uNoiseSampleCoordPositionFactor + vec3(
-            0.0, 0.0, fogTime * uNoiseSampleCoordTimeFactor);
+            0.0, 0.0, uFogTime * uFogTimeScalar);
         float noiseSample = FBM(noiseSampleCoord + FBM(noiseSampleCoord)) * 0.5 + 0.5;
         fogDepth *= mix(noiseSample, 1.0, saturate((fogDepth - uFogDepthSaturationFactor) / uFogDepthSaturationFactor));
         fogDepth *= fogDepth;//noiseSample; //fogDepth;
   
-        float fogFactor = uFogHeightFactor * exp(-fogOrigin.y * fogDensity) * (
-            1.0 - exp(-fogDepth * fogDirection.y * fogDensity)) / fogDirection.y;
+        float fogFactor = uFogHeightFactor * exp(-fogOrigin.y * uFogDensity) * (
+            1.0 - exp(-fogDepth * fogDirection.y * uFogDensity)) / fogDirection.y;
         fogFactor = saturate(fogFactor);
   
-        gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, fogFactor );
+        gl_FragColor.rgb = mix( gl_FragColor.rgb, uFogColor, fogFactor );
       #endif
     `;
 
     ShaderChunk.fog_pars_fragment = Noise._NOISE_GLSL + `
       #ifdef USE_FOG
-        uniform float fogTime;
-        uniform vec3 fogColor;
+        uniform float uFogTime;
+        uniform vec3 uFogColor;
         uniform float uNoiseSampleCoordPositionFactor;
-        uniform float uNoiseSampleCoordTimeFactor;
+        uniform float uFogTimeScalar;
         uniform float uFogDepthSaturationFactor;
         uniform float uFogHeightFactor;
 
         varying vec3 vWorldPosition;
         #ifdef FOG_EXP2
-          uniform float fogDensity;
+          uniform float uFogDensity;
         #else
           uniform float fogNear;
           uniform float fogFar;
@@ -112,7 +112,7 @@ export class FogExpOverride {
   step(timeElapsed: number) {
     this.totalTime += timeElapsed;
     for (let s of this.shaders) {
-      s.uniforms.fogTime.value = this.totalTime;
+      s.uniforms.uFogTime.value = this.totalTime;
     }
   }
 }

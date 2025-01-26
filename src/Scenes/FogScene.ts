@@ -82,11 +82,11 @@ export class FogScene {
 
   guiBindings(fogExpOverride: FogExpOverride, gui: GUI) {
 
-    gui.add({ value: 1.0 }, "value", 0.0, 3.0, 0.1)
+    gui.add({ value: 0.1 }, "value", 0.0, 0.25, 0.001)
       .name("fogDensity")
       .onChange((_value: string) => {
         fogExpOverride.shaders.forEach(shader => {
-          shader.uniforms.fogDensity.value = _value;
+          shader.uniforms.uFogDensity.value = _value;
         });
       });
 
@@ -95,9 +95,9 @@ export class FogScene {
       .onChange((_value: string) => {
         const color = new Color(_value);
         fogExpOverride.shaders.forEach(shader => {
-          shader.uniforms.fogColor.value.x = color.r;
-          shader.uniforms.fogColor.value.y = color.g;
-          shader.uniforms.fogColor.value.z = color.b;
+          shader.uniforms.uFogColor.value.x = color.r;
+          shader.uniforms.uFogColor.value.y = color.g;
+          shader.uniforms.uFogColor.value.z = color.b;
         });
       });
 
@@ -110,10 +110,10 @@ export class FogScene {
       });
 
     gui.add({ value: 0.025 }, "value", 0.0, 0.05, 0.0001)
-      .name("noiseTimeFactor")
+      .name("fogTimeScalar")
       .onChange((_value: string) => {
         fogExpOverride.shaders.forEach(shader => {
-          shader.uniforms.uNoiseSampleCoordTimeFactor.value = _value;
+          shader.uniforms.uFogTimeScalar.value = _value;
         });
       });
 
