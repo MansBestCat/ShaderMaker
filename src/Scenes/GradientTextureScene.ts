@@ -1,14 +1,15 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
+import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
+import { GradientTextureMaterial } from "../Materials/GradientTextureMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class GradientTextureScene {
     SPEED = 0.1;  // per tick
 
-    shaderMat?: MeshBasicMaterial;
+    shaderMat?: GradientTextureMaterial;
     interval?: number;
 
     go(data: Data, cameraManMain: CameraManMain) {
@@ -31,12 +32,13 @@ export class GradientTextureScene {
         const mesh = new Mesh(new PlaneGeometry(4.0, 6.0, 1, 1), undefined);
         mesh.position.y = 4.0;
         mesh.rotateX(Math.PI);
+        mesh.rotateZ(Math.PI);
         data.scene.add(mesh);
 
-        data.camera.position.set(1, 5, -10);
+        data.camera.position.set(1, 5, -7);
         data.camera?.lookAt(0, 4, 0);
 
-        this.shaderMat = new MeshBasicMaterial({ color: new Color(0xff0000) });
+        this.shaderMat = new GradientTextureMaterial();
 
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
