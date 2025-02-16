@@ -2,7 +2,7 @@ import GUI from "lil-gui";
 import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { TubePulseMaterial } from "../Materials/TubePulseMaterial";
+import { GradientTextureMaterial } from "../Materials/GradientTextureMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
@@ -11,7 +11,7 @@ export class GradientTexture {
     TUBE_LENGTH = 8.0;
     TUBE_WIDTH = 0.03;
 
-    shaderMat?: TubePulseMaterial;
+    shaderMat?: GradientTextureMaterial;
     interval?: number;
 
     go(data: Data, cameraManMain: CameraManMain) {
@@ -39,7 +39,7 @@ export class GradientTexture {
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
-        this.shaderMat = new TubePulseMaterial().clone();
+        this.shaderMat = new GradientTextureMaterial().clone();
         this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
 
         gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
