@@ -37,19 +37,15 @@ export class GradientTextureScene {
         data.camera?.lookAt(0, 4, 0);
 
         this.shaderMat = new MeshBasicMaterial({ color: new Color(0xff0000) });
-        //this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
 
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
             color: '#c34dfe'
         };
-        gui.addColor(params, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uColor.value = new Color(_value);
-        });
 
         mesh.material = this.shaderMat;
 
-        gui.add(this, "pulse");
+        // gui.add(this, "pulse");
 
         cameraManMain.makeCameraOrbital(mesh.position);
     }
