@@ -6,7 +6,7 @@ import { GradientTextureMaterial } from "../Materials/GradientTextureMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
-export class GradientTexture {
+export class GradientTextureScene {
     SPEED = 0.1;  // per tick
     TUBE_LENGTH = 8.0;
     TUBE_WIDTH = 0.03;
