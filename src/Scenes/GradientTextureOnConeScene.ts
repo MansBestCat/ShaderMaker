@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
+import { BoxGeometry, Color, Mesh, MeshBasicMaterial, MeshPhongMaterial, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { GradientTextureMaterial } from "../Materials/GradientTextureMaterial";
@@ -26,7 +26,12 @@ export class GradientTextureOnConeScene {
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
-        const mesh = new Mesh(new PlaneGeometry(4.0, 6.0, 1, 1), undefined);
+        const geometry = new BoxGeometry(5.0, 5.0, 5.0);
+        const mesh = new Mesh(geometry, undefined);
+        // const geometry = new ConeGeometry(
+        //     Config.SKYBOX_WIDTH / 2 + 20 - 1, Config.SKYBOX_WIDTH, 4, 1, false, Math.PI / 4);
+        // this.calculateUVs(this.uvFactory, this.geometry);
+
         mesh.position.y = 4.0;
         mesh.rotateX(Math.PI);
         mesh.rotateZ(Math.PI);
@@ -36,8 +41,8 @@ export class GradientTextureOnConeScene {
         data.camera?.lookAt(0, 4, 0);
 
         this.shaderMat = new GradientTextureMaterial();
-
-        mesh.material = this.shaderMat;
+        const matBlank = new MeshBasicMaterial();
+        mesh.material = [this.shaderMat, this.shaderMat, matBlank, matBlank, this.shaderMat, this.shaderMat];
 
         cameraManMain.makeCameraOrbital(mesh.position);
     }
