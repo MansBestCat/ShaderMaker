@@ -7,10 +7,8 @@ import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class GradientTextureScene {
-    SPEED = 0.1;  // per tick
 
     shaderMat?: GradientTextureMaterial;
-    interval?: number;
 
     go(data: Data, cameraManMain: CameraManMain) {
         if (!data.camera) {
@@ -40,23 +38,8 @@ export class GradientTextureScene {
 
         this.shaderMat = new GradientTextureMaterial();
 
-        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
-        const params = {
-            color: '#c34dfe'
-        };
-
         mesh.material = this.shaderMat;
-
-        // gui.add(this, "pulse");
 
         cameraManMain.makeCameraOrbital(mesh.position);
     }
-
-    // pulse() {
-    //     clearInterval(this.interval);
-    //     this.shaderMat!.uniforms.uDistance.value = 0.0;
-    //     this.interval = setInterval(() => {
-    //         this.shaderMat!.uniforms.uDistance.value += this.SPEED;
-    //     }, 16.6);
-    // }
 }

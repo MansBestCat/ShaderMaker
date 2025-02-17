@@ -24,6 +24,7 @@ export class GradientTextureMaterial extends ShaderMaterial {
         uniform vec3 uStartColor;
         uniform vec3 uEndColor;
         uniform sampler2D uTexture;
+        
         varying vec2 vUv;
 
         void main(void) {
