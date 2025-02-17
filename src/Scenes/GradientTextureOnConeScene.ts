@@ -5,7 +5,7 @@ import { Data } from "../Data";
 import { GradientTextureMaterial } from "../Materials/GradientTextureMaterial";
 import { Utility } from "../Utilities/Utility";
 
-export class GradientTextureScene {
+export class GradientTextureOnConeScene {
 
     shaderMat?: GradientTextureMaterial;
 

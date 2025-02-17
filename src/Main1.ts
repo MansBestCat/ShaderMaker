@@ -8,6 +8,7 @@ import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
 import { FogScene } from "./Scenes/FogScene";
 import { Forge } from "./Scenes/Forge";
+import { GradientTextureOnConeScene } from "./Scenes/GradientTextureOnConeScene";
 import { GradientTextureScene } from "./Scenes/GradientTextureScene";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
@@ -56,6 +57,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
         case "GradientTextureScene":
             new GradientTextureScene().go(data, cameraManMain);
+            break;
+        case "GradientTextureOnConeScene":
+            new GradientTextureOnConeScene().go(data, cameraManMain);
             break;
 
         case "Screenshot":
