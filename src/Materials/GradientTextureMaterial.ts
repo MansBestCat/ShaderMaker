@@ -2,8 +2,8 @@ import { Clock, ShaderMaterial, TextureLoader, Vector3 } from "three";
 
 export class GradientTextureMaterial extends ShaderMaterial {
     uniforms = {
-        uStartY: { value: 0.4 },  /*  TODO: Validate. uv.y value, range from 0 to 1 */
-        uEndY: { value: 0.6 },   /* uv.y value, range from 0 to 1 */
+        uStartY: { value: -1.0 },  /*  TODO: Validate start l.t. end. uv.y value, range from 0 to 1 */
+        uEndY: { value: 2.0 },   /* uv.y value, range from 0 to 1 */
         uStartColor: { value: new Vector3(1.0, 0.0, 0.0) },
         uEndColor: { value: new Vector3(1.0, 1.0, 0.0) },
         uTexture: { value: new TextureLoader().load(`http://localhost/textures/crystal.jpg`) }
@@ -11,9 +11,11 @@ export class GradientTextureMaterial extends ShaderMaterial {
     clock!: Clock;
     vertexShader = `
         varying vec2 vUv;
+        varying float vPositionY;
 
         void main() {
             vUv = uv;
+            vPositionY = position.y;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `;
@@ -26,9 +28,10 @@ export class GradientTextureMaterial extends ShaderMaterial {
         uniform sampler2D uTexture;
         
         varying vec2 vUv;
+        varying float vPositionY;
 
         void main(void) {
-            float value = smoothstep(uStartY, uEndY, vUv.y);
+            float value = smoothstep(uStartY, uEndY, vPositionY);
             vec3 gradColor = mix(uStartColor, uEndColor, value);
             vec3 texColor = texture2D(uTexture, vUv).rgb;
             gl_FragColor = vec4(gradColor * texColor, 1.0);
