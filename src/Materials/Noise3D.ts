@@ -1,5 +1,5 @@
 
-export class Noise {
+export class Noise3D {
 
 	static _NOISE_GLSL = `
 		//

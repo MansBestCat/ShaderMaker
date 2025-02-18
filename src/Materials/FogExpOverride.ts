@@ -1,5 +1,5 @@
 import { ShaderChunk, Vector3 } from "three";
-import { Noise } from "./Noise";
+import { Noise3D } from "./Noise3D";
 
 /* 
   This modifies global Threejs fog shader chunks to introduce cameraPosition so the fog depth can be modulated
@@ -50,7 +50,7 @@ export class FogExpOverride {
       #endif
     `;
 
-    ShaderChunk.fog_pars_fragment = Noise._NOISE_GLSL + `
+    ShaderChunk.fog_pars_fragment = Noise3D._NOISE_GLSL + `
       #ifdef USE_FOG
         uniform float uFogTime;
         uniform vec3 uFogColor;
