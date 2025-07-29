@@ -5,9 +5,7 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class TravelingPathSegmentsMaterial extends ShaderMaterial {
     uniforms = {
         uProgress: { value: 0 },
-        uOffset: { value: 0 },           // per segment
         uPulseSpeed: { value: 1.0 },        // controls how fast pulses travel
-        nPulses: { value: 3.0 },        // total number of visible pulses
         uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
         uChevronCount: { value: 1.0 },
         uStripeSpacing: { value: 1.0 }
@@ -25,9 +23,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
 
     fragmentShader = `
         uniform float uProgress;
-        uniform float uOffset;
         uniform float uPulseSpeed;
-        uniform float nPulses;
         uniform vec3 uColor;
         uniform int uChevronCount;    // how many to render simultaneously
         uniform float uStripeSpacing; // vertical distance between chevrons
