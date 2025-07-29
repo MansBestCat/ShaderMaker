@@ -8,7 +8,9 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uOffset: { value: 0 },           // per segment
         uPulseSpeed: { value: 1.0 },        // controls how fast pulses travel
         nPulses: { value: 3.0 },        // total number of visible pulses
-        uColor: { value: new Vector3(0.0, 1.0, 0.7) } // trail tint
+        uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
+        uChevronCount: { value: 1.0 },
+        uStripeSpacing: { value: 1.0 }
         //trailTex:   { value: your1DTexture } // stylized 1D gradient texture
     };
     clock!: Clock;
@@ -28,26 +30,29 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uniform float nPulses;
         uniform vec3 uColor;
         uniform float uIntensityScalar;
+        uniform float uStripeSpacing; // vertical distance between chevrons
+        uniform int uChevronCount;    // how many to render simultaneously
 
         varying vec3 vPosition;
-void main(void) {
-    float y = vPosition.y;
-    float x = abs(vPosition.x);
 
-    float stripeWidth = 0.2;
-    float chevronSlope = 1.5;
+        void main(void) {
+            float y = vPosition.y;
+            float x = abs(vPosition.x);
+
+            float stripeWidth = 0.2;
+            float chevronSlope = 1.5;
     float centerY = -1.0 + uProgress * 2.0;
 
     // Static spatial chevron shape
     float chevron = clamp(1.0 - abs((y - centerY) * chevronSlope - x / stripeWidth), 0.0, 1.0);
-
-    // Time-based pulse: sine wave over progress
-    float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
+          
+            // Time-based pulse: sine wave over progress
+            float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
 
     float tapered = pow(chevron, 2.0) * pulse;
 
     gl_FragColor = vec4(uColor * tapered, 1.0);
-}
+         }
     `;
 
     clone(): this {

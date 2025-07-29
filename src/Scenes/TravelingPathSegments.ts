@@ -44,6 +44,8 @@ export class TravelingPathSegments {
         gui.add(this.shaderMat!.uniforms.uOffset, "value", 0.0, 5.0, 0.01).name("segment offset");
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.nPulses, "value", 1.0, 10.0, 1.0).name("number of pulses");
+        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("uStripeSpacing");
+        gui.add(this.shaderMat!.uniforms.uChevronCount, "value", 1.0, 10.0, 1.0).name("uChevronCount");
         const params = {
             color: '#c34dfe'
         };
