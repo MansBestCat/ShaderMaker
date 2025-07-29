@@ -32,22 +32,13 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         varying vec3 vPosition;
 
         void main(void) {
-
-            // Local wave progress within segment
-            float wave = (uProgress - uOffset) * pulseSpeed;
-
-            // Normalize into repeating 0–1 cycle for chevron shaping
+            float y = vPosition.y; // Or normalize it as needed
+            float wave = ((uProgress - uOffset) * pulseSpeed) - y;
             float phase = fract(wave);
-
-            // Chevron shape: peak at center = 0.5
             float chevron = 1.0 - abs(phase * 2.0 - 1.0);
-
-            // Tapered intensity for sharp center and trailing edges
-            float tapered = pow(chevron, 3.0);  // Adjust exponent for sharpness
-
-            // Final output with color tint and taper
+            float tapered = pow(chevron, 3.0);
             gl_FragColor = vec4(uColor * tapered, 1.0);
-       }
+        }
     `;
 
     clone(): this {

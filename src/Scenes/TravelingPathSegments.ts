@@ -31,7 +31,6 @@ export class TravelingPathSegments {
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
-        // tube
         const mesh = new Mesh(new PlaneGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH), undefined);
         mesh.position.y = this.TUBE_LENGTH * 0.5;
         mesh.rotateY(Math.PI);
@@ -42,7 +41,6 @@ export class TravelingPathSegments {
 
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
 
-        gui.add(this.shaderMat!.uniforms.uProgress, "value", 0.0, 1.0, 0.01).name("pulse progress");
         gui.add(this.shaderMat!.uniforms.uOffset, "value", 0.0, 5.0, 0.01).name("segment offset");
         gui.add(this.shaderMat!.uniforms.pulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.nPulses, "value", 1.0, 10.0, 1.0).name("number of pulses");
