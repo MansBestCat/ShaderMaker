@@ -41,19 +41,17 @@ export class TravelingPathSegments {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
-        this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
 
-        gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
-        gui.add(this.shaderMat.uniforms.uHeadLength, "value", 0.0, 4.0, 0.1).name("head length");
-        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
+        gui.add(this.shaderMat!.uniforms.uProgress, "value", 0.0, 1.0, 0.01).name("pulse progress");
+        gui.add(this.shaderMat!.uniforms.uOffset, "value", 0.0, 5.0, 0.01).name("segment offset");
+        gui.add(this.shaderMat!.uniforms.pulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
+        gui.add(this.shaderMat!.uniforms.nPulses, "value", 1.0, 10.0, 1.0).name("number of pulses");
         const params = {
             color: '#c34dfe'
         };
         gui.addColor(params, 'color').onChange((_value: string) => {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
         });
-        gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
-
 
         mesh.material = this.shaderMat;
 
@@ -64,9 +62,9 @@ export class TravelingPathSegments {
 
     pulse() {
         clearInterval(this.interval);
-        this.shaderMat!.uniforms.uDistance.value = 0.0;
+        this.shaderMat!.uniforms.uProgress.value = 0.0;
         this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uDistance.value += this.SPEED;
+            this.shaderMat!.uniforms.uProgress.value += this.SPEED;
         }, 16.6);
     }
 }
