@@ -42,7 +42,7 @@ export class TravelingPathSegments {
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
 
         gui.add(this.shaderMat!.uniforms.uOffset, "value", 0.0, 5.0, 0.01).name("segment offset");
-        gui.add(this.shaderMat!.uniforms.pulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
+        gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.nPulses, "value", 1.0, 10.0, 1.0).name("number of pulses");
         const params = {
             color: '#c34dfe'
