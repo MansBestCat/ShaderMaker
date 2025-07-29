@@ -40,7 +40,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
             float centerY = -1.0 + uProgress * 2.0;
 
             // chevron shape
-            float chevron = clamp(1.0 - abs((y - centerY) * uStripeAngle - x / uStripeWidth), 0.0, 1.0);
+            float chevron = clamp(1.0 - abs((y - centerY) * -uStripeAngle - x / uStripeWidth), 0.0, 1.0);
           
             // Time-based pulse: sine wave over progress
             float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
