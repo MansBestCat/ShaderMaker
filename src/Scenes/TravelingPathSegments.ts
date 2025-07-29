@@ -7,7 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class TravelingPathSegments {
-    SPEED = 0.005;  // per tick
+    SPEED = 0.007;  // per tick
     PATH_SEGMENT_LENGTH = 8.0;
     PATH_SEGMENT_WIDTH = 0.7;
 
@@ -42,8 +42,8 @@ export class TravelingPathSegments {
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
         gui.add(this, "SPEED", 0.005, 0.02, 0.001).name("distance per tick");
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
-        gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 1.0, 2.0, 0.01).name("stripe width");
-        gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 2.2, 3.0, 0.1).name("stripe angle");
+        gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 0.2, 2.0, 0.01).name("stripe width");
+        gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 0.5, 3.0, 0.1).name("stripe angle");
         gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("stripe spacing");
         gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("stripe count");
         const params = {

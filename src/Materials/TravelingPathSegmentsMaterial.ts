@@ -5,10 +5,10 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class TravelingPathSegmentsMaterial extends ShaderMaterial {
     uniforms = {
         uProgress: { value: 0 },
-        uPulseSpeed: { value: 1.0 },        // controls how fast pulses travel
+        uPulseSpeed: { value: 0.7 },        // controls how fast pulses travel
         uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
-        uStripeWidth: { value: 1.0 },
-        uStripeAngle: { value: 2.2 },
+        uStripeWidth: { value: 0.5 },
+        uStripeAngle: { value: 0.8 },
         uStripeCount: { value: 1.0 },
         uStripeSpacing: { value: 1.5 }
     };
@@ -47,7 +47,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
 
             float tapered = pow(chevron, 2.0) * pulse;
 
-            gl_FragColor = vec4(uColor * (0.5 + 0.5 * tapered), 1.0);
+            gl_FragColor = vec4(uColor * (0.35 + 0.75 * tapered), 1.0);
          }
     `;
 
