@@ -7,7 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class TravelingPathSegments {
-    SPEED = 0.1;  // per tick
+    SPEED = 0.01;  // per tick
     TUBE_LENGTH = 8.0;
     TUBE_WIDTH = 1.0;
 
@@ -40,14 +40,14 @@ export class TravelingPathSegments {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
-
-        gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
-        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("uStripeSpacing");
-        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("uStripeCount");
+        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
+        gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
+        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("stripe spacing");
+        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("stripe count");
         const params = {
             color: '#c34dfe'
         };
-        gui.addColor(params, 'color').onChange((_value: string) => {
+        gui.addColor(params, 'color').name("stripe color").onChange((_value: string) => {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
         });
 
