@@ -47,7 +47,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
 
             float tapered = pow(chevron, 2.0) * pulse;
 
-            gl_FragColor = vec4(uColor * tapered, 1.0);
+            gl_FragColor = vec4(uColor * (0.5 + 0.5 * tapered), 1.0);
          }
     `;
 
