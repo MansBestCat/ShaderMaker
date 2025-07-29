@@ -7,8 +7,8 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uProgress: { value: 0 },
         uPulseSpeed: { value: 1.0 },        // controls how fast pulses travel
         uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
-        uStripeWidth: { value: 0.2 },
-        uStripeAngle: { value: 1 },
+        uStripeWidth: { value: 1.0 },
+        uStripeAngle: { value: 2.2 },
         uStripeCount: { value: 1.0 },
         uStripeSpacing: { value: 1.5 }
     };
