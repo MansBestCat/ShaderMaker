@@ -8,8 +8,8 @@ import { Utility } from "../Utilities/Utility";
 /** Runs under manual control, has a color picker */
 export class TravelingPathSegments {
     SPEED = 0.005;  // per tick
-    TUBE_LENGTH = 8.0;
-    TUBE_WIDTH = 1.0;
+    PATH_SEGMENT_LENGTH = 8.0;
+    PATH_SEGMENT_WIDTH = 0.7;
 
     shaderMat?: TravelingPathSegmentsMaterial;
     interval?: number;
@@ -31,8 +31,8 @@ export class TravelingPathSegments {
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
-        const mesh = new Mesh(new PlaneGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH), undefined);
-        mesh.position.y = this.TUBE_LENGTH * 0.5;
+        const mesh = new Mesh(new PlaneGeometry(this.PATH_SEGMENT_WIDTH, this.PATH_SEGMENT_LENGTH), undefined);
+        mesh.position.y = this.PATH_SEGMENT_LENGTH * 0.5;
         mesh.rotateY(Math.PI);
         data.scene.add(mesh);
 
