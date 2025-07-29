@@ -7,7 +7,7 @@ import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class TravelingPathSegments {
-    SPEED = 0.01;  // per tick
+    SPEED = 0.005;  // per tick
     TUBE_LENGTH = 8.0;
     TUBE_WIDTH = 1.0;
 
@@ -40,7 +40,7 @@ export class TravelingPathSegments {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
-        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
+        gui.add(this, "SPEED", 0.005, 0.02, 0.001).name("distance per tick");
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 0.2, 1.0, 0.01).name("stripe width");
         gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 1.5, 3.0, 0.1).name("stripe angle");
