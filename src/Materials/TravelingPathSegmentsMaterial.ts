@@ -29,9 +29,8 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uniform float uPulseSpeed;
         uniform float nPulses;
         uniform vec3 uColor;
-        uniform float uIntensityScalar;
-        uniform float uStripeSpacing; // vertical distance between chevrons
         uniform int uChevronCount;    // how many to render simultaneously
+        uniform float uStripeSpacing; // vertical distance between chevrons
 
         varying vec3 vPosition;
 
