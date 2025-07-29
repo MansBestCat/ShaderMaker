@@ -43,7 +43,7 @@ export class TravelingPathSegments {
 
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.1, 10.0, 0.1).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("uStripeSpacing");
-        gui.add(this.shaderMat!.uniforms.uChevronCount, "value", 1.0, 10.0, 1.0).name("uChevronCount");
+        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("uStripeCount");
         const params = {
             color: '#c34dfe'
         };

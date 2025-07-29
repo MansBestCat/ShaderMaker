@@ -7,7 +7,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uProgress: { value: 0 },
         uPulseSpeed: { value: 1.0 },        // controls how fast pulses travel
         uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
-        uChevronCount: { value: 1.0 },
+        uStripeCount: { value: 1.0 },
         uStripeSpacing: { value: 1.0 }
         //trailTex:   { value: your1DTexture } // stylized 1D gradient texture
     };
@@ -25,7 +25,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uniform float uProgress;
         uniform float uPulseSpeed;
         uniform vec3 uColor;
-        uniform int uChevronCount;    // how many to render simultaneously
+        uniform int uStripeCount;    // how many to render simultaneously
         uniform float uStripeSpacing; // vertical distance between chevrons
 
         varying vec3 vPosition;
