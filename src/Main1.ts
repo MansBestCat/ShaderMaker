@@ -6,9 +6,9 @@ import { FogExpOverride } from "./Materials/FogExpOverride";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
-import { FogScene } from "./Scenes/FogScene";
+import { Fog } from "./Scenes/Fog";
 import { Forge } from "./Scenes/Forge";
-import { GradientTextureScene } from "./Scenes/GradientTextureScene";
+import { GradientTexture } from "./Scenes/GradientTexture";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
 import { Screenshot } from "./Scenes/Screenshot";
@@ -49,15 +49,15 @@ window.addEventListener("DOMContentLoaded", async () => {
         case "TubePulseOnPlane":
             new TubePulseOnPlane().go(data, cameraManMain);
             break;
-        case "FogScene":
-            const fogScene = new FogScene();
+        case "Fog":
+            const fog = new Fog();
             const fogExpOverride = new FogExpOverride();
-            fogScene.go(data, cameraManMain, fogExpOverride);
+            fog.go(data, cameraManMain, fogExpOverride);
             break;
-        case "GradientTextureScene":
-            new GradientTextureScene().go(data, cameraManMain);
+        case "GradientTexture":
+            new GradientTexture().go(data, cameraManMain);
             break;
-        case "TravelingPathSegmentsScene":
+        case "TravelingPathSegments":
             new TravelingPathSegments().go(data, cameraManMain);
             break;
 

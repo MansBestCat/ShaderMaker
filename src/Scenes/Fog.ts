@@ -5,7 +5,7 @@ import { Data } from "../Data";
 import { FogExpOverride } from "../Materials/FogExpOverride";
 import { Utility } from "../Utilities/Utility";
 
-export class FogScene {
+export class Fog {
 
   go(data: Data, cameraManMain: CameraManMain, fogExpOverride: FogExpOverride) {
     if (!data.camera) {

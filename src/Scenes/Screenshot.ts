@@ -4,7 +4,7 @@ import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { Utility } from "../Utilities/Utility";
 
-/** A bare scene, shows how screenshot capability might be built into future scenes */
+/** A bare, shows how screenshot capability might be built into futures */
 export class Screenshot {
     constructor(public data: Data) { }
 

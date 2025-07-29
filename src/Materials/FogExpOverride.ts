@@ -5,7 +5,7 @@ import { Noise3D } from "./Noise3D";
   This modifies global Threejs fog shader chunks to introduce cameraPosition so the fog depth can be modulated
   This alone does not make fog. For a scene to participate in fog it needs:
   1. scene.fog = new FogExp2
-  2. materials in the scene need to assign onBeforeCompile=modifyShader
+  2. materials in the need to assign onBeforeCompile=modifyShader
 */
 export class FogExpOverride {
   uniforms = {
