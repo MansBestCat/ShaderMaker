@@ -9,7 +9,7 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
         uStripeWidth: { value: 0.5 },
         uStripeAngle: { value: 0.8 },
-        uStripeCount: { value: 1.0 },
+        uStripeCount: { value: 3.0 },
         uStripeSpacing: { value: 1.5 }
     };
     clock!: Clock;
@@ -37,16 +37,22 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
             float y = vPosition.y;
             float x = abs(vPosition.x);
 
-            float centerY = -1.0 + uProgress * 2.0;
+            float tapered = 0.0;
+            for (int i = 0; i < uStripeCount; i++) {
 
-            // chevron shape
-            float chevron = clamp(1.0 - abs((y - centerY) * -uStripeAngle - x / uStripeWidth), 0.0, 1.0);
-          
-            // Time-based pulse: sine wave over progress
-            float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
+                float offsetY = float(i) * uStripeSpacing;
+                float centerY = -1.0 + uProgress * 2.0 - offsetY;
+        
+                float chevron = clamp(1.0 - abs((y - centerY) * -uStripeAngle - x / uStripeWidth), 0.0, 1.0);
+            
+                // Time-based pulse: sine wave over progress
+                float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
 
-            float tapered = pow(chevron, 2.0) * pulse;
+                tapered += pow(chevron, 2.0) * pulse;
 
+            }
+
+            tapered = clamp(tapered, 0.0, 1.0);    
             gl_FragColor = vec4(uColor * (0.35 + 0.75 * tapered), 1.0);
          }
     `;
