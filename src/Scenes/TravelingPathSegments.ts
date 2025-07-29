@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
+import { BoxGeometry, Clock, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { TravelingPathSegmentsMaterial } from "../Materials/TravelingPathSegmentsMaterial";
@@ -44,8 +44,8 @@ export class TravelingPathSegments {
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 0.2, 2.0, 0.01).name("stripe width");
         gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 0.5, 3.0, 0.1).name("stripe angle");
-        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("stripe spacing");
-        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("stripe count");
+        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 16.0, 1.0).name("stripe count");
+        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 4.0, 0.01).name("stripe spacing");
         const params = {
             color: '#c34dfe'
         };
@@ -55,16 +55,15 @@ export class TravelingPathSegments {
 
         mesh.material = this.shaderMat;
 
-        gui.add(this, "pulse");
-
         cameraManMain.makeCameraOrbital(mesh.position);
-    }
 
-    pulse() {
-        clearInterval(this.interval);
-        this.shaderMat!.uniforms.uProgress.value = 0.0;
-        this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uProgress.value += this.SPEED;
+        const loopDuration = 2.0; // seconds per loop
+        const clock = new Clock();
+
+        setInterval(() => {
+
+            this.shaderMat!.uniforms.uProgress.value = (clock.getElapsedTime() % loopDuration)
         }, 16.6);
     }
+
 }
