@@ -42,6 +42,8 @@ export class TravelingPathSegments {
         this.shaderMat = new TravelingPathSegmentsMaterial().clone();
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
+        gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 0.2, 1.0, 0.01).name("stripe width");
+        gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 1.5, 3.0, 0.1).name("stripe angle");
         gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 2.0, 0.01).name("stripe spacing");
         gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 10.0, 1.0).name("stripe count");
         const params = {
