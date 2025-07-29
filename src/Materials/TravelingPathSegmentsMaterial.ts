@@ -31,14 +31,16 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
 
         varying vec3 vPosition;
 
-        void main(void) {
-            float y = vPosition.y; // Or normalize it as needed
-            float wave = ((uProgress - uOffset) * pulseSpeed) - y;
-            float phase = fract(wave);
-            float chevron = 1.0 - abs(phase * 2.0 - 1.0);
-            float tapered = pow(chevron, 3.0);
+void main(void) {
+            float y = vPosition.y;
+            float x = abs(vPosition.x);         // symmetry for one stripe
+            float stripeWidth = 0.2;            // horizontal thickness
+            float chevronSlope = 1.5;           // controls angle of chevron arms
+            float centerY = 0.0;
+            float chevron = clamp(1.0 - abs((y - centerY) * chevronSlope - x / stripeWidth), 0.0, 1.0);
+            float tapered = pow(chevron, 2.0);  // soft edge falloff
             gl_FragColor = vec4(uColor * tapered, 1.0);
-        }
+}
     `;
 
     clone(): this {
