@@ -4,9 +4,9 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 
 export class TravelingPathSegmentsMaterial extends ShaderMaterial {
     uniforms = {
-        uProgress: { value: 0 },
-        uPulseSpeed: { value: 0.7 },        // controls how fast pulses travel
-        uColor: { value: new Vector3(0.0, 1.0, 0.7) }, // trail tint
+        uProgress: { value: 0 },            // goes up. controls stripe position
+        uPulseSpeed: { value: 0.7 },        // strobe effect speed
+        uColor: { value: new Vector3(0.0, 1.0, 0.7) },
         uStripeWidth: { value: 0.5 },
         uStripeAngle: { value: 3.0 },
         uStripeCount: { value: 8.0 },
@@ -36,20 +36,14 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         void main(void) {
             float y = vPosition.y;
             float x = abs(vPosition.x);
-
             float tapered = 0.0;
+            float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
+            
             for (int i = 0; i < uStripeCount; i++) {
-
                 float offsetY = float(i) * uStripeSpacing;
                 float centerY = -1.0 + uProgress * 2.0 - offsetY;
-        
                 float chevron = clamp(1.0 - abs((y - centerY) * -uStripeAngle - x / uStripeWidth), 0.0, 1.0);
-            
-                // Time-based pulse: sine wave over progress
-                float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
-
                 tapered += pow(chevron, 2.0) * pulse;
-
             }
 
             tapered = clamp(tapered, 0.0, 1.0);    
