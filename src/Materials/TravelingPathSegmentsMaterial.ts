@@ -39,12 +39,9 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
             float tapered = 0.0;
             float pulse = 0.5 + 0.5 * sin(uProgress * uPulseSpeed * 6.283); // 0 → 1
             
-            for (int i = 0; i < uStripeCount; i++) {
-                float offsetY = float(i) * uStripeSpacing;
-                float centerY = -1.0 + uProgress * 2.0 - offsetY;
+            float centerY = uProgress * 2.0 ;
                 float chevron = clamp(1.0 - abs((y - centerY) * -uStripeAngle - x / uStripeWidth), 0.0, 1.0);
                 tapered += pow(chevron, 2.0) * pulse;
-            }
 
             tapered = clamp(tapered, 0.0, 1.0);    
             gl_FragColor = vec4(uColor * (0.35 + 0.75 * tapered), 1.0);
