@@ -8,7 +8,7 @@ import { Utility } from "../Utilities/Utility";
 /** Runs under manual control, has a color picker */
 export class TravelingPathSegments {
     SPEED = 0.007;  // per tick
-    PATH_SEGMENT_LENGTH = 8.0;
+    PATH_SEGMENT_LENGTH = 1.0; // MESH_LENGTH in the shader
     PATH_SEGMENT_WIDTH = 0.3;
 
     shaderMat?: TravelingPathSegmentsMaterial;
@@ -29,6 +29,7 @@ export class TravelingPathSegments {
         };
 
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
+        ground.position.y -= 0.5;
         data.scene.add(ground);
 
         const mesh = new Mesh(new PlaneGeometry(this.PATH_SEGMENT_WIDTH, this.PATH_SEGMENT_LENGTH), undefined);
@@ -44,8 +45,6 @@ export class TravelingPathSegments {
         gui.add(this.shaderMat!.uniforms.uPulseSpeed, "value", 0.01, 2.0, 0.01).name("pulse speed");
         gui.add(this.shaderMat!.uniforms.uStripeWidth, "value", 0.2, 2.0, 0.01).name("stripe width");
         gui.add(this.shaderMat!.uniforms.uStripeAngle, "value", 0.5, 3.0, 0.1).name("stripe angle");
-        gui.add(this.shaderMat!.uniforms.uStripeCount, "value", 1.0, 16.0, 1.0).name("stripe count");
-        gui.add(this.shaderMat!.uniforms.uStripeSpacing, "value", 0.5, 4.0, 0.01).name("stripe spacing");
         const params = {
             color: '#c34dfe'
         };
@@ -61,7 +60,6 @@ export class TravelingPathSegments {
         const clock = new Clock();
 
         setInterval(() => {
-
             this.shaderMat!.uniforms.uProgress.value = (clock.getElapsedTime() % loopDuration)
         }, 16.6);
     }
