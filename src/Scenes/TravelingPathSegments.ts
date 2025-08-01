@@ -9,7 +9,7 @@ import { Utility } from "../Utilities/Utility";
 export class TravelingPathSegments {
     SPEED = 0.007;  // per tick
     PATH_SEGMENT_LENGTH = 8.0;
-    PATH_SEGMENT_WIDTH = 0.7;
+    PATH_SEGMENT_WIDTH = 0.3;
 
     shaderMat?: TravelingPathSegmentsMaterial;
     interval?: number;
