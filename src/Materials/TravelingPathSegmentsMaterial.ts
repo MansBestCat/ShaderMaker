@@ -5,7 +5,6 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class TravelingPathSegmentsMaterial extends ShaderMaterial {
     uniforms = {
         uProgress: { value: 0 },            // goes up. controls stripe position
-        uPulseSpeed: { value: 0.7 },        // strobe effect speed
         uColor: { value: new Vector3(0.0, 1.0, 0.7) },
         uStripeWidth: { value: 0.5 },
         uStripeAngle: { value: 3.0 }
@@ -24,7 +23,6 @@ export class TravelingPathSegmentsMaterial extends ShaderMaterial {
         const float MESH_LENGTH = 1.0;
         
         uniform float uProgress;
-        uniform float uPulseSpeed;
         uniform vec3 uColor;
         uniform float uStripeWidth;
         uniform float uStripeAngle;
