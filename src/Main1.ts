@@ -12,6 +12,7 @@ import { GradientTexture } from "./Scenes/GradientTexture";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
 import { Screenshot } from "./Scenes/Screenshot";
+import { SmokePlume } from "./Scenes/SmokePlume";
 import { TravelingPathSegments } from "./Scenes/TravelingPathSegments";
 import { TubePulseOnPlane } from "./Scenes/TubePulseOnPlane";
 
@@ -59,6 +60,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "TravelingPathSegments":
             new TravelingPathSegments().go(data, cameraManMain);
+            break;
+        case "SmokePlume":
+            new SmokePlume().go(data, cameraManMain);
             break;
 
         case "Screenshot":
