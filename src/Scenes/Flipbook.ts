@@ -1,4 +1,4 @@
-import { BoxGeometry, ClampToEdgeWrapping, Color, LinearFilter, LinearMipMapLinearFilter, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight, Texture, TextureLoader } from "three";
+import { BoxGeometry, ClampToEdgeWrapping, Clock, Color, LinearFilter, LinearMipMapLinearFilter, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight, Texture, TextureLoader } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { FlipbookMaterial } from "../Materials/FlipbookMaterial";
@@ -51,10 +51,14 @@ export class Flipbook {
             };
 
             mesh.material = this.shaderMat!;
-
+            const clock = new Clock();
+            const fps = 60;
+            const totalFrames = 64;
             setInterval(() => {
-                this.shaderMat!.uniforms.frame.value += 0.5; // adjust speed
-            }, 16.6);
+                const elapsed = clock.getElapsedTime();
+                const frameIndex = Math.floor(elapsed * fps) % totalFrames;
+                this.shaderMat!.uniforms.frame.value = frameIndex;
+            }, 16.6666);
 
         }).catch(() => {
             console.error(`${Utility.timestamp()} Could not get resource ${url}`);
