@@ -24,7 +24,7 @@ export class Flipbook {
         ground.position.y -= 0.5;
         data.scene.add(ground);
 
-        const mesh = new Mesh(new PlaneGeometry(5, 5, 5), undefined);
+        const mesh = new Mesh(new PlaneGeometry(5, 5), undefined);
         mesh.position.y = 3.5;
         mesh.rotateY(Math.PI);
         data.scene.add(mesh);
