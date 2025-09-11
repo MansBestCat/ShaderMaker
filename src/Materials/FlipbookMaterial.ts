@@ -26,7 +26,7 @@ export class FlipbookMaterial extends ShaderMaterial {
 
         void main() {
             float totalFrames = framesPerRow * framesPerCol;
-            float currentFrame = floor(mod(frame, totalFrames));
+            float currentFrame = floor(mod(frame, totalFrames)); // 0-63
 
             float row = floor(currentFrame / framesPerRow);
             float col = framesPerRow - 1.0 - mod(currentFrame, framesPerRow);
