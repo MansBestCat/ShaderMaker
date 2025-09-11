@@ -52,7 +52,7 @@ export class Flipbook {
 
             mesh.material = this.shaderMat!;
             const clock = new Clock();
-            const fps = 60;
+            const fps = 2;
             const totalFrames = 64;
             setInterval(() => {
                 const elapsed = clock.getElapsedTime();
