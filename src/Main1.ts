@@ -6,6 +6,7 @@ import { FogExpOverride } from "./Materials/FogExpOverride";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
+import { Flipbook } from "./Scenes/Flipbook";
 import { Fog } from "./Scenes/Fog";
 import { Forge } from "./Scenes/Forge";
 import { GradientTexture } from "./Scenes/GradientTexture";
@@ -63,6 +64,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "SmokePlume":
             new SmokePlume().go(data, cameraManMain);
+            break;
+        case "Flipbook":
+            new Flipbook().go(data, cameraManMain);
             break;
 
         case "Screenshot":
