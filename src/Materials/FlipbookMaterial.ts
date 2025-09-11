@@ -18,21 +18,21 @@ export class FlipbookMaterial extends ShaderMaterial {
 
     fragmentShader = `
         uniform sampler2D flipbook;
-        uniform float frame;
-        uniform float framesPerRow;
-        uniform float framesPerCol;
+        uniform float frameIndex;
+        uniform float cols;
+        uniform float rows;
 
         varying vec2 vUv;
 
         void main() {
-            float totalFrames = framesPerRow * framesPerCol;
-            float currentFrame = floor(mod(frame, totalFrames)); // 0-63
+            float totalFrames = cols * rows;
+            float currentFrame = floor(mod(frameIndex, totalFrames)); // 0-63
 
-            float row = framesPerCol - 1.0 -floor(currentFrame / framesPerRow);
-            float col = mod(currentFrame, framesPerRow);
+            float row = rows - 1.0 -floor(currentFrame / cols);
+            float col = mod(currentFrame, cols);
 
-            vec2 uvOffset = vec2(col / framesPerRow, row / framesPerCol);
-            vec2 uvScale = vec2(1.0 / framesPerRow, 1.0 / framesPerCol);
+            vec2 uvOffset = vec2(col / cols, row / rows);
+            vec2 uvScale = vec2(1.0 / cols, 1.0 / rows);
 
             vec2 uv = uvOffset + vUv * uvScale;
             vec4 tex = texture2D(flipbook, uv);

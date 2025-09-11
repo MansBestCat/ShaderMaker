@@ -48,9 +48,9 @@ export class Flipbook {
             }
             this.shaderMat!.uniforms = {
                 flipbook: { value: texture },
-                frame: { value: 0 },
-                framesPerRow: { value: spriteInfo.cols },
-                framesPerCol: { value: spriteInfo.rows }
+                frameIndex: { value: 0 },
+                cols: { value: spriteInfo.cols },
+                rows: { value: spriteInfo.rows }
             };
 
             mesh.material = this.shaderMat!;
@@ -60,7 +60,7 @@ export class Flipbook {
             setInterval(() => {
                 const elapsed = clock.getElapsedTime();
                 const frameIndex = Math.floor(elapsed * fps) % totalFrames;
-                this.shaderMat!.uniforms.frame.value = frameIndex;
+                this.shaderMat!.uniforms.frameIndex.value = frameIndex;
             }, 16.6666);
 
         }).catch(() => {
