@@ -50,6 +50,8 @@ export class Flipbook {
                 framesPerCol: { value: 8 }
             };
 
+            mesh.material = this.shaderMat!;
+
             setInterval(() => {
                 this.shaderMat!.uniforms.frame.value += 0.5; // adjust speed
             }, 16.6);
@@ -59,7 +61,6 @@ export class Flipbook {
 
         });
 
-        mesh.material = this.shaderMat;
 
         cameraManMain.makeCameraOrbital(mesh.position);
 
