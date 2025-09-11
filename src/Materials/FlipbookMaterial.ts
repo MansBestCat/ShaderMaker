@@ -28,8 +28,8 @@ export class FlipbookMaterial extends ShaderMaterial {
             float totalFrames = framesPerRow * framesPerCol;
             float currentFrame = floor(mod(frame, totalFrames)); // 0-63
 
-            float row = floor(currentFrame / framesPerRow);
-            float col = framesPerRow - 1.0 - mod(currentFrame, framesPerRow);
+            float row = framesPerCol - 1.0 -floor(currentFrame / framesPerRow);
+            float col = mod(currentFrame, framesPerRow);
 
             vec2 uvOffset = vec2(col / framesPerRow, row / framesPerCol);
             vec2 uvScale = vec2(1.0 / framesPerRow, 1.0 / framesPerCol);
