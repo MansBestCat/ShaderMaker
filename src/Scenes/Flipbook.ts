@@ -43,17 +43,20 @@ export class Flipbook {
             texture.minFilter = LinearMipMapLinearFilter;
             texture.magFilter = LinearFilter;
 
+            const spriteInfo = {
+                rows: 8, cols: 8
+            }
             this.shaderMat!.uniforms = {
                 flipbook: { value: texture },
                 frame: { value: 0 },
-                framesPerRow: { value: 8 },
-                framesPerCol: { value: 8 }
+                framesPerRow: { value: spriteInfo.cols },
+                framesPerCol: { value: spriteInfo.rows }
             };
 
             mesh.material = this.shaderMat!;
             const clock = new Clock();
             const fps = 2;
-            const totalFrames = 64;
+            const totalFrames = spriteInfo.cols * spriteInfo.rows;
             setInterval(() => {
                 const elapsed = clock.getElapsedTime();
                 const frameIndex = Math.floor(elapsed * fps) % totalFrames;
