@@ -1,47 +1,62 @@
-import { Clock, ShaderMaterial, Vector3 } from "three";
+import { AdditiveBlending, BackSide, ShaderMaterial, Vector3 } from "three";
 
 export class HaloMaterial extends ShaderMaterial {
-    uniforms = {
-        uDistance: { value: 0.0 },
-        uAttackLineLength: { value: 0.0 },
-        uPulseLength: { value: 3.0 },
-        uColor: { value: new Vector3(0.8, 0.3, 1.0) },
-        uIntensityScalar: { value: 0.9 },
-        uSoftness: { value: 1.0 }
-    };
     transparent = true;
-    clock!: Clock;
+    blending = AdditiveBlending;
+    side = BackSide;
+
+    uniforms = {
+        uColor: { value: new Vector3(0.8, 0.3, 1.0) },
+        uIntensity: { value: 1.5 },
+        uPower: { value: 6.0 },
+        uThickness: { value: 0.1 },
+        uFresnelFalloff: { value: 0.05 }
+    };
+
     vertexShader = `
-        varying vec3 vPosition; 
+        uniform float uThickness;
+        
+        varying vec3 vNormal;
+        varying vec3 vViewDirection;
+        varying float vViewDepth; // Critical for consistent fade
 
         void main() {
-            vPosition = position;         
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); 
+            // Standard view matrix transformation
+            vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
+            
+            vec3 normalView = normalize(normalMatrix * normal);
+            vec4 displacedPosition = viewPosition + vec4(normalView, 0.0) * uThickness;
+
+             vViewDepth = viewPosition.z - displacedPosition.z; 
+
+            // Pass other varyings
+            vNormal = normalView;
+            vViewDirection = normalize(-viewPosition.xyz);
+
+            gl_Position = projectionMatrix * displacedPosition;
         }
     `;
 
     fragmentShader = `
-        uniform float uDistance;
-        uniform float uAttackLineLength;
-        uniform float uPulseLength;
         uniform vec3 uColor;
-        uniform float uIntensityScalar;
-        uniform float uSoftness;
+        uniform float uIntensity;
+        uniform float uPower;
+        uniform float uFresnelFalloff;
 
-        varying vec3 vPosition;
+        varying vec3 vNormal;
+        varying vec3 vViewDirection;
+        varying float vViewDepth;
 
-        void main(void) {
+        void main() {
+            float rim = 1.0 - max(dot(vNormal, vViewDirection), 0.0);
+            float glowIntensity = pow(rim, uPower);
+
+            float viewFade = smoothstep(0.0, uFresnelFalloff, vViewDepth);
             
-            float lineY = vPosition.y + (uAttackLineLength * 0.5); 
-            float pulseHead = uDistance * uAttackLineLength;
-            float pulseTail = pulseHead - uPulseLength;
-            
-            float dHead = smoothstep(pulseHead, pulseHead - uSoftness, lineY);
-            float dTail = smoothstep(pulseTail, pulseTail + uSoftness, lineY);
-            float mask = dHead * dTail;
+            float finalAlpha = glowIntensity * viewFade * uIntensity;
 
-            vec3 color = uColor * uIntensityScalar * mask;
-            gl_FragColor = vec4(color, mask);
+            vec3 finalColor = uColor * finalAlpha;
+            gl_FragColor = vec4(finalColor, finalAlpha);
         }
     `;
 
