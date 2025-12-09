@@ -51,6 +51,7 @@ export class AttackLine {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
         });
         gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
+        gui.add(this.shaderMat.uniforms.uSoftness, "value", 0.5, 5.0, 0.1).name("softness length");
 
 
         mesh.material = this.shaderMat;

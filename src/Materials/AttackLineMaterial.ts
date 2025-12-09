@@ -6,7 +6,8 @@ export class AttackLineMaterial extends ShaderMaterial {
         uAttackLineLength: { value: 0.0 },
         uPulseLength: { value: 3.0 },
         uColor: { value: new Vector3(0.8, 0.3, 1.0) },
-        uIntensityScalar: { value: 0.9 }
+        uIntensityScalar: { value: 0.9 },
+        uSoftness: { value: 1.0 }
     };
     transparent = true;
     clock!: Clock;
@@ -24,7 +25,8 @@ export class AttackLineMaterial extends ShaderMaterial {
         uniform float uAttackLineLength;
         uniform float uPulseLength;
         uniform vec3 uColor;
-        uniform float uIntensityScalar; // Intensity multiplier for the glow
+        uniform float uIntensityScalar;
+        uniform float uSoftness;
 
         varying vec3 vPosition;
 
@@ -34,12 +36,9 @@ export class AttackLineMaterial extends ShaderMaterial {
             float pulseHead = uDistance * uAttackLineLength;
             float pulseTail = pulseHead - uPulseLength;
             
-            float softness = 1.3;
-            float dHead = smoothstep(pulseHead, pulseHead - softness, lineY);
-            float dTail = smoothstep(pulseTail, pulseTail + softness, lineY);
+            float dHead = smoothstep(pulseHead, pulseHead - uSoftness, lineY);
+            float dTail = smoothstep(pulseTail, pulseTail + uSoftness, lineY);
             float mask = dHead * dTail;
-
-            if (mask <= 0.0) discard;
 
             vec3 color = uColor * uIntensityScalar * mask;
             gl_FragColor = vec4(color, mask);
