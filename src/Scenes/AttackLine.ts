@@ -3,7 +3,6 @@ import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { AttackLineMaterial } from "../Materials/AttackLineMaterial";
-import { TubePulseMaterial } from "../Materials/TubePulseMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
@@ -40,11 +39,10 @@ export class AttackLine {
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
-        this.shaderMat = new TubePulseMaterial().clone();
-        this.shaderMat.uniforms.uTubeLength.value = this.TUBE_LENGTH;
+        this.shaderMat = new AttackLineMaterial().clone();
+        this.shaderMat.uniforms.uAttackLineLength.value = this.TUBE_LENGTH;
 
-        gui.add(this.shaderMat.uniforms.uBoltLength, "value", 0.0, 4.0, 0.1).name("bolt length");
-        gui.add(this.shaderMat.uniforms.uHeadLength, "value", 0.0, 4.0, 0.1).name("head length");
+        gui.add(this.shaderMat.uniforms.uPulseLength, "value", 0.0, 4.0, 0.1).name("pulse length");
         gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
         const params = {
             color: '#c34dfe'

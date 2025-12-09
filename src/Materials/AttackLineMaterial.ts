@@ -3,9 +3,8 @@ import { Clock, ShaderMaterial, Vector3 } from "three";
 export class AttackLineMaterial extends ShaderMaterial {
     uniforms = {
         uDistance: { value: 0.0 },
-        uTubeLength: { value: 0.0 },
-        uBoltLength: { value: 3.0 },
-        uHeadLength: { value: 0.3 },
+        uAttackLineLength: { value: 0.0 },
+        uPulseLength: { value: 3.0 },
         uColor: { value: new Vector3(0.8, 0.3, 1.0) },
         uIntensityScalar: { value: 4.35 }
     };
@@ -19,30 +18,32 @@ export class AttackLineMaterial extends ShaderMaterial {
         }
     `;
 
-    fragmentShader = `   
+    fragmentShader = `
         uniform float uDistance;
-        uniform float uTubeLength;
-        uniform float uBoltLength;
-        uniform float uHeadLength;
+        uniform float uAttackLineLength;
+        uniform float uPulseLength;
         uniform vec3 uColor;
-        uniform float uIntensityScalar;
+        uniform float uIntensityScalar; // Intensity multiplier for the glow
 
         varying vec3 vPosition;
 
         void main(void) {
+            
+            float lineY = vPosition.y + (uAttackLineLength * 0.5); 
+             float pulseHead = uDistance * uAttackLineLength;
+            float pulseTail = pulseHead - uPulseLength;
 
-            float halfLength = uTubeLength * 0.5;
+            // Check if the fragment is within the pulse's moving window
+            if (lineY > pulseTail && lineY < pulseHead) {
+                // within the window
+                
+                // Optional: Fade the pulse's tail for a smoother look (replaces your head/tail logic)
+                float fadeAlpha = (lineY - pulseTail) / uPulseLength; // 0 at tail, 1 at head
 
-            if (vPosition.y > -halfLength + uDistance  || vPosition.y < -halfLength + uDistance - uBoltLength) {
-                discard;
-
-            } else if (vPosition.y < -halfLength + uDistance && vPosition.y > -halfLength + uDistance - uHeadLength) {
-                // head
-                gl_FragColor = vec4(uColor, 1.0) * uIntensityScalar;
+                gl_FragColor = vec4(uColor * uIntensityScalar, fadeAlpha); 
 
             } else {
-                // tail
-                gl_FragColor = vec4(uColor, 1.0);
+                discard;
             }
             
         }
