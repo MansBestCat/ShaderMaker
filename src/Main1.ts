@@ -3,6 +3,7 @@ import { CameraManMain } from "./Camera/CameraManMain";
 import { Data } from "./Data";
 import { GameEngine } from "./GameEngine";
 import { FogExpOverride } from "./Materials/FogExpOverride";
+import { AttackLine } from "./Scenes/AttackLine";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
 import { DropZone } from "./Scenes/DropZone";
@@ -67,6 +68,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "Flipbook":
             new Flipbook().go(data, cameraManMain);
+            break;
+        case "AttackLine":
+            new AttackLine().go(data, cameraManMain);
             break;
 
         case "Screenshot":
