@@ -6,8 +6,9 @@ export class AttackLineMaterial extends ShaderMaterial {
         uAttackLineLength: { value: 0.0 },
         uPulseLength: { value: 3.0 },
         uColor: { value: new Vector3(0.8, 0.3, 1.0) },
-        uIntensityScalar: { value: 4.35 }
+        uIntensityScalar: { value: 0.9 }
     };
+    transparent = true;
     clock!: Clock;
     vertexShader = `
         varying vec3 vPosition; 
@@ -30,22 +31,18 @@ export class AttackLineMaterial extends ShaderMaterial {
         void main(void) {
             
             float lineY = vPosition.y + (uAttackLineLength * 0.5); 
-             float pulseHead = uDistance * uAttackLineLength;
+            float pulseHead = uDistance * uAttackLineLength;
             float pulseTail = pulseHead - uPulseLength;
-
-            // Check if the fragment is within the pulse's moving window
-            if (lineY > pulseTail && lineY < pulseHead) {
-                // within the window
-                
-                // Optional: Fade the pulse's tail for a smoother look (replaces your head/tail logic)
-                float fadeAlpha = (lineY - pulseTail) / uPulseLength; // 0 at tail, 1 at head
-
-                gl_FragColor = vec4(uColor * uIntensityScalar, fadeAlpha); 
-
-            } else {
-                discard;
-            }
             
+            float softness = 1.3;
+            float dHead = smoothstep(pulseHead, pulseHead - softness, lineY);
+            float dTail = smoothstep(pulseTail, pulseTail + softness, lineY);
+            float mask = dHead * dTail;
+
+            if (mask <= 0.0) discard;
+
+            vec3 color = uColor * uIntensityScalar * mask;
+            gl_FragColor = vec4(color, mask);
         }
     `;
 
