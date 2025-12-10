@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PointLight } from "three";
+import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { AttackLineMaterial } from "../Materials/AttackLineMaterial";
@@ -32,8 +32,10 @@ export class AttackLine {
         data.scene.add(ground);
 
         // tube
-        const mesh = new Mesh(new BoxGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH, this.TUBE_WIDTH), undefined);
+        const mesh = new Mesh(new PlaneGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH), undefined);
         mesh.position.y = this.TUBE_LENGTH * 0.5;
+        mesh.rotateX(Math.PI / -2);
+        mesh.rotateZ(Math.PI);
         data.scene.add(mesh);
 
         data.camera.position.set(0, 3, -12);
