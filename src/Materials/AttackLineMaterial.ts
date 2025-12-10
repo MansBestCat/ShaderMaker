@@ -40,8 +40,11 @@ export class AttackLineMaterial extends ShaderMaterial {
             float dTail = smoothstep(pulseTail, pulseTail + uSoftness, lineY);
             float mask = dHead * dTail;
 
-            vec3 color = uColor * uIntensityScalar * mask;
-            gl_FragColor = vec4(color, mask);
+            vec3 pulseColor = uColor * uIntensityScalar;
+            vec3 fallbackColor = vec3(0.1, 0.1, 0.2); 
+            vec3 finalColor = mix(fallbackColor, pulseColor, mask);
+
+            gl_FragColor = vec4(finalColor, 1.0);
         }
     `;
 
