@@ -11,7 +11,7 @@ import { Flipbook } from "./Scenes/Flipbook";
 import { Fog } from "./Scenes/Fog";
 import { Forge } from "./Scenes/Forge";
 import { GradientTexture } from "./Scenes/GradientTexture";
-import { Halo } from "./Scenes/Halo";
+import { MeshBlendStacker } from "./Scenes/MeshBlendStacker";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
 import { Screenshot } from "./Scenes/Screenshot";
@@ -73,8 +73,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         case "AttackLine":
             new AttackLine().go(data, cameraManMain);
             break;
-        case "Halo":
-            new Halo().go(data, cameraManMain);
+        case "MeshBlendStacker":
+            new MeshBlendStacker().go(data, cameraManMain);
             break;
 
         case "Screenshot":
