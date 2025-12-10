@@ -46,22 +46,30 @@ export class MeshBlendStacker {
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
-
-        // // this.material.uniforms.uAttackLineLength.value = this.TUBE_LENGTH;     
-        // // gui.add(this.material.uniforms.uPulseLength, "value", 0.0, 4.0, 0.1).name("pulse length");
-        // // gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
-        // const params = {
-        //     color: '#c34dfe'
-        // };
-        // gui.addColor(params, 'color').onChange((_value: string) => {
-        //     this.material!.uniforms.uColor.value = new Color(_value);
+        // const paramsBottom = { color: 'red' };
+        // gui.addColor(paramsBottom, 'color').onChange((_value: string) => {
+        //     this.materialBottom.color = new Color(_value);
         // });
-        // gui.add(this.material.uniforms.uIntensity, "value", 0.9, 8.0, 0.05).name("uIntensity");
-        // gui.add(this.material.uniforms.uPower, "value", 1.0, 10.0, 0.1).name("uPower");
-        // gui.add(this.material.uniforms.uThickness, "value", 0.01, 0.07, 0.01).name("uThickness");
-        // gui.add(this.material.uniforms.uFresnelFalloff, "value", 0.001, 1.0, 0.001).name("uFresnelFalloff");
 
-        meshTop.material = this.materialTop;
+        const dummyBottom = { color: "red", intensity: 1.5 };
+        gui.addColor(dummyBottom, "color").setValue("0xff0000").onChange((_value: string) => {
+            this.materialBottom.color = new Color(dummyBottom.color).multiplyScalar(dummyBottom.intensity);
+        });
+        gui.add(dummyBottom, "intensity", 0.05, 10.0, 0.07)
+            .name("intensity")
+            .onChange((_value: string) => {
+                this.materialBottom.color = new Color(dummyBottom.color).multiplyScalar(dummyBottom.intensity);
+            });
+
+        const dummyTop = { color: "blue", intensity: 1.5 };
+        gui.addColor(dummyTop, "color").setValue("0x0000ff").onChange((_value: string) => {
+            this.materialTop.color = new Color(dummyTop.color).multiplyScalar(dummyTop.intensity);
+        });
+        gui.add(dummyTop, "intensity", 0.05, 10.0, 0.07)
+            .name("intensity")
+            .onChange((_value: string) => {
+                this.materialTop.color = new Color(dummyTop.color).multiplyScalar(dummyTop.intensity);
+            });
 
         cameraManMain.makeCameraOrbital(meshTop.position);
     }
