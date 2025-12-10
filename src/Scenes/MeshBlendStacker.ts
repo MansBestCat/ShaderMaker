@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { AmbientLight, BoxGeometry, Color, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
+import { AdditiveBlending, AmbientLight, BoxGeometry, Color, Mesh, MeshBasicMaterial, MeshPhongMaterial, MultiplyBlending, NormalBlending, PlaneGeometry, PointLight, SubtractiveBlending } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { Utility } from "../Utilities/Utility";
@@ -46,11 +46,14 @@ export class MeshBlendStacker {
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
-        // const paramsBottom = { color: 'red' };
-        // gui.addColor(paramsBottom, 'color').onChange((_value: string) => {
-        //     this.materialBottom.color = new Color(_value);
-        // });
+        const blendModes = {
+            Normal: NormalBlending,
+            Additive: AdditiveBlending,
+            Subtractive: SubtractiveBlending,
+            Multiply: MultiplyBlending
+        };
 
+        // bottom mesh 
         const dummyBottom = { color: "red", intensity: 1.5 };
         gui.addColor(dummyBottom, "color").setValue("0xff0000").onChange((_value: string) => {
             this.materialBottom.color = new Color(dummyBottom.color).multiplyScalar(dummyBottom.intensity);
@@ -60,7 +63,25 @@ export class MeshBlendStacker {
             .onChange((_value: string) => {
                 this.materialBottom.color = new Color(dummyBottom.color).multiplyScalar(dummyBottom.intensity);
             });
+        gui.add(this.materialBottom, "opacity", 0, 1, 0.01)
+            .name("opacity");
+        gui.add(this.materialBottom, "transparent")
+            .name("transparent")
+            .onChange(() => {
+                this.materialBottom.needsUpdate = true;
+            });
+        gui.add(this.materialBottom, 'blending', blendModes)
+            .name('blend')
+            .onChange(() => {
+                this.materialBottom.needsUpdate = true;
+            });
+        gui.add(this.materialBottom, "depthWrite")
+            .name("depthWrite")
+            .onChange(() => {
+                this.materialBottom.needsUpdate = true;
+            });
 
+        // top mesh
         const dummyTop = { color: "blue", intensity: 1.5 };
         gui.addColor(dummyTop, "color").setValue("0x0000ff").onChange((_value: string) => {
             this.materialTop.color = new Color(dummyTop.color).multiplyScalar(dummyTop.intensity);
@@ -69,6 +90,23 @@ export class MeshBlendStacker {
             .name("intensity")
             .onChange((_value: string) => {
                 this.materialTop.color = new Color(dummyTop.color).multiplyScalar(dummyTop.intensity);
+            });
+        gui.add(this.materialTop, "opacity", 0, 1, 0.01)
+            .name("opacity");
+        gui.add(this.materialTop, "transparent")
+            .name("transparent")
+            .onChange(() => {
+                this.materialTop.needsUpdate = true;
+            });
+        gui.add(this.materialTop, 'blending', blendModes)
+            .name('blend')
+            .onChange(() => {
+                this.materialTop.needsUpdate = true;
+            });
+        gui.add(this.materialTop, "depthWrite")
+            .name("depthWrite")
+            .onChange(() => {
+                this.materialTop.needsUpdate = true;
             });
 
         cameraManMain.makeCameraOrbital(meshTop.position);
