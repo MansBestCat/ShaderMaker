@@ -14,6 +14,7 @@ import { GradientTexture } from "./Scenes/GradientTexture";
 import { MeshBlendStacker } from "./Scenes/MeshBlendStacker";
 import { PlaneShockWave } from "./Scenes/PlaneShockWave";
 import { PlaneShockWavePulse } from "./Scenes/PlaneShockWavePulse";
+import { PressureWave } from "./Scenes/PressureWave";
 import { Screenshot } from "./Scenes/Screenshot";
 import { SmokePlume } from "./Scenes/SmokePlume";
 import { TravelingPathSegments } from "./Scenes/TravelingPathSegments";
@@ -75,6 +76,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "MeshBlendStacker":
             new MeshBlendStacker().go(data, cameraManMain);
+            break;
+        case "PressureWave":
+            new PressureWave().go(data, cameraManMain);
             break;
 
         case "Screenshot":
