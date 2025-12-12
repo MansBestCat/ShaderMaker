@@ -33,7 +33,7 @@ export class AttackLineMaterial extends ShaderMaterial {
         void main(void) {
             
             float lineY = vPosition.y + (uAttackLineLength * 0.5); 
-            float pulseHead = uDistance * uAttackLineLength;
+            float pulseHead = uDistance ;
             float pulseTail = pulseHead - uPulseLength;
             
             float dHead = smoothstep(pulseHead, pulseHead - uSoftness, lineY);
