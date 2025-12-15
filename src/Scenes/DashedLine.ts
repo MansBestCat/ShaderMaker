@@ -2,7 +2,6 @@ import GUI from "lil-gui";
 import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight } from "three";
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
-import { AttackLineMaterial } from "../Materials/AttackLineMaterial";
 import { DashedLineMaterial } from "../Materials/DashedLineMaterial";
 import { Utility } from "../Utilities/Utility";
 
@@ -23,11 +22,6 @@ export class DashedLine {
         pointLight.position.set(0, 5, -3);
         data.scene.add(pointLight);
 
-        const gui = new GUI();
-        gui.domElement.onpointermove = (event: PointerEvent) => {
-            event.stopPropagation();
-        };
-
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
@@ -41,23 +35,24 @@ export class DashedLine {
         data.camera.position.set(0, 3, -12);
         data.camera?.lookAt(0, 3, 0);
 
-        this.shaderMat = new AttackLineMaterial().clone();
-        gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
-        gui.add(this.shaderMat.uniforms.uSoftness, "value", 0.5, 5.0, 0.1).name("softness length");
+        this.shaderMat = new DashedLineMaterial().clone();
 
+        const gui = new GUI();
+        gui.domElement.onpointermove = (event: PointerEvent) => {
+            event.stopPropagation();
+        };
+        gui.add(this.shaderMat.uniforms.uDashSize, "value", 5.0, 20.0, 0.1).name("dash length");
+        const params = { color: '#c34dfe' };
+        gui.addColor(params, 'color').onChange((_value: string) => {
+            this.shaderMat!.uniforms.uLineColor.value = new Color(_value);
+        });
+        gui.addColor(params, 'color').onChange((_value: string) => {
+            this.shaderMat!.uniforms.uGapColor.value = new Color(_value);
+        });
 
         mesh.material = this.shaderMat;
-
-        gui.add(this, "pulse");
 
         cameraManMain.makeCameraOrbital(mesh.position);
     }
 
-    pulse() {
-        clearInterval(this.interval);
-        this.shaderMat!.uniforms.uDistance.value = 0.0;
-        this.interval = setInterval(() => {
-            this.shaderMat!.uniforms.uDistance.value += this.SPEED;
-        }, 16.6);
-    }
 }
