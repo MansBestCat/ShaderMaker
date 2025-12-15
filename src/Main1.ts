@@ -6,6 +6,7 @@ import { FogExpOverride } from "./Materials/FogExpOverride";
 import { AttackLine } from "./Scenes/AttackLine";
 import { CylinderOnPlane } from "./Scenes/CylinderOnPlane";
 import { CylinderOnPlane2 } from "./Scenes/CylinderOnPlane2";
+import { DashedLine } from "./Scenes/DashedLine";
 import { DropZone } from "./Scenes/DropZone";
 import { Flipbook } from "./Scenes/Flipbook";
 import { Fog } from "./Scenes/Fog";
@@ -79,6 +80,9 @@ window.addEventListener("DOMContentLoaded", async () => {
             break;
         case "PressureWave":
             new PressureWave().go(data, cameraManMain);
+            break;
+        case "DashedLine":
+            new DashedLine().go(data, cameraManMain);
             break;
 
         case "Screenshot":
