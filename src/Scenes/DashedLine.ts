@@ -3,16 +3,15 @@ import { BoxGeometry, Color, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight 
 import { CameraManMain } from "../Camera/CameraManMain";
 import { Data } from "../Data";
 import { AttackLineMaterial } from "../Materials/AttackLineMaterial";
-import { PressureWaveMaterial } from "../Materials/PressureWaveMaterial";
+import { DashedLineMaterial } from "../Materials/DashedLineMaterial";
 import { Utility } from "../Utilities/Utility";
 
 /** Runs under manual control, has a color picker */
 export class DashedLine {
-    SPEED = 0.1;  // per tick
-    TUBE_LENGTH = 8.0;
-    TUBE_WIDTH = 0.03;
+    GEOM_LENGTH = 8.0;
+    GEOM_WIDTH = 0.3;
 
-    shaderMat?: PressureWaveMaterial;
+    shaderMat?: DashedLineMaterial;
     interval?: number;
 
     go(data: Data, cameraManMain: CameraManMain) {
@@ -33,8 +32,8 @@ export class DashedLine {
         data.scene.add(ground);
 
         // tube
-        const mesh = new Mesh(new PlaneGeometry(this.TUBE_WIDTH, this.TUBE_LENGTH), undefined);
-        mesh.position.y = this.TUBE_LENGTH * 0.5;
+        const mesh = new Mesh(new PlaneGeometry(this.GEOM_WIDTH, this.GEOM_LENGTH), undefined);
+        mesh.position.y = this.GEOM_LENGTH * 0.5;
         mesh.rotateX(Math.PI / -2);
         mesh.rotateZ(Math.PI);
         data.scene.add(mesh);
@@ -43,16 +42,6 @@ export class DashedLine {
         data.camera?.lookAt(0, 3, 0);
 
         this.shaderMat = new AttackLineMaterial().clone();
-        this.shaderMat.uniforms.uAttackLineLength.value = this.TUBE_LENGTH;
-
-        gui.add(this.shaderMat.uniforms.uPulseLength, "value", 0.0, 4.0, 0.1).name("pulse length");
-        gui.add(this, "SPEED", 0.01, 0.07, 0.01).name("distance per tick");
-        const params = {
-            color: '#c34dfe'
-        };
-        gui.addColor(params, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uColor.value = new Color(_value);
-        });
         gui.add(this.shaderMat.uniforms.uIntensityScalar, "value", 0.5, 5.0, 0.01).name("intensity multiplier");
         gui.add(this.shaderMat.uniforms.uSoftness, "value", 0.5, 5.0, 0.1).name("softness length");
 

@@ -21,30 +21,28 @@ export class DashedLineMaterial extends ShaderMaterial {
     `;
 
     fragmentShader = `
-        uniform float uDistance;
-        uniform float uAttackLineLength;
-        uniform float uPulseLength;
-        uniform vec3 uColor;
-        uniform float uIntensityScalar;
-        uniform float uSoftness;
 
-        varying vec3 vPosition;
+        uniform vec2 u_resolution; // The screen size (e.g., (800.0, 600.0))
+        uniform float u_dash_size = 10.0; // The size of the dash/gap pattern in pixels
+        uniform vec4 u_line_color = vec4(1.0, 0.0, 0.0, 1.0); // Red line color
+        uniform vec4 u_gap_color = vec4(0.0, 0.0, 0.0, 0.0); // Transparent gap (or your background color)
 
-        void main(void) {
-            
-            float lineY = vPosition.y + (uAttackLineLength * 0.5); 
-            float pulseHead = uDistance ;
-            float pulseTail = pulseHead - uPulseLength;
-            
-            float dHead = smoothstep(pulseHead, pulseHead - uSoftness, lineY);
-            float dTail = smoothstep(pulseTail, pulseTail + uSoftness, lineY);
-            float mask = dHead * dTail;
+        void main() {
+            // 1. Get the vertical position on the screen
+            float pos = gl_FragCoord.y;
 
-            vec3 pulseColor = uColor * uIntensityScalar;
-            vec3 fallbackColor = vec3(0.1, 0.1, 0.2); 
-            vec3 finalColor = mix(fallbackColor, pulseColor, mask);
+            // 2. Repeat the pattern every 'u_dash_size * 2.0' pixels (dash + gap)
+            float pattern = mod(pos, u_dash_size * 2.0);
 
-            gl_FragColor = vec4(finalColor, 1.0);
+            // 3. Use 'step' to create a sharp cut-off. 
+            //    'step' returns 1.0 if the second argument is >= the first, 0.0 otherwise.
+            //    This creates a solid dash for the first 'u_dash_size' pixels
+            //    and a gap for the remaining 'u_dash_size' pixels.
+            float dash_mask = step(pattern, u_dash_size);
+
+            // 4. Mix the line color and the gap color based on the mask
+            gl_FragColor = mix(u_gap_color, u_line_color, dash_mask);
+
         }
     `;
 
