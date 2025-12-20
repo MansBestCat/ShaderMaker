@@ -48,9 +48,6 @@ export class DashedLine {
         gui.addColor(params, 'color').onChange((_value: string) => {
             this.shaderMat!.uniforms.uLineColor.value = new Color(_value);
         });
-        gui.addColor(params, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uGapColor.value = new Color(_value);
-        });
 
         mesh.material = this.shaderMat;
 

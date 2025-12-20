@@ -5,8 +5,7 @@ export class DashedLineMaterial extends ShaderMaterial {
         uDashSize: { value: 10.0 },
         uLineSpacing: { value: 0.1 }, // Distance from center to inner edge
         uLineWidth: { value: 0.2 },   // Width of each individual line
-        uLineColor: { value: new Vector4(1.0, 0.0, 0.0, 1.0) },
-        uGapColor: { value: new Vector4(0.0, 0.0, 0.0, 0.0) }
+        uLineColor: { value: new Vector4(1.0, 0.0, 0.0, 1.0) }
     };
 
     transparent = true;
@@ -28,8 +27,7 @@ export class DashedLineMaterial extends ShaderMaterial {
         uniform float uDashSize;
         uniform float uLineSpacing;
         uniform float uLineWidth;
-        uniform vec4 uLineColor; 
-        uniform vec4 uGapColor; 
+        uniform vec3 uLineColor; 
 
         void main() {
             float distX = abs(vUv.x - 0.5);
@@ -39,7 +37,9 @@ export class DashedLineMaterial extends ShaderMaterial {
 
             float verticalMask = step(0.5, fract(vUv.y * uDashSize));
 
-            gl_FragColor = mix(uGapColor, uLineColor, horizontalMask * verticalMask);
+            float finalAlpha = horizontalMask * verticalMask;
+
+            gl_FragColor = vec4(uLineColor, finalAlpha);
         }
     `;
 
