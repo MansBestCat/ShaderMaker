@@ -7,9 +7,10 @@ export class DashedLineMaterial extends ShaderMaterial {
 
     uniforms = {
         uTime: { value: 0 },
-        uColor: { value: new Color(0xff3333) },
-        uNoiseScale: { value: 4.0 },
-        uIntensity: { value: 1.0 },
+        uColor: { value: new Color(0xff0000) },
+        uNoiseScale: { value: 0.75 },
+        uNoiseSpeed: { value: 0.0002 },
+        uIntensity: { value: 8.7 },
     };
 
     vertexShader = `
@@ -26,6 +27,7 @@ export class DashedLineMaterial extends ShaderMaterial {
         uniform float uTime;
         uniform vec3 uColor;
         uniform float uNoiseScale;
+        uniform float uNoiseSpeed;
         uniform float uIntensity;
 
         varying vec3 vWorldPos;
@@ -61,16 +63,18 @@ export class DashedLineMaterial extends ShaderMaterial {
 
             vec3 p = vWorldPos;
 
+            float t = uTime * uNoiseSpeed;
+
             // Large, slow-moving smoke
             float n1 = noise(
                 p * (uNoiseScale * 0.6)
-                + vec3(0.0, uTime * 0.25, 0.0)
+                + vec3(0.0, t * 0.5, 0.0)
             );
 
             // Fine, fast-moving turbulence
             float n2 = noise(
                 p * (uNoiseScale * 2.5)
-                + vec3(uTime * 0.8, 0.0, 0.0)
+                + vec3(t * 1.0, 0.0, 0.0)
             );
 
             float smoke = n1 * n2;

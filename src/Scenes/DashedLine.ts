@@ -41,9 +41,10 @@ export class DashedLine {
         gui.domElement.onpointermove = (event: PointerEvent) => {
             event.stopPropagation();
         };
-        gui.add(this.shaderMat.uniforms.uNoiseScale, "value", 0.5, 10.0, 0.1).name("noise scale");
-        gui.add(this.shaderMat.uniforms.uIntensity, "value", 0.0, 3.0, 0.05).name("intensity");
-        const params = { color: "#ff3333" };
+        gui.add(this.shaderMat.uniforms.uNoiseScale, "value", 0.3, 2.0, 0.001).name("noise scale");
+        gui.add(this.shaderMat.uniforms.uNoiseSpeed, "value", 0.0001, 0.01, 0.0001).name("noise speed");
+        gui.add(this.shaderMat.uniforms.uIntensity, "value", 4.0, 10.0, 0.1).name("intensity");
+        const params = { color: "#ff0000" };
         gui.addColor(params, "color").onChange((_value: string) => {
             this.shaderMat!.uniforms.uColor.value = new Color(_value);
         });
