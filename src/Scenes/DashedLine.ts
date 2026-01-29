@@ -8,7 +8,7 @@ import { Utility } from "../Utilities/Utility";
 /** Runs under manual control, has a color picker */
 export class DashedLine {
     GEOM_LENGTH = 8.0;
-    GEOM_WIDTH = 0.3;
+    GEOM_WIDTH = 0.02;
 
     shaderMat?: DashedLineMaterial;
     interval?: number;
@@ -25,7 +25,6 @@ export class DashedLine {
         const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshPhongMaterial({ color: new Color(0xffffff) }));
         data.scene.add(ground);
 
-        // tube
         const mesh = new Mesh(new PlaneGeometry(this.GEOM_WIDTH, this.GEOM_LENGTH), undefined);
         mesh.position.y = this.GEOM_LENGTH * 0.5;
         mesh.rotateX(Math.PI / -2);
@@ -41,7 +40,7 @@ export class DashedLine {
         gui.domElement.onpointermove = (event: PointerEvent) => {
             event.stopPropagation();
         };
-        gui.add(this.shaderMat.uniforms.uNoiseScale, "value", 0.3, 2.0, 0.001).name("noise scale");
+        gui.add(this.shaderMat.uniforms.uNoiseScale, "value", 0.1, 5.0, 0.001).name("noise scale");
         gui.add(this.shaderMat.uniforms.uNoiseSpeed, "value", 0.0001, 0.01, 0.0001).name("noise speed");
         gui.add(this.shaderMat.uniforms.uIntensity, "value", 4.0, 10.0, 0.1).name("intensity");
         const params = { color: "#ff0000" };

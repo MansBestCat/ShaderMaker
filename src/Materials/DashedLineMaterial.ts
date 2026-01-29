@@ -8,9 +8,9 @@ export class DashedLineMaterial extends ShaderMaterial {
     uniforms = {
         uTime: { value: 0 },
         uColor: { value: new Color(0xff0000) },
-        uNoiseScale: { value: 0.75 },
-        uNoiseSpeed: { value: 0.0002 },
-        uIntensity: { value: 8.7 },
+        uNoiseScale: { value: 0.9 },
+        uNoiseSpeed: { value: 0.00015 },
+        uIntensity: { value: 7.2 },
     };
 
     vertexShader = `
