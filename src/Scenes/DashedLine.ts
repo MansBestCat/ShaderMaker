@@ -41,12 +41,11 @@ export class DashedLine {
         gui.domElement.onpointermove = (event: PointerEvent) => {
             event.stopPropagation();
         };
-        gui.add(this.shaderMat.uniforms.uDashSize, "value", 5.0, 20.0, 0.1).name("dash size");
-        gui.add(this.shaderMat.uniforms.uLineSpacing, "value", 0.1, 0.3, 0.01).name("line spacing");
-        gui.add(this.shaderMat.uniforms.uLineWidth, "value", 0.1, 0.3, 0.01).name("line thickness");
-        const params = { color: '#c34dfe' };
-        gui.addColor(params, 'color').onChange((_value: string) => {
-            this.shaderMat!.uniforms.uLineColor.value = new Color(_value);
+        gui.add(this.shaderMat.uniforms.uNoiseScale, "value", 0.5, 10.0, 0.1).name("noise scale");
+        gui.add(this.shaderMat.uniforms.uIntensity, "value", 0.0, 3.0, 0.05).name("intensity");
+        const params = { color: "#ff3333" };
+        gui.addColor(params, "color").onChange((_value: string) => {
+            this.shaderMat!.uniforms.uColor.value = new Color(_value);
         });
 
         mesh.material = this.shaderMat;
