@@ -8,9 +8,10 @@ export class DashedLineMaterial extends ShaderMaterial {
     uniforms = {
         uTime: { value: 0 },
         uColor: { value: new Color(0xff0000) },
-        uNoiseScale: { value: 0.9 },
+        uNoiseScale: { value: 0.38 },
         uNoiseSpeed: { value: 0.00015 },
         uIntensity: { value: 7.2 },
+        uMinAlpha: { value: 0.369 },
     };
 
     vertexShader = `
@@ -29,6 +30,7 @@ export class DashedLineMaterial extends ShaderMaterial {
         uniform float uNoiseScale;
         uniform float uNoiseSpeed;
         uniform float uIntensity;
+        uniform float uMinAlpha;
 
         varying vec3 vWorldPos;
 
@@ -78,6 +80,8 @@ export class DashedLineMaterial extends ShaderMaterial {
             );
 
             float smoke = n1 * n2;
+
+            smoke = max(smoke, uMinAlpha);
 
             // Boost contrast
             smoke = smoothstep(0.35, 0.75, smoke);
