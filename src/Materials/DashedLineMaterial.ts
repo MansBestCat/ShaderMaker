@@ -80,7 +80,7 @@ export class DashedLineMaterial extends ShaderMaterial {
             float smoke = n1 * n2;
 
             // Boost contrast
-            smoke = smoothstep(0.25, 0.85, smoke);
+            smoke = smoothstep(0.35, 0.75, smoke);
 
             gl_FragColor = vec4(uColor, smoke * uIntensity);
         }
