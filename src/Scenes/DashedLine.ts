@@ -51,6 +51,13 @@ export class DashedLine {
         mesh.material = this.shaderMat;
 
         cameraManMain.makeCameraOrbital(mesh.position);
+
+        requestAnimationFrame(() => this.updateMaterialTime(this.shaderMat!.uniforms));
+    }
+
+    updateMaterialTime(uniforms: any) {
+        requestAnimationFrame(() => this.updateMaterialTime(uniforms));
+        uniforms.uTime.value += 160.666;
     }
 
 }

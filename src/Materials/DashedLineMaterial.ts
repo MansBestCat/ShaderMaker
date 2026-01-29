@@ -58,14 +58,27 @@ export class DashedLineMaterial extends ShaderMaterial {
         }
 
         void main() {
-            // World-space drifting smoke
-            vec3 p = vWorldPos * uNoiseScale + vec3(0.0, uTime * 0.6, 0.0);
-            float n = noise(p);
 
-            // Soft beam core
-            float alpha = smoothstep(0.3, 1.0, n) * uIntensity;
+            vec3 p = vWorldPos;
 
-            gl_FragColor = vec4(uColor, alpha);
+            // Large, slow-moving smoke
+            float n1 = noise(
+                p * (uNoiseScale * 0.6)
+                + vec3(0.0, uTime * 0.25, 0.0)
+            );
+
+            // Fine, fast-moving turbulence
+            float n2 = noise(
+                p * (uNoiseScale * 2.5)
+                + vec3(uTime * 0.8, 0.0, 0.0)
+            );
+
+            float smoke = n1 * n2;
+
+            // Boost contrast
+            smoke = smoothstep(0.25, 0.85, smoke);
+
+            gl_FragColor = vec4(uColor, smoke * uIntensity);
         }
     `;
 }
