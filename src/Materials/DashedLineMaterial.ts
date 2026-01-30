@@ -8,7 +8,7 @@ export class DashedLineMaterial extends ShaderMaterial {
     uniforms = {
         uTime: { value: 0 },
         uColor: { value: new Color(0xff0000) },
-        uNoiseScale: { value: 0.38 },
+        uNoiseScale: { value: 0.505 },
         uNoiseSpeed: { value: 0.00015 },
         uIntensity: { value: 7.2 },
         uMinAlpha: { value: 0.369 },
@@ -83,8 +83,10 @@ export class DashedLineMaterial extends ShaderMaterial {
 
             smoke = max(smoke, uMinAlpha);
 
-            // Boost contrast
-            smoke = smoothstep(0.35, 0.75, smoke);
+            //smoke = smoothstep(0.35, 0.75, smoke);                    // clamp low to 0, high to 1
+            //smoke = clamp((smoke - 0.35) / (0.75 - 0.35), 0.0, 1.0);  // same as above, without smoothing
+            smoke = clamp(smoke - 0.35, 0.0, smoke);                    // clamp low only to 0
+            //smoke = step(0.35, smoke) * step(smoke, 0.75);            // clamp low and high to 0, in threshold to 1
 
             gl_FragColor = vec4(uColor, smoke * uIntensity);
         }
